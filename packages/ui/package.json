@@ -1,0 +1,10 @@
+{
+  "name": "@bookloom/ui",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./index.ts",
+  "dependencies": {
+    "@bookloom/design-tokens": "workspace:*",
+    "@bookloom/types": "workspace:*"
+  }
+}

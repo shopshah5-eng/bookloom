@@ -1,0 +1,114 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    /* === BookLoom Light Cream Theme === */
+    --background: #F8F5F0;
+    --foreground: #1A1A1A;
+
+    --card: #FFFFFF;
+    --card-foreground: #1A1A1A;
+
+    --popover: #FFFFFF;
+    --popover-foreground: #1A1A1A;
+
+    --primary: #C49A3C;
+    --primary-foreground: #FFFFFF;
+
+    --secondary: #F0EDE8;
+    --secondary-foreground: #1A1A1A;
+
+    --muted: #F0EDE8;
+    --muted-foreground: #6B6B6B;
+
+    --accent: #C49A3C;
+    --accent-foreground: #1A1A1A;
+
+    --destructive: #DC2626;
+    --destructive-foreground: #FFFFFF;
+
+    --border: #E8E4DF;
+    --input: #E8E4DF;
+    --ring: #C49A3C;
+
+    --radius: 0.625rem;
+
+    --gold: #C49A3C;
+    --gold-light: #D4AF5C;
+    --gold-dark: #A67C28;
+    --cream: #F8F5F0;
+    --cream-dark: #EDE9E3;
+    --text-primary: #1A1A1A;
+    --text-secondary: #4A4A4A;
+    --text-muted: #6B6B6B;
+    --text-light: #9A9A9A;
+    --surface: #FFFFFF;
+    --surface-hover: #F8F5F0;
+    --sidebar-bg: #FFFFFF;
+    --sidebar-border: #E8E4DF;
+    --sidebar-text: #4A4A4A;
+    --sidebar-active-bg: #1A1A1A;
+    --sidebar-active-text: #FFFFFF;
+  }
+}
+
+* {
+  border-color: var(--border);
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* === Typography === */
+.font-serif {
+  font-family: var(--font-playfair), Georgia, serif;
+}
+
+.text-gold-italic {
+  color: var(--gold);
+  font-style: italic;
+  font-family: var(--font-playfair), Georgia, serif;
+}
+
+.label-gold {
+  color: var(--gold);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* === Performance Optimized Cards === */
+.card-base {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  contain: content;
+}
+
+.card-hover {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  will-change: transform;
+}
+.card-hover:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  transform: translateY(-2px);
+}
+
+/* === Scrollbar === */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--background); }
+::-webkit-scrollbar-thumb { background: #D0CBC3; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--gold); }

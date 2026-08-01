@@ -1,0 +1,25 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "glass": {
+    "xs": {
+      "blur": { "$type": "dimension", "$value": "10px" },
+      "opacity": { "$type": "number", "$value": 0.94 }
+    },
+    "sm": {
+      "blur": { "$type": "dimension", "$value": "16px" },
+      "opacity": { "$type": "number", "$value": 0.92 }
+    },
+    "md": {
+      "blur": { "$type": "dimension", "$value": "20px" },
+      "opacity": { "$type": "number", "$value": 0.90 }
+    },
+    "lg": {
+      "blur": { "$type": "dimension", "$value": "28px" },
+      "opacity": { "$type": "number", "$value": 0.88 }
+    },
+    "premium": {
+      "blur": { "$type": "dimension", "$value": "36px" },
+      "opacity": { "$type": "number", "$value": 0.86 }
+    }
+  }
+}

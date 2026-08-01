@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "BookLoom Spacing Tokens",
+  "version": "1.0.0",
+  "space": {
+    "xxs": "4px",
+    "xs": "8px",
+    "sm": "12px",
+    "md": "16px",
+    "lg": "24px",
+    "xl": "32px",
+    "2xl": "40px",
+    "3xl": "48px",
+    "4xl": "64px",
+    "5xl": "80px",
+    "6xl": "96px",
+    "7xl": "120px",
+    "8xl": "160px",
+    "9xl": "200px"
+  },
+  "pageMargin": {
+    "desktop": "80px",
+    "laptop": "64px",
+    "tablet": "40px",
+    "mobile": "20px"
+  },
+  "container": {
+    "content": "1280px",
+    "wide": "1440px",
+    "reading": "720px",
+    "article": "760px",
+    "editor": "900px",
+    "documentation": "960px"
+  },
+  "touchTarget": {
+    "minimum": "44px",
+    "preferred": "48px"
+  }
+}

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "BookLoom Typography Tokens",
+  "version": "1.0.0",
+  "fontFamily": {
+    "display": "Fraunces Variable, serif",
+    "body": "Inter Variable, sans-serif",
+    "mono": "JetBrains Mono, monospace"
+  },
+  "fontSize": {
+    "display-xl": "72px",
+    "display-lg": "64px",
+    "display-md": "56px",
+    "display-sm": "48px",
+    "h1": "40px",
+    "h2": "32px",
+    "h3": "28px",
+    "h4": "24px",
+    "h5": "20px",
+    "h6": "18px",
+    "body-lg": "18px",
+    "body": "16px",
+    "compact": "15px",
+    "small": "14px",
+    "tiny": "12px"
+  },
+  "fontWeight": {
+    "thin": 100,
+    "extralight": 200,
+    "light": 300,
+    "regular": 400,
+    "medium": 500,
+    "semibold": 600,
+    "bold": 700,
+    "extrabold": 800,
+    "black": 900
+  },
+  "lineHeight": {
+    "display-xl": "1.10",
+    "display-lg": "1.12",
+    "display-md": "1.15",
+    "display-sm": "1.20",
+    "h1": "1.20",
+    "h2": "1.25",
+    "h3": "1.30",
+    "h4": "1.35",
+    "h5": "1.40",
+    "h6": "1.45",
+    "body-lg": "1.70",
+    "body": "1.60",
+    "compact": "1.55",
+    "small": "1.50",
+    "tiny": "1.45"
+  },
+  "letterSpacing": {
+    "display": "-0.02em",
+    "heading-lg": "-0.015em",
+    "heading": "-0.01em",
+    "body": "0em",
+    "button": "0.005em",
+    "caps": "0.08em"
+  }
+}

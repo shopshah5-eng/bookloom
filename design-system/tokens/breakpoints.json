@@ -1,0 +1,9 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "breakpoints": {
+    "mobile": { "$type": "dimension", "$value": "768px" },
+    "tablet": { "$type": "dimension", "$value": "1024px" },
+    "laptop": { "$type": "dimension", "$value": "1440px" },
+    "desktop": { "$type": "dimension", "$value": "1920px" }
+  }
+}

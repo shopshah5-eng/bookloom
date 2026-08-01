@@ -1,0 +1,24 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "columns": {
+    "desktop": { "$type": "number", "$value": 12 },
+    "tablet": { "$type": "number", "$value": 8 },
+    "mobile": { "$type": "number", "$value": 4 }
+  },
+  "gutter": {
+    "desktop": { "$type": "dimension", "$value": "32px" },
+    "tablet": { "$type": "dimension", "$value": "24px" },
+    "mobile": { "$type": "dimension", "$value": "16px" }
+  },
+  "container": {
+    "reading": { "$type": "dimension", "$value": "720px" },
+    "documentation": { "$type": "dimension", "$value": "960px" },
+    "application": { "$type": "dimension", "$value": "1280px" },
+    "hero": { "$type": "dimension", "$value": "1440px" }
+  },
+  "margin": {
+    "desktop": { "$type": "dimension", "$value": "80px" },
+    "tablet": { "$type": "dimension", "$value": "40px" },
+    "mobile": { "$type": "dimension", "$value": "20px" }
+  }
+}

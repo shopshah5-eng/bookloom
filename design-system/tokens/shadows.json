@@ -1,0 +1,11 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "shadow": {
+    "none": { "$type": "shadow", "$value": "none" },
+    "sm": { "$type": "shadow", "$value": "0 2px 8px rgba(20,20,20,.06)" },
+    "md": { "$type": "shadow", "$value": "0 8px 24px rgba(20,20,20,.08)" },
+    "lg": { "$type": "shadow", "$value": "0 16px 40px rgba(20,20,20,.10)" },
+    "xl": { "$type": "shadow", "$value": "0 24px 60px rgba(20,20,20,.12)" },
+    "hero": { "$type": "shadow", "$value": "0 40px 90px rgba(20,20,20,.14)" }
+  }
+}

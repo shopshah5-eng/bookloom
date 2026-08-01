@@ -1,0 +1,7 @@
+{
+  "name": "@bookloom/design-tokens",
+  "version": "1.0.0",
+  "private": true,
+  "main": "./index.json",
+  "types": "./index.d.ts"
+}

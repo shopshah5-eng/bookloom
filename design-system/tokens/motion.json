@@ -1,0 +1,19 @@
+{
+  "$schema": "https://tr.designtokens.org/format/",
+  "motion": {
+    "duration": {
+      "instant": { "$type": "duration", "$value": "75ms" },
+      "fast": { "$type": "duration", "$value": "150ms" },
+      "normal": { "$type": "duration", "$value": "250ms" },
+      "comfortable": { "$type": "duration", "$value": "350ms" },
+      "slow": { "$type": "duration", "$value": "500ms" },
+      "large": { "$type": "duration", "$value": "700ms" }
+    },
+    "easing": {
+      "standard": { "$type": "cubicBezier", "$value": [0.2, 0.8, 0.2, 1] },
+      "enter": { "$type": "string", "$value": "ease-out" },
+      "exit": { "$type": "string", "$value": "ease-in" },
+      "linear": { "$type": "string", "$value": "linear" }
+    }
+  }
+}

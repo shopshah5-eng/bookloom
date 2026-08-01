@@ -1,0 +1,35 @@
+export const themeConfig = {
+  colors: {
+    background: "#0A0A0C",
+    backgroundSecondary: "#121215",
+    cardBackground: "rgba(18, 18, 21, 0.75)",
+    border: "rgba(255, 255, 255, 0.08)",
+    borderAccent: "rgba(212, 175, 55, 0.25)",
+    goldPrimary: "#D4AF37",
+    goldSecondary: "#C5A059",
+    warmWhite: "#FDFBF7",
+    cream: "#F7F4EE",
+    softBeige: "#EFECE6",
+    mutedPurple: "#8B5CF6",
+    textPrimary: "#FDFBF7",
+    textSecondary: "#A1A1AA",
+    textMuted: "#71717A",
+  },
+  fonts: {
+    serif: "'Playfair Display', 'Cormorant Garamond', Georgia, serif",
+    sans: "'Inter', system-ui, -apple-system, sans-serif",
+    mono: "'Fira Code', monospace",
+  },
+  radii: {
+    sm: "0.375rem",
+    md: "0.5rem",
+    lg: "0.75rem",
+    xl: "1rem",
+    "2xl": "1.5rem",
+    full: "9999px",
+  },
+  shadows: {
+    glow: "0 0 25px rgba(212, 175, 55, 0.15)",
+    glass: "0 8px 32px 0 rgba(0, 0, 0, 0.37)",
+  },
+};

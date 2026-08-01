@@ -1,0 +1,54 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "name": "BookLoom Color Tokens",
+  "version": "1.0.0",
+  "light": {
+    "background": {
+      "primary": "#F8F6F2",
+      "secondary": "#FFFFFF",
+      "surface": "#FFFFFF",
+      "elevated": "#F7F4EE"
+    },
+    "border": {
+      "default": "#EAE5DD",
+      "hairline": "#DAD7D2"
+    },
+    "text": {
+      "primary": "#2A2A2A",
+      "secondary": "#5F646D",
+      "muted": "#9DA3AE"
+    },
+    "brand": {
+      "primary": "#C8A96A",
+      "hover": "#9A7B4F",
+      "highlight": "#E6C78B"
+    },
+    "semantic": {
+      "success": "#2E8B57",
+      "warning": "#E0A53B",
+      "error": "#D94A48",
+      "info": "#4A7BD9"
+    }
+  },
+  "dark": {
+    "background": {
+      "primary": "#141414",
+      "secondary": "#1E1E1E",
+      "surface": "#1E1E1E",
+      "elevated": "#262626"
+    },
+    "border": {
+      "default": "#303030"
+    },
+    "text": {
+      "primary": "#F5F5F5",
+      "secondary": "#CFCFCF",
+      "muted": "#8E8E8E"
+    },
+    "brand": {
+      "primary": "#C8A96A",
+      "hover": "#9A7B4F",
+      "highlight": "#E6C78B"
+    }
+  }
+}
