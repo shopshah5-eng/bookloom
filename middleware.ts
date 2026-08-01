@@ -1,14 +1,8 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import type { NextRequest } from "next/server";
 
-export async function middleware(request: NextRequest) {
-  // Pass-through response for Vercel Edge Runtime
-  const response = NextResponse.next({
-    request: {
-      headers: request.headers,
-    },
-  });
-
-  return response;
+export function middleware(request: NextRequest) {
+  return NextResponse.next();
 }
 
 export const config = {
