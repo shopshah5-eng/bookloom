@@ -2,8 +2,8 @@
   "name": "@bookloom/editor",
   "version": "1.0.0",
   "private": true,
-  "main": "./index.ts",
+  "main": "index.ts",
   "dependencies": {
-    "@bookloom/ui": "workspace:*"
+    "@bookloom/ui": "*"
   }
 }
