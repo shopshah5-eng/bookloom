@@ -6,14 +6,14 @@ export async function updateSession(request: NextRequest) {
     request,
   });
 
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-  if (!supabaseUrl || !supabaseAnonKey) {
-    return supabaseResponse;
-  }
-
   try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+
+    if (!supabaseUrl || !supabaseAnonKey || !supabaseUrl.startsWith("http")) {
+      return supabaseResponse;
+    }
+
     const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
       cookies: {
         getAll() {
@@ -38,3 +38,4 @@ export async function updateSession(request: NextRequest) {
 
   return supabaseResponse;
 }
+
