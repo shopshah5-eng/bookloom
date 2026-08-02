@@ -1,8 +1,45 @@
-import { updateSession } from "@/lib/supabase/middleware";
-import { type NextRequest } from "next/server";
+import "./lib/polyfill";
+import { createServerClient } from "@supabase/ssr";
+import { NextResponse, type NextRequest } from "next/server";
+
+
 
 export async function middleware(request: NextRequest) {
-  return await updateSession(request);
+  let supabaseResponse = NextResponse.next({
+    request,
+  });
+
+  try {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
+    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+
+    if (!supabaseUrl || !supabaseAnonKey || !supabaseUrl.startsWith("http")) {
+      return supabaseResponse;
+    }
+
+    const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet: { name: string; value: string; options?: Record<string, unknown> }[]) {
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+          supabaseResponse = NextResponse.next({
+            request,
+          });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            supabaseResponse.cookies.set(name, value, options as any)
+          );
+        },
+      },
+    });
+
+    await supabase.auth.getUser();
+  } catch (error) {
+    console.error("Middleware auth session error:", error);
+  }
+
+  return supabaseResponse;
 }
 
 export const config = {
@@ -10,4 +47,5 @@ export const config = {
     "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };
+
 

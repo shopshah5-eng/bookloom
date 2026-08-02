@@ -8,7 +8,6 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  serverExternalPackages: ["@supabase/ssr", "@supabase/supabase-js"],
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -21,6 +20,17 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["lucide-react"],
   },
+  webpack: (config, { webpack }) => {
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        __dirname: '""',
+        __filename: '""',
+      })
+    );
+    return config;
+  },
 };
 
 export default nextConfig;
+
+
