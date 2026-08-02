@@ -1,46 +1,18 @@
-import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
-// Force Node.js runtime — Vercel Edge Runtime does not support __dirname
-// used internally by @supabase/ssr and @supabase/supabase-js
-export const runtime = "nodejs";
-
-export async function middleware(request: NextRequest) {
-  let supabaseResponse = NextResponse.next({
+/**
+ * Minimal pass-through middleware.
+ * Auth session refresh is handled server-side in each route/layout
+ * using the Supabase server client (lib/supabase/server.ts).
+ *
+ * The Supabase @supabase/ssr package relies on Node.js globals (__dirname)
+ * that are unavailable in Vercel Edge Runtime. Removing createServerClient
+ * from middleware eliminates the runtime crash entirely.
+ */
+export function middleware(request: NextRequest) {
+  return NextResponse.next({
     request,
   });
-
-  try {
-    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-    const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
-
-    if (!supabaseUrl || !supabaseAnonKey) {
-      return supabaseResponse;
-    }
-
-    const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
-      cookies: {
-        getAll() {
-          return request.cookies.getAll();
-        },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value }) =>
-            request.cookies.set(name, value)
-          );
-          supabaseResponse = NextResponse.next({ request });
-          cookiesToSet.forEach(({ name, value, options }) =>
-            supabaseResponse.cookies.set(name, value, options as any)
-          );
-        },
-      },
-    });
-
-    await supabase.auth.getUser();
-  } catch {
-    // Silently handle auth errors — middleware must never crash
-  }
-
-  return supabaseResponse;
 }
 
 export const config = {
