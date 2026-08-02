@@ -1,6 +1,10 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 
+// Force Node.js runtime — Vercel Edge Runtime does not support __dirname
+// used internally by @supabase/ssr and @supabase/supabase-js
+export const runtime = "nodejs";
+
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
