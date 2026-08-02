@@ -20,6 +20,15 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ["lucide-react"],
   },
+  webpack: (config, { webpack }) => {
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        __dirname: JSON.stringify(""),
+        __filename: JSON.stringify(""),
+      })
+    );
+    return config;
+  },
 };
 
 export default nextConfig;

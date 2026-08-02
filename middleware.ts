@@ -1,5 +1,12 @@
-import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+
+// Polyfill Node globals at global scope before any dynamic module evaluation
+if (typeof (globalThis as any).__dirname === "undefined") {
+  (globalThis as any).__dirname = "";
+}
+if (typeof (globalThis as any).__filename === "undefined") {
+  (globalThis as any).__filename = "";
+}
 
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -15,6 +22,9 @@ export async function middleware(request: NextRequest) {
     if (!supabaseUrl || !supabaseAnonKey) {
       return supabaseResponse;
     }
+
+    // Dynamic import ensures globalThis.__dirname is set BEFORE @supabase/ssr evaluates
+    const { createServerClient } = await import("@supabase/ssr");
 
     const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
       cookies: {
@@ -39,7 +49,7 @@ export async function middleware(request: NextRequest) {
 
     await supabase.auth.getUser();
   } catch (error) {
-    console.error("Middleware error:", error);
+    console.error("Middleware session refresh error:", error);
   }
 
   return supabaseResponse;

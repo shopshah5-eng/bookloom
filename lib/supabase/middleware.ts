@@ -1,5 +1,11 @@
-import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+
+if (typeof (globalThis as any).__dirname === "undefined") {
+  (globalThis as any).__dirname = "";
+}
+if (typeof (globalThis as any).__filename === "undefined") {
+  (globalThis as any).__filename = "";
+}
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -15,6 +21,8 @@ export async function updateSession(request: NextRequest) {
     if (!supabaseUrl || !supabaseAnonKey) {
       return supabaseResponse;
     }
+
+    const { createServerClient } = await import("@supabase/ssr");
 
     const supabase = createServerClient(supabaseUrl, supabaseAnonKey, {
       cookies: {
@@ -39,7 +47,7 @@ export async function updateSession(request: NextRequest) {
 
     await supabase.auth.getUser();
   } catch (error) {
-    console.error("Middleware updateSession error:", error);
+    console.error("lib/supabase/middleware updateSession error:", error);
   }
 
   return supabaseResponse;
