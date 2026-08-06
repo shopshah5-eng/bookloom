@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service & Author Rights | BookLoom",
+  title: "Terms of Service & Author Rights",
   description: "Read BookLoom's terms of service establishing 100% author copyright, IP ownership, and subscription guidelines.",
 };
 

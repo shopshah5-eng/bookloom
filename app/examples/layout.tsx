@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Example Ebooks & Showcases | BookLoom",
+  title: "Example Ebooks & Showcases",
   description: "Explore professionally styled ebooks, chapter outlines, and cover artwork generated with BookLoom AI.",
 };
 

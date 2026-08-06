@@ -16,8 +16,8 @@ interface ApiKeyItem {
 export default function DeveloperPortalPage() {
   const { addToast } = useToast();
   const [apiKeys, setApiKeys] = useState<ApiKeyItem[]>([
-    { id: "key_1", name: "Production App Key", key: "bk_live_9f82a17b83c401e9a", created: "2026-08-01" },
-    { id: "key_2", name: "Staging Pipeline", key: "bk_live_3d1902b44ef891a20", created: "2026-08-04" },
+    { id: "key_1", name: "Sandbox Demo Key", key: "bk_sandbox_9f82a17b83c401e9a", created: "2026-08-01" },
+    { id: "key_2", name: "Development Pipeline", key: "bk_sandbox_3d1902b44ef891a20", created: "2026-08-04" },
   ]);
   const [newKeyName, setNewKeyName] = useState("");
   const [copiedKeyId, setCopiedKeyId] = useState<string | null>(null);
@@ -31,8 +31,8 @@ export default function DeveloperPortalPage() {
 
   // Webhooks
   const [webhooks, setWebhooks] = useState([
-    { id: "wh_1", event: "ebook.completed", url: "https://api.yourdomain.com/webhooks/bookloom", active: true },
-    { id: "wh_2", event: "export.ready", url: "https://api.yourdomain.com/webhooks/exports", active: true },
+    { id: "wh_1", event: "ebook.completed", url: "https://bookloom-phi.vercel.app/api/webhooks/ebooks", active: true },
+    { id: "wh_2", event: "export.ready", url: "https://bookloom-phi.vercel.app/api/webhooks/exports", active: true },
   ]);
 
   const handleGenerateKey = (e: React.FormEvent) => {

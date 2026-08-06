@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact Support & Author Assistance",
-  description: "Get in touch with BookLoom support for questions about AI ebook creation, billing, or enterprise options.",
+  title: "About BookLoom Studio",
+  description: "Empowering authors worldwide to write, format, and self-publish ebooks with artificial intelligence.",
 };
 
 export default function Layout({ children }: { children: React.ReactNode }) {
