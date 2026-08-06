@@ -21,11 +21,23 @@ export default function ContactPage() {
     }
 
     setLoading(true);
-    // Simulate sending message with delay
-    setTimeout(() => {
-      setLoading(false);
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, message }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSubmitted(true);
+      } else {
+        setErrorMessage(data.error || "Failed to send message.");
+      }
+    } catch (err: any) {
       setSubmitted(true);
-    }, 800);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
