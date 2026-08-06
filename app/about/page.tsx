@@ -28,9 +28,9 @@ export default function AboutPage() {
       <section style={{ padding: "0 24px 80px" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
           {[
-            { value: "50,000+", label: "Active Authors" },
-            { value: "150,000+", label: "Ebooks Created" },
-            { value: "120+", label: "Countries Reached" },
+            { value: "4,900+", label: "Active Authors" },
+            { value: "12,500+", label: "Ebooks Created" },
+            { value: "85+", label: "Countries Reached" },
             { value: "4.9 / 5", label: "User Rating" },
           ].map((stat, i) => (
             <div key={i} style={{ background: "#FFFFFF", borderRadius: 16, border: "1px solid #E8E4DF", padding: 32, textAlign: "center" }}>

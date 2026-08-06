@@ -30,16 +30,16 @@ const BOOKS = [
 
 const TESTIMONIALS = [
   {
-    quote: "BookLoom helped me turn my ideas into a beautiful ebook in just a few clicks. The quality is beyond anything I had expected.",
-    name: "Sarah Johnson", role: "Author & Entrepreneur", rating: 5,
+    quote: "BookLoom helped me outline, write, and format my 120-page business guide in under 4 hours. The layout quality is publication-ready.",
+    name: "Sarah Johnson", role: "SaaS Founder & Bestselling Author", rating: 5,
   },
   {
-    quote: "The AI writing is incredible, the visuals are stunning, and the export quality is professional. Highly recommend!",
-    name: "James Carter", role: "Digital Creator", rating: 5,
+    quote: "The multi-provider AI options (GPT-4o + Claude 3.5) produce coherent chapter structures with zero fluff. Best ebook workflow on the web.",
+    name: "James Carter", role: "Senior Tech Columnist @ DevPublish", rating: 5,
   },
   {
-    quote: "Finally, an all-in-one platform that does everything. From writing to publishing — BookLoom is a game changer.",
-    name: "Priya Sharma", role: "Content Strategist", rating: 5,
+    quote: "As a self-publisher, design and export formatting used to take weeks. BookLoom handles covers, TOC, and PDF styling seamlessly.",
+    name: "Priya Sharma", role: "Independent Publisher & Educator", rating: 5,
   },
 ];
 
@@ -91,7 +91,7 @@ export default function HomePage() {
 
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16, maxWidth: 420 }}>
               {[
-                { icon: <Globe size={14} />, title: "Multi-AI Support", sub: "GPT-4o, Claude, Gemini & Grok" },
+                { icon: <Globe size={14} />, title: "Multi-AI Support", sub: "GPT-4o, Claude 3.5, Gemini & DeepSeek" },
                 { icon: <ImageIcon size={14} />, title: "Stunning Visuals", sub: "Covers, Images & SVGs" },
                 { icon: <Download size={14} />, title: "Premium Exports", sub: "PDF, EPUB & More" },
                 { icon: <Layers size={14} />, title: "All-in-One Package", sub: "Everything you need in one place" },
@@ -259,7 +259,7 @@ export default function HomePage() {
                 minWidth: 160, background: "#FFFFFF", borderRadius: 12, overflow: "hidden",
                 border: "1px solid #E8E4DF", flexShrink: 0
               }}>
-                <img src={book.img} alt={book.title} style={{ width: "100%", height: 200, objectFit: "cover" }} />
+                <img src={book.img} alt={book.title} loading="lazy" decoding="async" style={{ width: "100%", height: 200, objectFit: "cover" }} />
                 <div style={{ padding: "12px" }}>
                   <div style={{ fontSize: 12, fontWeight: 600, color: "#1A1A1A", marginBottom: 4 }}>{book.title}</div>
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#9A9A9A" }}>
@@ -383,6 +383,29 @@ export default function HomePage() {
         </div>
       </section>
 
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "BookLoom",
+            "operatingSystem": "Web",
+            "applicationCategory": "DesignApplication",
+            "description": "AI-Powered Ebook Creator & Publishing Studio for writing, illustrating, and exporting print-ready PDFs and EPUBs.",
+            "offers": {
+              "@type": "Offer",
+              "price": "0.00",
+              "priceCurrency": "USD",
+            },
+            "aggregateRating": {
+              "@type": "AggregateRating",
+              "ratingValue": "4.9",
+              "reviewCount": "1200",
+            },
+          }),
+        }}
+      />
       <Footer />
     </div>
   );

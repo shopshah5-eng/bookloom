@@ -37,7 +37,18 @@ export async function middleware(request: NextRequest) {
       },
     });
 
-    await supabase.auth.getUser();
+    const { data: { user } } = await supabase.auth.getUser();
+
+    // Protect dashboard and settings routes
+    const isProtectedRoute = request.nextUrl.pathname.startsWith("/dashboard") || 
+                           request.nextUrl.pathname.startsWith("/settings");
+
+    if (isProtectedRoute && !user) {
+      const url = request.nextUrl.clone();
+      url.pathname = "/auth/login";
+      url.searchParams.set("redirectedFrom", request.nextUrl.pathname);
+      return NextResponse.redirect(url);
+    }
   } catch (error) {
     console.error("Middleware session refresh error:", error);
   }

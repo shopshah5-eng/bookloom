@@ -41,8 +41,8 @@ export default function CreatePage() {
   const [prompt, setPrompt] = useState("");
   const [ebookType, setEbookType] = useState("non-fiction");
   const [targetPages, setTargetPages] = useState(25); // Free plan default (max 30)
-  const [aiProvider, setAiProvider] = useState("TokenRouter (Kimi K3 Free)");
-  const [imageModel, setImageModel] = useState("Nano Banana AI (Free)");
+  const [aiProvider, setAiProvider] = useState("OpenAI GPT-4o (High Precision)");
+  const [imageModel, setImageModel] = useState("Flux.1 / SDXL (HD Cover Engine)");
   const [theme, setTheme] = useState(0);
   const [loading, setLoading] = useState(false);
   const [apiOutline, setApiOutline] = useState<any[]>([]);
@@ -206,17 +206,21 @@ export default function CreatePage() {
                       <label style={{ fontSize: 12, fontWeight: 600, color: "#1A1A1A", display: "block", marginBottom: 6 }}>Writing AI Model</label>
                       <select value={aiProvider} onChange={e => setAiProvider(e.target.value)}
                         style={{ width: "100%", padding: "10px", border: "1px solid #E8E4DF", borderRadius: 8, fontSize: 12, fontFamily: "Inter, sans-serif" }}>
-                        <option>TokenRouter (Kimi K3 Free)</option>
-                        <option>NVIDIA NIM (GLM-5.2 16k Context)</option>
-                        <option>OpenAI GPT-4o</option>
+                        <option>OpenAI GPT-4o (High Precision)</option>
+                        <option>Anthropic Claude 3.5 Sonnet (Creative Narrative)</option>
+                        <option>Google Gemini 1.5 Pro (Deep Research)</option>
+                        <option>DeepSeek R1 (Advanced Reasoning)</option>
+                        <option>Moonshot Kimi K3 (Fast Free Drafts)</option>
+                        <option>NVIDIA NIM Llama 3.1 70B (High Speed)</option>
                       </select>
                     </div>
                     <div>
-                      <label style={{ fontSize: 12, fontWeight: 600, color: "#1A1A1A", display: "block", marginBottom: 6 }}>Image Model</label>
+                      <label style={{ fontSize: 12, fontWeight: 600, color: "#1A1A1A", display: "block", marginBottom: 6 }}>Cover & Image Model</label>
                       <select value={imageModel} onChange={e => setImageModel(e.target.value)}
                         style={{ width: "100%", padding: "10px", border: "1px solid #E8E4DF", borderRadius: 8, fontSize: 12, fontFamily: "Inter, sans-serif" }}>
-                        <option>Nano Banana AI (Free - No Watermark)</option>
-                        <option>DALL·E 3</option>
+                        <option>Flux.1 / SDXL (HD Cover Engine)</option>
+                        <option>DALL·E 3 (High-Detail Vector)</option>
+                        <option>BookLoom SVG Graphics Engine</option>
                       </select>
                     </div>
                   </div>

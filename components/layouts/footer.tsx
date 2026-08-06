@@ -52,9 +52,13 @@ export function Footer() {
                 <div style={{ fontSize: 9, color: "#6B6B6B", letterSpacing: "0.12em", textTransform: "uppercase" }}>AI EBOOK GENERATOR</div>
               </div>
             </Link>
-            <p style={{ fontSize: 13, lineHeight: 1.7, color: "#6B6B6B", maxWidth: 240 }}>
+            <p style={{ fontSize: 13, lineHeight: 1.7, color: "#6B6B6B", maxWidth: 260 }}>
               Create stunning ebooks with AI. Write better, publish faster, and inspire the world.
             </p>
+            <div style={{ fontSize: 12, color: "#9A9A9A", display: "flex", flexDirection: "column", gap: 4 }}>
+              <span>✉️ Support: <a href="mailto:support@bookloom.ai" style={{ color: "#C49A3C", textDecoration: "none" }}>support@bookloom.ai</a></span>
+              <span>🏢 BookLoom Studio Inc.</span>
+            </div>
           </div>
 
           {/* Link columns */}

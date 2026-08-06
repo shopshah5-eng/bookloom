@@ -17,9 +17,9 @@ const PLANS = [
     ctaStyle: "outline" as const,
     features: [
       "3 ebooks / month",
-      "AI writing (limited)",
-      "10 AI credits / month",
-      "Basic ebook templates",
+      "Up to 30 pages / book",
+      "500 AI credits / month",
+      "Standard AI Writing Models",
       "Standard exports (PDF)",
       "Community support",
     ],
@@ -27,7 +27,7 @@ const PLANS = [
   {
     name: "Creator",
     icon: "✏️",
-    desc: "For creators & individuals",
+    desc: "For creators & self-publishers",
     monthlyPrice: 19,
     yearlyPrice: 190,
     yearlyLabel: "$190 / year (Save 20%)",
@@ -36,11 +36,10 @@ const PLANS = [
     features: [
       "Everything in Free, plus:",
       "15 ebooks / month",
-      "AI writing (extended)",
-      "100 AI credits / month",
-      "AI book covers",
-      "Illustrations (50 / month)",
-      "SVG graphics (20 / month)",
+      "Up to 100 pages / book",
+      "2,500 AI credits / month",
+      "High-Context AI Models",
+      "AI book covers & illustrations",
       "PDF & EPUB exports",
       "Priority email support",
     ],
@@ -48,7 +47,7 @@ const PLANS = [
   {
     name: "Pro",
     icon: "⭐",
-    desc: "For professionals & power users",
+    desc: "For professional authors & power users",
     monthlyPrice: 39,
     yearlyPrice: 390,
     yearlyLabel: "$390 / year (Save 20%)",
@@ -57,22 +56,20 @@ const PLANS = [
     ctaStyle: "primary" as const,
     features: [
       "Everything in Creator, plus:",
-      "Unlimited ebooks",
-      "Unlimited AI writing",
-      "500 AI credits / month",
-      "AI book covers (unlimited)",
-      "Illustrations (unlimited)",
-      "SVG graphics (unlimited)",
+      "50 ebooks / month",
+      "Up to 300 pages / book",
+      "10,000 AI credits / month",
+      "GPT-4o & Claude 3.5 Sonnet",
+      "Unlimited AI book covers",
       "PDF, EPUB & MOBI exports",
-      "Custom templates",
-      "Brand kit & custom fonts",
-      "Priority support",
+      "Custom templates & Brand Kit",
+      "Priority support queue",
     ],
   },
   {
     name: "Team",
     icon: "👥",
-    desc: "For teams & collaborations",
+    desc: "For publishing teams & agencies",
     monthlyPrice: 99,
     yearlyPrice: 990,
     yearlyLabel: "$990 / year (Save 20%)",
@@ -80,61 +77,62 @@ const PLANS = [
     ctaStyle: "outline" as const,
     features: [
       "Everything in Pro, plus:",
-      "Team workspace",
-      "Invite up to 5 members",
-      "Unlimited AI credits",
-      "Shared templates & assets",
-      "Comments & collaboration",
-      "Version history",
-      "Advanced permissions",
-      "Team analytics",
-      "Priority support",
+      "200 ebooks / month",
+      "Up to 500 pages / book",
+      "30,000 AI credits / month",
+      "Team workspace (up to 5 seats)",
+      "Shared templates & brand assets",
+      "Collaborative editor & comments",
+      "Team analytics & version history",
     ],
   },
   {
     name: "Enterprise",
     icon: "🏢",
-    desc: "For organizations & large teams",
+    desc: "For organizations & high-volume publishers",
     monthlyPrice: null,
     yearlyPrice: null,
     cta: "Contact Sales",
     ctaStyle: "outline" as const,
     features: [
       "Everything in Team, plus:",
+      "Custom ebook & page limits",
+      "100,000+ AI credits / month",
       "Dedicated account manager",
-      "SSO & advanced security",
-      "Custom integrations (API)",
-      "On-premise deployment",
-      "Unlimited everything",
-      "Custom training",
-      "SLA & compliance support",
-      "24/7 premium support",
+      "SSO, SAML & Enterprise security",
+      "Custom API integrations",
+      "Custom SLA & 24/7 priority support",
     ],
   },
 ];
 
 const COMPARE_ROWS = [
-  { feature: "Ebooks / Month", values: ["3", "15", "Unlimited", "Unlimited", "Unlimited"] },
-  { feature: "AI Writing", values: ["Limited", "Extended", "Unlimited", "Unlimited", "Unlimited"] },
-  { feature: "AI Credits / Month", values: ["10", "100", "500", "Unlimited", "Unlimited"] },
-  { feature: "AI Book Covers", values: [null, "✓", "Unlimited", "Unlimited", "Unlimited"] },
-  { feature: "Illustrations", values: [null, "50 / month", "Unlimited", "Unlimited", "Unlimited"] },
-  { feature: "SVG Graphics", values: [null, "20 / month", "Unlimited", "Unlimited", "Unlimited"] },
+  { feature: "Ebooks / Month", values: ["3", "15", "50", "200", "Custom"] },
+  { feature: "Max Pages / Book", values: ["30 Pages", "100 Pages", "300 Pages", "500 Pages", "Custom"] },
+  { feature: "AI Credits / Month", values: ["500", "2,500", "10,000", "30,000", "100,000+"] },
+  { feature: "AI Model Tier", values: ["Standard", "High-Context", "GPT-4o & Claude", "Full Suite", "Custom / Dedicated"] },
+  { feature: "AI Book Covers", values: ["Standard", "Included", "Unlimited", "Unlimited", "Unlimited"] },
+  { feature: "Illustrations & SVGs", values: ["10 / month", "50 / month", "Unlimited", "Unlimited", "Unlimited"] },
   { feature: "Export Formats", values: ["PDF", "PDF, EPUB", "PDF, EPUB, MOBI", "PDF, EPUB, MOBI", "All + Custom"] },
   { feature: "Custom Templates", values: [null, null, "✓", "✓", "✓"] },
   { feature: "Team Members", values: ["1", "1", "1", "Up to 5", "Unlimited"] },
   { feature: "Collaboration", values: [null, null, null, "✓", "Advanced"] },
-  { feature: "Priority Support", values: [null, "✓", "✓", "✓", "24/7 Premium"] },
+  { feature: "Priority Support", values: [null, "✓", "✓", "✓", "24/7 Premium SLA"] },
   { feature: "SSO & Security", values: [null, null, null, null, "✓"] },
   { feature: "API Access", values: [null, null, null, null, "✓"] },
 ];
 
+import { CheckoutModal, CheckoutPlan } from "@/components/modals/checkout-modal";
+
 export default function PricingPage() {
   const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
+  const [selectedCheckoutPlan, setSelectedCheckoutPlan] = useState<CheckoutPlan | null>(null);
 
   return (
     <div style={{ background: "#F8F5F0", minHeight: "100vh", fontFamily: "Inter, sans-serif" }}>
       <Navbar />
+
+      <CheckoutModal plan={selectedCheckoutPlan} onClose={() => setSelectedCheckoutPlan(null)} />
 
       {/* Hero */}
       <section style={{ padding: "72px 24px 56px", textAlign: "center", position: "relative" }}>
@@ -222,17 +220,16 @@ export default function PricingPage() {
                 )}
               </div>
 
-              <Link href={plan.name === "Enterprise" ? "/contact" : "/auth/signup"}>
-                <button style={{
+              <button onClick={() => setSelectedCheckoutPlan(plan)}
+                style={{
                   width: "100%", padding: "10px", borderRadius: 8, fontSize: 13, fontWeight: 600,
                   cursor: "pointer", fontFamily: "Inter, sans-serif", marginBottom: 20,
                   background: plan.ctaStyle === "primary" ? "#1A1A1A" : "transparent",
                   color: plan.ctaStyle === "primary" ? "#FFFFFF" : "#1A1A1A",
                   border: `1.5px solid ${plan.ctaStyle === "primary" ? "#1A1A1A" : "#E8E4DF"}`,
                 }}>
-                  {plan.cta}
-                </button>
-              </Link>
+                {plan.cta}
+              </button>
 
               <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 8 }}>
                 {plan.features.map((f, i) => (

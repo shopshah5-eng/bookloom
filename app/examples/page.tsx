@@ -6,22 +6,25 @@ import { Navbar } from "@/components/layouts/navbar";
 import { Footer } from "@/components/layouts/footer";
 import { Eye, Download, Search, Sparkles } from "lucide-react";
 
+import { BookPreviewModal, PreviewBook } from "@/components/modals/book-preview-modal";
+
 const CATEGORIES = ["All", "Finance", "Business", "Self Help", "Productivity", "Technology", "Health", "Marketing"];
 
-const EBOOKS = [
-  { title: "The Wealth Mindset", category: "Finance", img: "/images/book_wealth_mindset.png", views: "24.5K", downloads: "8.2K", pages: 28, theme: "Modern Minimal", popular: true },
-  { title: "Minimalist Living", category: "Self Help", img: "/images/book_minimalist_living.png", views: "18.7K", downloads: "6.3K", pages: 21, theme: "Elegant Literary", popular: false },
-  { title: "Startup Playbook 2026", category: "Business", img: "/images/book_startup_playbook.png", views: "31.2K", downloads: "12.8K", pages: 35, theme: "Bold Corporate", popular: true },
-  { title: "Deep Focus Mastery", category: "Productivity", img: "/images/book_deep_focus_mastery.png", views: "22.1K", downloads: "9.1K", pages: 26, theme: "Modern Minimal", popular: false },
-  { title: "AI Productivity Power", category: "Technology", img: "/images/book_ai_productivity.png", views: "27.6K", downloads: "10.4K", pages: 30, theme: "Futuristic Tech", popular: true },
-  { title: "Financial Freedom", category: "Finance", img: "/images/book_financial_freedom.png", views: "15.3K", downloads: "5.7K", pages: 24, theme: "Dark Premium", popular: false },
-  { title: "The Startup Playbook", category: "Business", img: "/images/book_startup_playbook.png", views: "20.4K", downloads: "7.9K", pages: 18, theme: "Bold Corporate", popular: false },
-  { title: "Mental Mastery", category: "Self Help", img: "/images/book_minimalist_living.png", views: "11.8K", downloads: "4.6K", pages: 16, theme: "Elegant Literary", popular: false },
+const EBOOKS: PreviewBook[] = [
+  { title: "The Wealth Mindset", category: "Finance", img: "/images/book_wealth_mindset.png", views: "24.5K", downloads: "8.2K", pages: 28, theme: "Modern Minimal", author: "Riya Sharma" },
+  { title: "Minimalist Living", category: "Self Help", img: "/images/book_minimalist_living.png", views: "18.7K", downloads: "6.3K", pages: 21, theme: "Elegant Literary", author: "Elena Rostova" },
+  { title: "Startup Playbook 2026", category: "Business", img: "/images/book_startup_playbook.png", views: "31.2K", downloads: "12.8K", pages: 35, theme: "Bold Corporate", author: "Marcus Vance" },
+  { title: "Deep Focus Mastery", category: "Productivity", img: "/images/book_deep_focus_mastery.png", views: "22.1K", downloads: "9.1K", pages: 26, theme: "Modern Minimal", author: "David Chen" },
+  { title: "AI Productivity Power", category: "Technology", img: "/images/book_ai_productivity.png", views: "27.6K", downloads: "10.4K", pages: 30, theme: "Futuristic Tech", author: "Sophia Lee" },
+  { title: "Financial Freedom", category: "Finance", img: "/images/book_financial_freedom.png", views: "15.3K", downloads: "5.7K", pages: 24, theme: "Dark Premium", author: "Alex Rivera" },
+  { title: "The Startup Playbook", category: "Business", img: "/images/book_startup_playbook.png", views: "20.4K", downloads: "7.9K", pages: 18, theme: "Bold Corporate", author: "Sarah Jenkins" },
+  { title: "Mental Mastery", category: "Self Help", img: "/images/nonfiction_book.png", views: "11.8K", downloads: "4.6K", pages: 16, theme: "Elegant Literary", author: "Dr. Maya Patel" },
 ];
 
 export default function ExamplesPage() {
   const [activeCategory, setActiveCategory] = useState("All");
   const [search, setSearch] = useState("");
+  const [selectedBook, setSelectedBook] = useState<PreviewBook | null>(null);
 
   const filtered = EBOOKS.filter(b =>
     (activeCategory === "All" || b.category === activeCategory) &&
@@ -31,6 +34,8 @@ export default function ExamplesPage() {
   return (
     <div style={{ background: "#F8F5F0", minHeight: "100vh", fontFamily: "Inter, sans-serif" }}>
       <Navbar />
+
+      <BookPreviewModal book={selectedBook} onClose={() => setSelectedBook(null)} />
 
       {/* Hero */}
       <section style={{ padding: "72px 24px 48px", textAlign: "center" }}>
@@ -53,14 +58,14 @@ export default function ExamplesPage() {
         </div>
       </section>
 
-      {/* Stats */}
+      {/* Realistic Stats */}
       <section style={{ padding: "0 24px 48px" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
           {[
-            { label: "Ebooks Created", value: "150K+" },
-            { label: "Words Generated", value: "2.8B+" },
-            { label: "Happy Authors", value: "50K+" },
-            { label: "Countries Reached", value: "120+" },
+            { label: "Ebooks Created", value: "12.5K+" },
+            { label: "Words Generated", value: "45M+" },
+            { label: "Creator Rating", value: "4.9/5 ⭐" },
+            { label: "Satisfaction Rate", value: "98%" },
           ].map(s => (
             <div key={s.label} style={{ background: "#FFFFFF", borderRadius: 12, border: "1px solid #E8E4DF", padding: "20px 24px", textAlign: "center" }}>
               <div style={{ fontFamily: "'Playfair Display', serif", fontSize: 28, fontWeight: 800, color: "#1A1A1A", marginBottom: 4 }}>{s.value}</div>
@@ -91,11 +96,6 @@ export default function ExamplesPage() {
           <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
             {filtered.map((book, i) => (
               <div key={i} style={{ background: "#FFFFFF", borderRadius: 16, border: "1px solid #E8E4DF", overflow: "hidden", position: "relative" }}>
-                {book.popular && (
-                  <div style={{ position: "absolute", top: 12, left: 12, background: "#C49A3C", color: "#FFFFFF", fontSize: 10, fontWeight: 700, padding: "4px 10px", borderRadius: 999, zIndex: 2 }}>
-                    ⭐ Popular
-                  </div>
-                )}
                 <img src={book.img} alt={book.title} style={{ width: "100%", height: 220, objectFit: "cover" }} />
                 <div style={{ padding: 20 }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
@@ -109,10 +109,10 @@ export default function ExamplesPage() {
                     <span style={{ display: "flex", alignItems: "center", gap: 4 }}><Download size={12} /> {book.downloads}</span>
                   </div>
                   <div style={{ display: "flex", gap: 8 }}>
-                    <button style={{ flex: 1, padding: "9px", background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: "Inter, sans-serif" }}>
+                    <button onClick={() => setSelectedBook(book)} style={{ flex: 1, padding: "9px", background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: "Inter, sans-serif" }}>
                       Preview
                     </button>
-                    <Link href="/dashboard/create" style={{ flex: 1 }}>
+                    <Link href={`/dashboard/create?topic=${encodeURIComponent(book.title)}&type=${encodeURIComponent(book.category.toLowerCase())}`} style={{ flex: 1 }}>
                       <button style={{ width: "100%", padding: "9px", background: "transparent", color: "#C49A3C", border: "1px solid #EFD98A", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: "Inter, sans-serif", display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }}>
                         <Sparkles size={11} /> Use Template
                       </button>

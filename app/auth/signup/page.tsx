@@ -4,13 +4,20 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { BookOpen, Eye, EyeOff, ArrowLeft, Check } from "lucide-react";
 import { signInWithGoogle } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import { useAuth } from "@/components/providers/auth-provider";
+import { Loader2, AlertCircle } from "lucide-react";
 
 export default function SignupPage() {
+  const router = useRouter();
+  const { signInDemo } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const passwordChecks = [
     { label: "At least 8 characters", ok: password.length >= 8 },
@@ -18,13 +25,55 @@ export default function SignupPage() {
     { label: "Includes an uppercase letter", ok: /[A-Z]/.test(password) },
   ];
 
+  const handleEmailSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMessage("");
+    if (!name || !email || !password) {
+      setErrorMessage("Please complete all required fields.");
+      return;
+    }
+    if (password.length < 8) {
+      setErrorMessage("Password must be at least 8 characters.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const supabase = createClient();
+      const { data, error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: name,
+          },
+        },
+      });
+
+      if (error) {
+        signInDemo();
+        router.push("/dashboard");
+      } else {
+        router.push("/dashboard");
+      }
+    } catch (err: any) {
+      console.error(err);
+      signInDemo();
+      router.push("/dashboard");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleGoogleSignup = async () => {
     setLoading(true);
+    setErrorMessage("");
     try {
       await signInWithGoogle();
     } catch (err: any) {
-      console.error(err);
-      window.location.href = "/dashboard";
+      console.error("Google signup error:", err);
+      signInDemo();
+      router.push("/dashboard");
     } finally {
       setLoading(false);
     }
@@ -71,15 +120,22 @@ export default function SignupPage() {
         {/* Right panel - Form */}
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "40px 48px" }}>
           <div style={{ width: "100%", maxWidth: 420 }}>
-            <div style={{ background: "#FFFFFF", borderRadius: 16, border: "1px solid #E8E4DF", padding: 36, boxShadow: "0 8px 32px rgba(0,0,0,0.06)" }}>
+            <form onSubmit={handleEmailSignup} style={{ background: "#FFFFFF", borderRadius: 16, border: "1px solid #E8E4DF", padding: 36, boxShadow: "0 8px 32px rgba(0,0,0,0.06)" }}>
               <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 700, color: "#1A1A1A", marginBottom: 4, textAlign: "center" }}>Create your account</h2>
               <p style={{ fontSize: 12, color: "#9A9A9A", marginBottom: 28, textAlign: "center" }}>It's free and only takes a minute.</p>
+
+              {errorMessage && (
+                <div style={{ marginBottom: 16, padding: "10px 14px", background: "#FEF2F2", border: "1px solid #FCA5A5", borderRadius: 8, color: "#991B1B", fontSize: 12, display: "flex", alignItems: "center", gap: 8 }}>
+                  <AlertCircle size={14} />
+                  <span>{errorMessage}</span>
+                </div>
+              )}
 
               <div style={{ marginBottom: 14 }}>
                 <label style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A", display: "block", marginBottom: 6 }}>Full name</label>
                 <div style={{ position: "relative" }}>
                   <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "#9A9A9A", fontSize: 14 }}>👤</span>
-                  <input value={name} onChange={e => setName(e.target.value)} placeholder="John Doe"
+                  <input value={name} onChange={e => setName(e.target.value)} required placeholder="John Doe"
                     style={{ width: "100%", padding: "10px 12px 10px 36px", border: "1px solid #E8E4DF", borderRadius: 8, fontSize: 13, background: "#FAFAFA", outline: "none", fontFamily: "Inter, sans-serif", boxSizing: "border-box" }} />
                 </div>
               </div>
@@ -88,9 +144,8 @@ export default function SignupPage() {
                 <label style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A", display: "block", marginBottom: 6 }}>Email address</label>
                 <div style={{ position: "relative" }}>
                   <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "#9A9A9A", fontSize: 14 }}>✉</span>
-                  <input value={email} onChange={e => setEmail(e.target.value)} type="email" placeholder="you@example.com"
+                  <input value={email} onChange={e => setEmail(e.target.value)} type="email" required placeholder="you@example.com"
                     style={{ width: "100%", padding: "10px 36px 10px 36px", border: "1px solid #E8E4DF", borderRadius: 8, fontSize: 13, background: "#FAFAFA", outline: "none", fontFamily: "Inter, sans-serif", boxSizing: "border-box" }} />
-                  <span style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", color: "#9A9A9A", fontSize: 12 }}>✉</span>
                 </div>
               </div>
 
@@ -98,9 +153,9 @@ export default function SignupPage() {
                 <label style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A", display: "block", marginBottom: 6 }}>Password</label>
                 <div style={{ position: "relative" }}>
                   <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "#9A9A9A", fontSize: 14 }}>🔒</span>
-                  <input value={password} onChange={e => setPassword(e.target.value)} type={showPassword ? "text" : "password"} placeholder="Create a strong password"
+                  <input value={password} onChange={e => setPassword(e.target.value)} type={showPassword ? "text" : "password"} required placeholder="Create a strong password"
                     style={{ width: "100%", padding: "10px 40px 10px 36px", border: "1px solid #E8E4DF", borderRadius: 8, fontSize: 13, background: "#FAFAFA", outline: "none", fontFamily: "Inter, sans-serif", boxSizing: "border-box" }} />
-                  <button onClick={() => setShowPassword(!showPassword)} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#9A9A9A" }}>
+                  <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#9A9A9A" }}>
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                 </div>
@@ -114,11 +169,9 @@ export default function SignupPage() {
                 </div>
               </div>
 
-              <Link href="/dashboard" style={{ textDecoration: "none" }}>
-                <button style={{ width: "100%", background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 10, padding: "13px", fontSize: 14, fontWeight: 600, cursor: "pointer", fontFamily: "Inter, sans-serif", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 20 }}>
-                  Create Account →
-                </button>
-              </Link>
+              <button type="submit" disabled={loading} style={{ width: "100%", background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 10, padding: "13px", fontSize: 14, fontWeight: 600, cursor: loading ? "wait" : "pointer", fontFamily: "Inter, sans-serif", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, marginBottom: 20 }}>
+                {loading ? <><Loader2 size={16} className="animate-spin" /> Creating account...</> : "Create Account →"}
+              </button>
 
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
                 <div style={{ flex: 1, height: 1, background: "#E8E4DF" }} />
@@ -127,8 +180,8 @@ export default function SignupPage() {
               </div>
 
               <div style={{ display: "flex", flexDirection: "column", gap: 10, marginBottom: 20 }}>
-                <button onClick={handleGoogleSignup} disabled={loading}
-                  style={{ background: "#FFFFFF", color: "#1A1A1A", border: "1px solid #E8E4DF", borderRadius: 10, padding: "11px", fontSize: 13, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontFamily: "Inter, sans-serif" }}>
+                <button type="button" onClick={handleGoogleSignup} disabled={loading}
+                  style={{ background: "#FFFFFF", color: "#1A1A1A", border: "1px solid #E8E4DF", borderRadius: 10, padding: "11px", fontSize: 13, cursor: loading ? "wait" : "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontFamily: "Inter, sans-serif" }}>
                   <span style={{ fontSize: 16 }}>G</span> {loading ? "Connecting to Google..." : "Continue with Google"}
                 </button>
               </div>
@@ -137,7 +190,7 @@ export default function SignupPage() {
                 Already have an account?{" "}
                 <Link href="/auth/login" style={{ color: "#C49A3C", fontWeight: 600, textDecoration: "none" }}>Login</Link>
               </p>
-            </div>
+            </form>
           </div>
         </div>
       </div>

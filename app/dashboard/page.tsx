@@ -3,8 +3,9 @@
 import React from "react";
 import Link from "next/link";
 import { DashboardSidebar } from "@/components/layouts/dashboard-sidebar";
+import { useAuth } from "@/components/providers/auth-provider";
 import {
-  Plus, Bell, ChevronDown, Edit3, MoreHorizontal, ArrowUpRight
+  Plus, Bell, ChevronDown, Edit3, MoreHorizontal, ArrowUpRight, ShieldAlert, LogIn
 } from "lucide-react";
 
 const RECENT_EBOOKS = [
@@ -12,7 +13,7 @@ const RECENT_EBOOKS = [
   { title: "Atomic Habits Blueprint", format: "EPUB", category: "Self Help", words: "18,230", updated: "1d ago", img: "/images/book_minimalist_living.png", progress: 80 },
   { title: "AI Productivity Power", format: "PDF", category: "Productivity", words: "22,105", updated: "2d ago", img: "/images/book_ai_productivity.png", progress: 45 },
   { title: "Mindful Living", format: "EPUB", category: "Health", words: "15,670", updated: "3d ago", img: "/images/book_deep_focus_mastery.png", progress: 90 },
-  { title: "Startup Playbook 2024", format: "PDF", category: "Business", words: "30,120", updated: "5d ago", img: "/images/book_startup_playbook.png", progress: 100 },
+  { title: "Startup Playbook 2026", format: "PDF", category: "Business", words: "30,120", updated: "5d ago", img: "/images/book_startup_playbook.png", progress: 100 },
 ];
 
 // Simple donut chart component
@@ -57,11 +58,14 @@ function DonutChart({ value, size = 120, stroke = 12 }: { value: number; size?: 
 }
 
 export default function DashboardPage() {
+  const { profile, user, isDemoMode } = useAuth();
+  const displayName = profile?.fullName || user?.email?.split("@")[0] || "Guest Creator";
+
   const stats = [
-    { label: "Credits Balance", value: "12,450", sub: "of 15,000 credits", icon: "🪙", link: "Buy More Credits", badge: null, progress: 83 },
-    { label: "Ebooks Created", value: "24", sub: "Total ebooks", icon: "📚", link: "View all projects →", badge: null },
-    { label: "Words Generated", value: "1.28M", sub: "Total words", icon: "📄", link: null, badge: "↑ 18.6% this month" },
-    { label: "Exported Ebooks", value: "16", sub: "Total exports", icon: "⬆", link: "View exports →", badge: null },
+    { label: "Credits Balance", value: "12,450", sub: "of 15,000 credits", icon: "🪙", href: "/pricing#credits", linkText: "Buy More Credits", badge: null, progress: 83 },
+    { label: "Ebooks Created", value: "24", sub: "Total ebooks", icon: "📚", href: "/dashboard/projects", linkText: "View all projects →", badge: null },
+    { label: "Words Generated", value: "1.28M", sub: "Total words", icon: "📄", href: null, linkText: null, badge: "↑ 18.6% this month" },
+    { label: "Exported Ebooks", value: "16", sub: "Total exports", icon: "⬆", href: "/dashboard/export", linkText: "View exports →", badge: null },
   ];
 
   return (
@@ -69,11 +73,33 @@ export default function DashboardPage() {
       <DashboardSidebar />
 
       <div style={{ flex: 1, overflowY: "auto" }}>
+        {/* Demo Mode Notification Banner if Unauthenticated */}
+        {isDemoMode && (
+          <div style={{ background: "#FEF3C7", borderBottom: "1px solid #F59E0B", padding: "10px 32px", display: "flex", alignItems: "center", justifyContent: "space-between", fontSize: 13, color: "#92400E" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 8 }}>
+              <ShieldAlert size={16} />
+              <span><strong>Interactive Demo Mode:</strong> You are exploring BookLoom with sample data. Sign in or create an account to save your ebooks to the cloud.</span>
+            </div>
+            <div style={{ display: "flex", gap: 8 }}>
+              <Link href="/auth/login">
+                <button style={{ background: "#92400E", color: "#FFFFFF", border: "none", borderRadius: 6, padding: "5px 12px", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
+                  Sign In
+                </button>
+              </Link>
+              <Link href="/auth/signup">
+                <button style={{ background: "#FFFFFF", color: "#92400E", border: "1px solid #92400E", borderRadius: 6, padding: "5px 12px", fontSize: 12, fontWeight: 600, cursor: "pointer" }}>
+                  Create Account
+                </button>
+              </Link>
+            </div>
+          </div>
+        )}
+
         {/* Top Header */}
         <div style={{ background: "#FFFFFF", borderBottom: "1px solid #E8E4DF", padding: "0 32px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between", position: "sticky", top: 0, zIndex: 20 }}>
           <div>
             <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 700, color: "#1A1A1A", margin: 0 }}>
-              Good evening, Riya 👋
+              Good evening, {displayName} 👋
             </h1>
             <p style={{ fontSize: 13, color: "#9A9A9A", margin: 0 }}>Let's create something extraordinary today.</p>
           </div>
@@ -87,7 +113,7 @@ export default function DashboardPage() {
               <Bell size={20} color="#4A4A4A" style={{ cursor: "pointer" }} />
               <div style={{ position: "absolute", top: -4, right: -4, width: 14, height: 14, borderRadius: "50%", background: "#EF4444", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 9, color: "#FFFFFF", fontWeight: 700 }}>3</div>
             </div>
-            <img src="/images/books_stack_with_plant.png" alt="Avatar" style={{ width: 36, height: 36, borderRadius: "50%", objectFit: "cover", border: "2px solid #E8E4DF" }} />
+            <img src={profile?.avatarUrl || "/images/books_stack_with_plant.png"} alt="Avatar" style={{ width: 36, height: 36, borderRadius: "50%", objectFit: "cover", border: "2px solid #E8E4DF" }} />
             <ChevronDown size={14} color="#4A4A4A" />
           </div>
         </div>
@@ -108,13 +134,13 @@ export default function DashboardPage() {
                     <div style={{ width: `${s.progress}%`, height: "100%", background: "#C49A3C", borderRadius: 999 }} />
                   </div>
                 )}
-                {s.link && (
-                  <Link href="#" style={{ fontSize: 12, color: s.link.includes("Buy") ? "#1A1A1A" : "#C49A3C", textDecoration: "none", fontWeight: 500 }}>
-                    {s.link.includes("Buy") ? (
+                {s.href && s.linkText && (
+                  <Link href={s.href} style={{ fontSize: 12, color: s.linkText.includes("Buy") ? "#1A1A1A" : "#C49A3C", textDecoration: "none", fontWeight: 500 }}>
+                    {s.linkText.includes("Buy") ? (
                       <button style={{ background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 6, padding: "6px 14px", fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: "Inter, sans-serif" }}>
-                        {s.link}
+                        {s.linkText}
                       </button>
-                    ) : s.link}
+                    ) : s.linkText}
                   </Link>
                 )}
                 {s.badge && <span style={{ fontSize: 12, color: "#22C55E", fontWeight: 600 }}>{s.badge}</span>}

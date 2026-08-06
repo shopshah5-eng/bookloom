@@ -18,10 +18,59 @@ const inter = Inter({
   weight: ["300", "400", "500", "600", "700"],
 });
 
+const siteUrl = process.env.NEXT_PUBLIC_APP_URL || "https://bookloom-phi.vercel.app";
+
 export const metadata: Metadata = {
-  title: "BookLoom — AI-Powered Ebook Creator & Publishing Studio",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: "BookLoom — AI-Powered Ebook Creator & Publishing Studio",
+    template: "%s | BookLoom",
+  },
   description:
-    "Turn any idea into a stunning, professional ebook with AI. Write, design, illustrate, and export print-ready PDFs and EPUBs in minutes.",
+    "Turn any prompt into a complete, beautifully designed ebook with AI writing, covers, illustrations, and print-ready PDF/EPUB exports.",
+  keywords: [
+    "AI Ebook Generator",
+    "Ebook Publishing Studio",
+    "AI Book Creator",
+    "EPUB Creator",
+    "PDF Book Generator",
+    "Book Design AI",
+  ],
+  authors: [{ name: "BookLoom Team" }],
+  creator: "BookLoom",
+  publisher: "BookLoom Studio",
+  alternates: {
+    canonical: siteUrl,
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteUrl,
+    title: "BookLoom — AI-Powered Ebook Creator & Publishing Studio",
+    description:
+      "Turn any idea into a stunning, professional ebook with AI writing, covers, and multi-format exports.",
+    siteName: "BookLoom",
+    images: [
+      {
+        url: `${siteUrl}/images/laptop_bookloom_mockup.png`,
+        width: 1200,
+        height: 630,
+        alt: "BookLoom AI Ebook Studio Showcase",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "BookLoom — AI-Powered Ebook Creator & Publishing Studio",
+    description:
+      "Turn any prompt into a complete, beautifully formatted ebook in minutes.",
+    images: [`${siteUrl}/images/laptop_bookloom_mockup.png`],
+    creator: "@bookloom_ai",
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
