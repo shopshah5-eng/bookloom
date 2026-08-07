@@ -146,12 +146,13 @@ export default function HomePage() {
                 <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
                   {["Wealth Mindset", "Startup Playbook", "Deep Focus", "Minimalist Living"].map(ex => (
                     <button key={ex} onClick={() => setPromptInput(ex)}
-                      style={{ fontSize: 11, padding: "3px 10px", borderRadius: 999, border: "1px solid #E8E4DF", background: "#F8F5F0", cursor: "pointer", color: "#4A4A4A" }}>
+                      className="chip-hover"
+                      style={{ fontSize: 11, padding: "4px 12px", borderRadius: 999, border: "1px solid #E8E4DF", background: "#F8F5F0", cursor: "pointer", color: "#4A4A4A" }}>
                       ✦ {ex}
                     </button>
                   ))}
                   <Link href="/examples">
-                    <button style={{ fontSize: 11, padding: "3px 10px", borderRadius: 999, border: "1px solid #E8E4DF", background: "#F8F5F0", cursor: "pointer", color: "#C49A3C" }}>More Examples →</button>
+                    <button className="chip-hover" style={{ fontSize: 11, padding: "4px 12px", borderRadius: 999, border: "1px solid #E8E4DF", background: "#F8F5F0", cursor: "pointer", color: "#855B0B", fontWeight: 600 }}>More Examples →</button>
                   </Link>
                 </div>
               </div>
@@ -159,7 +160,7 @@ export default function HomePage() {
               <div>
                 <label htmlFor="ai-provider-select" style={{ fontSize: 12, fontWeight: 600, color: "#4A4A4A", display: "block", marginBottom: 6 }}>AI Provider</label>
                 <select id="ai-provider-select" aria-label="Select AI Model Provider" value={aiProvider} onChange={e => setAiProvider(e.target.value)}
-                  style={{ width: "100%", padding: "10px 12px", border: "1px solid #E8E4DF", borderRadius: 8, background: "#F8F5F0", fontSize: 13, color: "#1A1A1A", fontFamily: "Inter, sans-serif", outline: "none" }}>
+                  style={{ width: "100%", padding: "10px 12px", border: "1px solid #E8E4DF", borderRadius: 8, background: "#F8F5F0", fontSize: 13, color: "#1A1A1A", fontFamily: "Inter, sans-serif", outline: "none", cursor: "pointer" }}>
                   <option>OpenAI (GPT-4o)</option>
                   <option>Anthropic Claude</option>
                   <option>Google Gemini</option>
@@ -176,7 +177,7 @@ export default function HomePage() {
               </div>
 
               <Link href={`/dashboard/create?prompt=${encodeURIComponent(promptInput)}&provider=${encodeURIComponent(aiProvider)}&theme=${encodeURIComponent(theme)}`}>
-                <button style={{
+                <button className="btn-gold-glow" style={{
                   width: "100%", background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 10,
                   padding: "14px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer",
                   display: "flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap",
@@ -262,13 +263,13 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {BOOKS.map((b) => (
-              <div key={b.title} style={{
+              <div key={b.title} className="card-hover img-zoom-container" style={{
                 background: "#FFFFFF", border: "1px solid #E8E4DF", borderRadius: 12,
-                overflow: "hidden", boxShadow: "0 2px 12px rgba(0,0,0,0.04)"
+                overflow: "hidden", boxShadow: "0 2px 12px rgba(0,0,0,0.04)", cursor: "pointer"
               }}>
                 <img src={b.img} alt={b.title} loading="lazy" style={{ width: "100%", height: 200, objectFit: "cover" }} />
                 <div style={{ padding: 14 }}>
-                  <span style={{ fontSize: 10, fontWeight: 600, color: "#C49A3C", textTransform: "uppercase" }}>{b.category}</span>
+                  <span style={{ fontSize: 10, fontWeight: 600, color: "#855B0B", textTransform: "uppercase" }}>{b.category}</span>
                   <h4 style={{ fontSize: 14, fontWeight: 600, color: "#1A1A1A", margin: "4px 0 8px" }}>{b.title}</h4>
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#9A9A9A" }}>
                     <span>👁 {b.views} readers</span>
@@ -293,9 +294,9 @@ export default function HomePage() {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4">
             {THEMES.map((t) => (
-              <div key={t.name} style={{
+              <div key={t.name} className="card-hover" style={{
                 background: t.bg, border: `1px solid ${t.border}`, borderRadius: 12,
-                padding: 16, display: "flex", flexDirection: "column", alignItems: "center", gap: 12
+                padding: 16, display: "flex", flexDirection: "column", alignItems: "center", gap: 12, cursor: "pointer"
               }}>
                 <div style={{ width: "100%", height: 60, borderRadius: 6, background: t.bg, border: `1px solid ${t.border}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <span style={{ fontSize: 12, color: t.textColor, fontFamily: "'Playfair Display', serif", textAlign: "center", padding: 4, lineHeight: 1.3 }}>Aa</span>

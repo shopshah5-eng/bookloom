@@ -95,7 +95,7 @@ export default function ExamplesPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             {filtered.map((book, i) => (
-              <div key={i} style={{ background: "#FFFFFF", borderRadius: 16, border: "1px solid #E8E4DF", overflow: "hidden", position: "relative" }}>
+              <div key={i} className="card-hover img-zoom-container" style={{ background: "#FFFFFF", borderRadius: 16, border: "1px solid #E8E4DF", overflow: "hidden", position: "relative" }}>
                 <img src={book.img} alt={book.title} loading="lazy" style={{ width: "100%", height: 220, objectFit: "cover" }} />
                 <div style={{ padding: 20 }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
@@ -109,12 +109,12 @@ export default function ExamplesPage() {
                     <span style={{ display: "flex", alignItems: "center", gap: 4 }}><Download size={12} /> {book.downloads}</span>
                   </div>
                   <div style={{ display: "flex", gap: 8 }}>
-                    <button onClick={() => setSelectedBook(book)} style={{ flex: 1, padding: "9px", background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: "Inter, sans-serif" }}>
+                    <button onClick={() => setSelectedBook(book)} className="btn-primary-glow" style={{ flex: 1, padding: "9px", background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: "Inter, sans-serif" }}>
                       Preview
                     </button>
                     <Link href={`/dashboard/create?topic=${encodeURIComponent(book.title)}&type=${encodeURIComponent(book.category.toLowerCase())}`} style={{ flex: 1 }}>
-                      <button style={{ width: "100%", padding: "9px", background: "transparent", color: "#C49A3C", border: "1px solid #EFD98A", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: "Inter, sans-serif", display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }}>
-                        <Sparkles size={11} /> Use Template
+                      <button className="chip-hover" style={{ width: "100%", padding: "9px", background: "transparent", color: "#855B0B", border: "1px solid #EFD98A", borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: "pointer", fontFamily: "Inter, sans-serif", display: "flex", alignItems: "center", justifyContent: "center", gap: 4 }}>
+                        <Sparkles size={11} color="#C49A3C" /> Use Template
                       </button>
                     </Link>
                   </div>

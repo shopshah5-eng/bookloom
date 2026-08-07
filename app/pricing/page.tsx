@@ -182,7 +182,7 @@ export default function PricingPage() {
       <section style={{ padding: "0 24px 80px" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 items-start">
           {PLANS.map((plan) => (
-            <div key={plan.name} style={{
+            <div key={plan.name} className="card-hover" style={{
               background: "#FFFFFF", borderRadius: 16,
               border: `2px solid ${plan.popular ? "#C49A3C" : "#E8E4DF"}`,
               padding: 24, position: "relative",
@@ -223,12 +223,13 @@ export default function PricingPage() {
               <button
                 onClick={() => setSelectedCheckoutPlan(plan)}
                 aria-label={`Select ${plan.name} plan`}
+                className={plan.ctaStyle === "primary" ? "btn-gold-glow" : ""}
                 style={{
                   width: "100%", padding: "10px", borderRadius: 8, fontSize: 13, fontWeight: 600,
                   cursor: "pointer", fontFamily: "Inter, sans-serif", marginBottom: 20,
                   background: plan.ctaStyle === "primary" ? "#1A1A1A" : "transparent",
                   color: plan.ctaStyle === "primary" ? "#FFFFFF" : "#1A1A1A",
-                  border: `1.5px solid ${plan.ctaStyle === "primary" ? "#1A1A1A" : "#E8E4DF"}`,
+                  border: plan.ctaStyle === "primary" ? "none" : "1px solid #E8E4DF"
                 }}>
                 {plan.cta}
               </button>

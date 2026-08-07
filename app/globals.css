@@ -37,7 +37,7 @@
 
     --gold: #C49A3C;
     --gold-light: #D4AF5C;
-    --gold-dark: #A67C28;
+    --gold-dark: #855B0B;
     --cream: #F8F5F0;
     --cream-dark: #EDE9E3;
     --text-primary: #1A1A1A;
@@ -85,28 +85,123 @@ body {
 }
 
 .label-gold {
-  color: var(--gold);
+  color: var(--gold-dark);
   font-size: 0.75rem;
   font-weight: 600;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
-/* === Performance Optimized Cards === */
+/* === 10/10 Micro-Interactions & Hover Animations === */
+a, button {
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+button:active, a.btn-active:active {
+  transform: scale(0.98);
+}
+
 .card-base {
   background: var(--card);
   border: 1px solid var(--border);
   border-radius: var(--radius);
   contain: content;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
 }
 
 .card-hover {
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.25s ease;
   will-change: transform;
 }
+
 .card-hover:hover {
-  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  transform: translateY(-4px);
+  border-color: #D4C4A8;
+}
+
+/* === Image Hover Zoom === */
+.img-zoom-container {
+  overflow: hidden;
+  border-radius: inherit;
+}
+
+.img-zoom-container img {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.img-zoom-container:hover img {
+  transform: scale(1.05);
+}
+
+/* === Primary CTA Glow Hover === */
+.btn-primary-glow {
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-primary-glow:hover {
   transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(26, 26, 26, 0.25);
+}
+
+.btn-gold-glow {
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-gold-glow:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(196, 154, 60, 0.35);
+}
+
+/* === Chip & Tag Hover === */
+.chip-hover {
+  transition: all 0.15s ease;
+}
+
+.chip-hover:hover {
+  background: #FFFFFF !important;
+  border-color: #C49A3C !important;
+  color: #1A1A1A !important;
+  transform: translateY(-1px);
+}
+
+/* === Accessible Focus Rings === */
+:focus-visible {
+  outline: 2px solid var(--gold) !important;
+  outline-offset: 2px !important;
+}
+
+/* === Entrance Animations === */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dropdownSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-dropdown-slide {
+  animation: dropdownSlide 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 /* === Scrollbar === */

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { BookOpen, Sparkles, Menu, X, ChevronDown } from "lucide-react";
@@ -26,6 +26,7 @@ const navLinks = [
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
+  const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const pathname = usePathname();
 
   return (
@@ -56,36 +57,68 @@ export function Navbar() {
         <nav style={{ display: "flex", alignItems: "center", gap: 32 }} className="hidden-mobile">
           {navLinks.map((link) =>
             link.children ? (
-              <div key={link.name} style={{ position: "relative" }}
-                onMouseEnter={() => setResourcesOpen(true)}
-                onMouseLeave={() => setResourcesOpen(false)}
+              <div
+                key={link.name}
+                style={{ position: "relative", paddingBottom: 12, marginBottom: -12 }}
+                onMouseEnter={() => {
+                  if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+                  setResourcesOpen(true);
+                }}
+                onMouseLeave={() => {
+                  dropdownTimeoutRef.current = setTimeout(() => setResourcesOpen(false), 200);
+                }}
               >
-                <button style={{
-                  display: "flex", alignItems: "center", gap: 4,
-                  background: "none", border: "none", cursor: "pointer",
-                  fontSize: 14, fontWeight: 500,
-                  color: pathname?.startsWith("/blog") || pathname?.startsWith("/docs") ? "#1A1A1A" : "#4A4A4A",
-                  fontFamily: "Inter, sans-serif",
-                  padding: 0,
-                }}>
-                  {link.name} <ChevronDown size={14} />
+                <button
+                  aria-label="Toggle Resources Menu"
+                  aria-expanded={resourcesOpen}
+                  style={{
+                    display: "flex", alignItems: "center", gap: 4,
+                    background: "none", border: "none", cursor: "pointer",
+                    fontSize: 14, fontWeight: 600,
+                    color: resourcesOpen || pathname?.startsWith("/blog") || pathname?.startsWith("/docs") ? "#1A1A1A" : "#4A4A4A",
+                    fontFamily: "Inter, sans-serif",
+                    padding: 0,
+                    transition: "color 0.15s ease",
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.color = "#1A1A1A")}
+                  onMouseLeave={e => {
+                    if (!resourcesOpen) e.currentTarget.style.color = pathname?.startsWith("/blog") || pathname?.startsWith("/docs") ? "#1A1A1A" : "#4A4A4A";
+                  }}
+                >
+                  {link.name} <ChevronDown size={14} style={{ transform: resourcesOpen ? "rotate(180deg)" : "rotate(0deg)", transition: "transform 0.2s ease" }} />
                 </button>
                 {resourcesOpen && (
-                  <div style={{
-                    position: "absolute", top: "100%", left: "50%", transform: "translateX(-50%)",
-                    background: "#FFFFFF", border: "1px solid #E8E4DF",
-                    borderRadius: 10, padding: "8px 0", minWidth: 160,
-                    boxShadow: "0 8px 24px rgba(0,0,0,0.08)", marginTop: 8, zIndex: 100
-                  }}>
+                  <div
+                    className="animate-dropdown-slide"
+                    style={{
+                      position: "absolute", top: "100%", left: "50%", transform: "translateX(-50%)",
+                      background: "#FFFFFF", border: "1px solid #E8E4DF",
+                      borderRadius: 12, padding: "8px 0", minWidth: 180,
+                      boxShadow: "0 12px 32px rgba(0,0,0,0.1)", marginTop: 4, zIndex: 100
+                    }}
+                    onMouseEnter={() => {
+                      if (dropdownTimeoutRef.current) clearTimeout(dropdownTimeoutRef.current);
+                      setResourcesOpen(true);
+                    }}
+                    onMouseLeave={() => {
+                      dropdownTimeoutRef.current = setTimeout(() => setResourcesOpen(false), 200);
+                    }}
+                  >
                     {link.children.map((child) => (
                       <Link key={child.name} href={child.href} style={{
-                        display: "block", padding: "8px 16px",
-                        fontSize: 14, color: "#4A4A4A", textDecoration: "none",
+                        display: "block", padding: "10px 18px",
+                        fontSize: 13, fontWeight: 500, color: "#4A4A4A", textDecoration: "none",
                         fontFamily: "Inter, sans-serif",
-                        transition: "background 0.15s",
+                        transition: "all 0.15s ease",
                       }}
-                        onMouseEnter={e => (e.currentTarget.style.background = "#F8F5F0")}
-                        onMouseLeave={e => (e.currentTarget.style.background = "transparent")}
+                        onMouseEnter={e => {
+                          e.currentTarget.style.background = "#F8F5F0";
+                          e.currentTarget.style.color = "#C49A3C";
+                        }}
+                        onMouseLeave={e => {
+                          e.currentTarget.style.background = "transparent";
+                          e.currentTarget.style.color = "#4A4A4A";
+                        }}
                       >
                         {child.name}
                       </Link>
@@ -97,12 +130,19 @@ export function Navbar() {
               <Link key={link.name} href={link.href} style={{
                 fontSize: 14, fontWeight: pathname === link.href ? 600 : 500,
                 color: pathname === link.href ? "#1A1A1A" : "#4A4A4A",
-                textDecoration: pathname === link.href ? "underline" : "none",
-                textUnderlineOffset: 4,
+                textDecoration: "none",
+                position: "relative",
                 fontFamily: "Inter, sans-serif",
-                transition: "color 0.15s",
-              }}>
+                padding: "4px 0",
+                transition: "color 0.15s ease",
+              }}
+                onMouseEnter={e => (e.currentTarget.style.color = "#C49A3C")}
+                onMouseLeave={e => (e.currentTarget.style.color = pathname === link.href ? "#1A1A1A" : "#4A4A4A")}
+              >
                 {link.name}
+                {pathname === link.href && (
+                  <span style={{ position: "absolute", bottom: 0, left: 0, right: 0, height: 2, background: "#C49A3C", borderRadius: 2 }} />
+                )}
               </Link>
             )
           )}
@@ -115,19 +155,27 @@ export function Navbar() {
             textDecoration: "none", fontFamily: "Inter, sans-serif",
             padding: "8px 16px", borderRadius: 8,
             border: "1px solid #E8E4DF", background: "transparent",
-            transition: "border-color 0.15s",
-          }}>
+            transition: "all 0.15s ease",
+          }}
+            onMouseEnter={e => {
+              e.currentTarget.style.borderColor = "#1A1A1A";
+              e.currentTarget.style.color = "#1A1A1A";
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.borderColor = "#E8E4DF";
+              e.currentTarget.style.color = "#4A4A4A";
+            }}
+          >
             Log in
           </Link>
-          <Link href="/auth/signup" style={{
+          <Link href="/auth/signup" className="btn-primary-glow" style={{
             fontSize: 14, fontWeight: 600, color: "#FFFFFF",
             textDecoration: "none", fontFamily: "Inter, sans-serif",
             padding: "8px 16px", borderRadius: 8,
             background: "#1A1A1A",
             display: "flex", alignItems: "center", gap: 6,
-            transition: "background 0.15s",
           }}>
-            <Sparkles size={14} />
+            <Sparkles size={14} color="#C49A3C" />
             Get Started Free
           </Link>
         </div>
