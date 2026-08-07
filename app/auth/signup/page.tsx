@@ -105,7 +105,7 @@ export default function SignupPage() {
         </Link>
       </header>
 
-      <div style={{ flex: 1, maxWidth: 1100, margin: "0 auto", width: "100%" }} className="grid grid-cols-1 md:grid-cols-2">
+      <main id="main-content" style={{ flex: 1, maxWidth: 1100, margin: "0 auto", width: "100%" }} className="grid grid-cols-1 md:grid-cols-2">
         {/* Left panel */}
         <div style={{ padding: "40px 32px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#FBF3E0", border: "1px solid #EFD98A", borderRadius: 999, padding: "4px 12px", marginBottom: 20, width: "fit-content" }}>
@@ -125,26 +125,28 @@ export default function SignupPage() {
           <div style={{ width: "100%", maxWidth: 420 }}>
             <form onSubmit={handleEmailSignup} style={{ background: "#FFFFFF", borderRadius: 16, border: "1px solid #E8E4DF", padding: 32, boxShadow: "0 8px 32px rgba(0,0,0,0.06)" }}>
               <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 700, color: "#1A1A1A", marginBottom: 4, textAlign: "center" }}>Create your account</h2>
-              <p style={{ fontSize: 12, color: "#9A9A9A", marginBottom: 24, textAlign: "center" }}>It&apos;s free and only takes a minute.</p>
+              <p style={{ fontSize: 12, color: "#6B6B6B", marginBottom: 24, textAlign: "center" }}>It&apos;s free and only takes a minute.</p>
 
-              {successMessage && (
-                <div style={{ marginBottom: 16, padding: "12px 14px", background: "#ECFDF5", border: "1px solid #A7F3D0", borderRadius: 8, color: "#065F46", fontSize: 13, lineHeight: 1.5, display: "flex", alignItems: "flex-start", gap: 8 }}>
-                  <CheckCircle size={16} color="#059669" style={{ flexShrink: 0, marginTop: 2 }} />
-                  <span>{successMessage}</span>
-                </div>
-              )}
+              <div aria-live="polite">
+                {successMessage && (
+                  <div style={{ marginBottom: 16, padding: "12px 14px", background: "#ECFDF5", border: "1px solid #A7F3D0", borderRadius: 8, color: "#065F46", fontSize: 13, lineHeight: 1.5, display: "flex", alignItems: "flex-start", gap: 8 }}>
+                    <CheckCircle size={16} color="#059669" style={{ flexShrink: 0, marginTop: 2 }} />
+                    <span>{successMessage}</span>
+                  </div>
+                )}
 
-              {errorMessage && (
-                <div style={{ marginBottom: 16, padding: "10px 14px", background: "#FEF2F2", border: "1px solid #FCA5A5", borderRadius: 8, color: "#991B1B", fontSize: 12, display: "flex", alignItems: "center", gap: 8 }}>
-                  <AlertCircle size={14} />
-                  <span>{errorMessage}</span>
-                </div>
-              )}
+                {errorMessage && (
+                  <div style={{ marginBottom: 16, padding: "10px 14px", background: "#FEF2F2", border: "1px solid #FCA5A5", borderRadius: 8, color: "#991B1B", fontSize: 12, display: "flex", alignItems: "center", gap: 8 }}>
+                    <AlertCircle size={14} />
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
+              </div>
 
               <div style={{ marginBottom: 14 }}>
                 <label htmlFor="signup-full-name" style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A", display: "block", marginBottom: 6 }}>Full name</label>
                 <div style={{ position: "relative" }}>
-                  <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "#9A9A9A", fontSize: 14 }}>👤</span>
+                  <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "#6B6B6B", fontSize: 14 }}>👤</span>
                   <input id="signup-full-name" name="full_name" autoComplete="name" value={name} onChange={e => setName(e.target.value)} required placeholder="John Doe"
                     style={{ width: "100%", padding: "10px 12px 10px 36px", border: "1px solid #E8E4DF", borderRadius: 8, fontSize: 13, background: "#FAFAFA", outline: "none", fontFamily: "Inter, sans-serif", boxSizing: "border-box" }} />
                 </div>
@@ -153,7 +155,7 @@ export default function SignupPage() {
               <div style={{ marginBottom: 14 }}>
                 <label htmlFor="signup-email" style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A", display: "block", marginBottom: 6 }}>Email address</label>
                 <div style={{ position: "relative" }}>
-                  <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "#9A9A9A", fontSize: 14 }}>✉</span>
+                  <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "#6B6B6B", fontSize: 14 }}>✉</span>
                   <input id="signup-email" name="email" autoComplete="email" value={email} onChange={e => setEmail(e.target.value)} type="email" required placeholder="you@example.com"
                     style={{ width: "100%", padding: "10px 36px 10px 36px", border: "1px solid #E8E4DF", borderRadius: 8, fontSize: 13, background: "#FAFAFA", outline: "none", fontFamily: "Inter, sans-serif", boxSizing: "border-box" }} />
                 </div>
@@ -162,16 +164,16 @@ export default function SignupPage() {
               <div style={{ marginBottom: 20 }}>
                 <label htmlFor="signup-password" style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A", display: "block", marginBottom: 6 }}>Password</label>
                 <div style={{ position: "relative" }}>
-                  <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "#9A9A9A", fontSize: 14 }}>🔒</span>
+                  <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", color: "#6B6B6B", fontSize: 14 }}>🔒</span>
                   <input id="signup-password" name="password" autoComplete="new-password" value={password} onChange={e => setPassword(e.target.value)} type={showPassword ? "text" : "password"} required placeholder="Create a strong password"
                     style={{ width: "100%", padding: "10px 40px 10px 36px", border: "1px solid #E8E4DF", borderRadius: 8, fontSize: 13, background: "#FAFAFA", outline: "none", fontFamily: "Inter, sans-serif", boxSizing: "border-box" }} />
-                  <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#9A9A9A" }}>
+                  <button type="button" onClick={() => setShowPassword(!showPassword)} aria-label={showPassword ? "Hide password" : "Show password"} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#6B6B6B" }}>
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                 </div>
                 <div style={{ marginTop: 10, display: "flex", flexDirection: "column", gap: 6 }}>
                   {passwordChecks.map(c => (
-                    <div key={c.label} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: c.ok ? "#22C55E" : "#9A9A9A" }}>
+                    <div key={c.label} style={{ display: "flex", alignItems: "center", gap: 8, fontSize: 12, color: c.ok ? "#22C55E" : "#6B6B6B" }}>
                       <Check size={12} style={{ opacity: c.ok ? 1 : 0.3 }} />
                       {c.label}
                     </div>
@@ -185,7 +187,7 @@ export default function SignupPage() {
 
               <div style={{ display: "flex", alignItems: "center", gap: 12, marginBottom: 16 }}>
                 <div style={{ flex: 1, height: 1, background: "#E8E4DF" }} />
-                <span style={{ fontSize: 12, color: "#9A9A9A" }}>or sign up with</span>
+                <span style={{ fontSize: 12, color: "#6B6B6B" }}>or sign up with</span>
                 <div style={{ flex: 1, height: 1, background: "#E8E4DF" }} />
               </div>
 
@@ -198,12 +200,12 @@ export default function SignupPage() {
 
               <p style={{ textAlign: "center", fontSize: 13, color: "#6B6B6B" }}>
                 Already have an account?{" "}
-                <Link href="/auth/login" style={{ color: "#C49A3C", fontWeight: 600, textDecoration: "none" }}>Login</Link>
+                <Link href="/auth/login" style={{ color: "#855B0B", fontWeight: 600, textDecoration: "none" }}>Login</Link>
               </p>
             </form>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }

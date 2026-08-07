@@ -18,7 +18,7 @@ export function Footer() {
       links: [
         { name: "Blog", href: "/blog" },
         { name: "Documentation", href: "/docs" },
-        { name: "Help Center", href: "/contact" },
+        { name: "Help Center", href: "/docs" },
         { name: "API Reference", href: "/developers" },
       ],
     },

@@ -202,12 +202,12 @@ export default function HomePage() {
                   {["Wealth Mindset", "Startup Playbook", "Deep Focus", "Minimalist Living"].map(ex => (
                     <button key={ex} onClick={() => setPromptInput(ex)}
                       className="chip-hover"
-                      style={{ fontSize: 11, padding: "4px 12px", borderRadius: 999, border: "1px solid #E8E4DF", background: "#F8F5F0", cursor: "pointer", color: "#4A4A4A" }}>
+                      style={{ fontSize: 12, padding: "8px 16px", minHeight: 36, borderRadius: 999, border: "1px solid #E8E4DF", background: "#F8F5F0", cursor: "pointer", color: "#4A4A4A", display: "inline-flex", alignItems: "center" }}>
                       ✦ {ex}
                     </button>
                   ))}
                   <Link href="/examples">
-                    <button className="chip-hover" style={{ fontSize: 11, padding: "4px 12px", borderRadius: 999, border: "1px solid #E8E4DF", background: "#F8F5F0", cursor: "pointer", color: "#855B0B", fontWeight: 600 }}>More Examples →</button>
+                    <button className="chip-hover" style={{ fontSize: 12, padding: "8px 16px", minHeight: 36, borderRadius: 999, border: "1px solid #E8E4DF", background: "#F8F5F0", cursor: "pointer", color: "#855B0B", fontWeight: 600, display: "inline-flex", alignItems: "center" }}>More Examples →</button>
                   </Link>
                 </div>
               </div>

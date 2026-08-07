@@ -17,6 +17,17 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [pendingPrompt, setPendingPrompt] = useState("");
+
+  React.useEffect(() => {
+    try {
+      const stored = localStorage.getItem("bookloom_pending_prompt");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed.prompt) setPendingPrompt(parsed.prompt);
+      }
+    } catch (e) {}
+  }, []);
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,12 +95,12 @@ export default function LoginPage() {
         </Link>
       </header>
 
-      <div style={{ flex: 1, display: "grid", gridTemplateColumns: "1fr 1fr", maxWidth: 1100, margin: "0 auto", width: "100%", gap: 0 }}>
+      <main id="main-content" style={{ flex: 1, display: "grid", gridTemplateColumns: "1fr 1fr", maxWidth: 1100, margin: "0 auto", width: "100%", gap: 0 }}>
         {/* Left panel */}
         <div style={{ padding: "60px 48px", display: "flex", flexDirection: "column", justifyContent: "space-between" }}>
           <div>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#FBF3E0", border: "1px solid #EFD98A", borderRadius: 999, padding: "4px 12px", marginBottom: 24 }}>
-              <span style={{ fontSize: 11, fontWeight: 600, color: "#9A6F1A" }}>WELCOME BACK</span>
+              <span style={{ fontSize: 11, fontWeight: 600, color: "#855B0B" }}>WELCOME BACK</span>
             </div>
             <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 40, fontWeight: 800, color: "#1A1A1A", lineHeight: 1.2, marginBottom: 16 }}>
               Welcome back<br />to <span style={{ color: "#C49A3C" }}>BookLoom</span>
@@ -128,6 +139,12 @@ export default function LoginPage() {
               <p style={{ fontSize: 13, color: "#6B6B6B", marginBottom: 28, textAlign: "center" }}>Enter your details below to access your BookLoom dashboard.</p>
 
               <div aria-live="polite">
+                {pendingPrompt && (
+                  <div style={{ marginBottom: 16, padding: "10px 14px", background: "#FFFDF9", border: "1px solid #EFD98A", borderRadius: 8, color: "#855B0B", fontSize: 12, display: "flex", alignItems: "center", gap: 8 }}>
+                    <Sparkles size={14} color="#C49A3C" style={{ flexShrink: 0 }} />
+                    <span>Saved prompt: <strong>&quot;{pendingPrompt.length > 40 ? pendingPrompt.slice(0, 40) + "..." : pendingPrompt}&quot;</strong></span>
+                  </div>
+                )}
                 {errorMessage && (
                   <div style={{ marginBottom: 16, padding: "10px 14px", background: "#FEF2F2", border: "1px solid #FCA5A5", borderRadius: 8, color: "#991B1B", fontSize: 12, display: "flex", alignItems: "center", gap: 8 }}>
                     <AlertCircle size={14} />
@@ -185,7 +202,7 @@ export default function LoginPage() {
             </form>
           </div>
         </div>
-      </div>
+      </main>
     </div>
   );
 }
