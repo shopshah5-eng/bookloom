@@ -180,7 +180,7 @@ export default function LoginPage() {
               </div>
 
               <p style={{ textAlign: "center", fontSize: 13, color: "#6B6B6B" }}>
-                Don't have an account?{" "}
+                Don&apos;t have an account?{" "}
                 <Link href="/auth/signup" style={{ color: "#C49A3C", fontWeight: 600, textDecoration: "none" }}>Sign up</Link>
               </p>
             </form>

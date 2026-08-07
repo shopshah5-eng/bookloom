@@ -101,7 +101,7 @@ export default function DashboardPage() {
             <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 700, color: "#1A1A1A", margin: 0 }}>
               Good evening, {displayName} 👋
             </h1>
-            <p style={{ fontSize: 13, color: "#9A9A9A", margin: 0 }}>Let's create something extraordinary today.</p>
+            <p style={{ fontSize: 13, color: "#9A9A9A", margin: 0 }}>Let&apos;s create something extraordinary today.</p>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
             <Link href="/dashboard/create">

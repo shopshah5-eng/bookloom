@@ -44,7 +44,7 @@ export default function ExamplesPage() {
             <span style={{ fontSize: 11, fontWeight: 600, color: "#9A6F1A" }}>EXAMPLE EBOOKS</span>
           </div>
           <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 48, fontWeight: 800, color: "#1A1A1A", lineHeight: 1.15, margin: "0 0 16px" }}>
-            See What's Possible with<br />
+            See What&apos;s Possible with<br />
             <span style={{ color: "#C49A3C", fontStyle: "italic" }}>BookLoom AI</span>
           </h1>
           <p style={{ fontSize: 15, color: "#6B6B6B", lineHeight: 1.7, marginBottom: 32 }}>

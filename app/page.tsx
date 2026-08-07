@@ -320,7 +320,7 @@ export default function HomePage() {
             </button>
             {TESTIMONIALS.map((t, i) => (
               <div key={i} style={{ background: "#FFFFFF", borderRadius: 12, border: "1px solid #E8E4DF", padding: 32 }}>
-                <div style={{ fontSize: 48, color: "#C49A3C", lineHeight: 1, marginBottom: 8, fontFamily: "Georgia" }}>"</div>
+                <div style={{ fontSize: 48, color: "#C49A3C", lineHeight: 1, marginBottom: 8, fontFamily: "Georgia" }}>&quot;</div>
                 <p style={{ fontSize: 14, color: "#4A4A4A", lineHeight: 1.7, marginBottom: 24, fontStyle: "italic" }}>{t.quote}</p>
                 <div style={{ display: "flex", gap: 4, marginBottom: 12 }}>
                   {[...Array(t.rating)].map((_, j) => <Star key={j} size={14} color="#C49A3C" fill="#C49A3C" />)}

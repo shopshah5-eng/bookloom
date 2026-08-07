@@ -47,7 +47,7 @@ export default function PublishingPage() {
               <span className="text-xs font-medium text-zinc-400">Active Theme</span>
               <Layers className="w-4 h-4 text-indigo-400" />
             </div>
-            <p className="text-lg font-bold text-zinc-100 mt-2">Classic Novel (6x9")</p>
+            <p className="text-lg font-bold text-zinc-100 mt-2">Classic Novel (6x9&quot;)</p>
             <span className="text-[10px] text-zinc-400">Custom drop caps enabled</span>
           </Card>
         </div>

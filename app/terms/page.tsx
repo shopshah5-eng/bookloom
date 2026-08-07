@@ -56,7 +56,7 @@ export default function TermsPage() {
 
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 700, color: "#1A1A1A", marginTop: 32, marginBottom: 12 }}>6. Limitation of Liability</h2>
           <p>
-            BookLoom provides services "as is" without warranty of any kind. In no event shall BookLoom or its operators be liable for indirect, consequential, or special damages arising from service usage or platform downtime.
+            BookLoom provides services &quot;as is&quot; without warranty of any kind. In no event shall BookLoom or its operators be liable for indirect, consequential, or special damages arising from service usage or platform downtime.
           </p>
 
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 700, color: "#1A1A1A", marginTop: 32, marginBottom: 12 }}>7. Contact & Support</h2>

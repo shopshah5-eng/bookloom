@@ -190,7 +190,7 @@ export default function BlogPage() {
                 </>
               ) : (
                 <div style={{ background: "#E8F5E9", color: "#2E7D32", padding: 12, borderRadius: 8, fontSize: 13, fontWeight: 600 }}>
-                  ✓ You're subscribed! Check your inbox soon.
+                  ✓ You&apos;re subscribed! Check your inbox soon.
                 </div>
               )}
             </div>

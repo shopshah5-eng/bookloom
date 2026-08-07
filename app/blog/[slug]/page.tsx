@@ -159,9 +159,13 @@ export default function SingleBlogPostPage() {
           <div style={{ borderTop: "1px solid #E8E4DF", paddingTop: 24, marginTop: 40, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
             <span style={{ fontWeight: 600, fontSize: 13, color: "#1A1A1A" }}>Share this article</span>
             <div style={{ display: "flex", gap: 10 }}>
-              {[<Twitter size={16} />, <Linkedin size={16} />, <Facebook size={16} />].map((icon, i) => (
-                <button key={i} style={{ width: 36, height: 36, borderRadius: 8, border: "1px solid #E8E4DF", background: "#F8F5F0", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#4A4A4A" }}>
-                  {icon}
+              {[
+                { Icon: Twitter, name: "twitter" },
+                { Icon: Linkedin, name: "linkedin" },
+                { Icon: Facebook, name: "facebook" },
+              ].map(({ Icon, name }) => (
+                <button key={name} style={{ width: 36, height: 36, borderRadius: 8, border: "1px solid #E8E4DF", background: "#F8F5F0", cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", color: "#4A4A4A" }}>
+                  <Icon size={16} />
                 </button>
               ))}
             </div>

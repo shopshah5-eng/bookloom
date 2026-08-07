@@ -25,7 +25,7 @@ export default function FAQPage() {
             <span style={{ fontSize: 11, fontWeight: 600, color: "#9A6F1A" }}>FREQUENTLY ASKED QUESTIONS</span>
           </div>
           <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 48, fontWeight: 800, color: "#1A1A1A", margin: "0 0 16px" }}>Everything You Need to Know</h1>
-          <p style={{ fontSize: 15, color: "#6B6B6B" }}>Got questions about BookLoom? We've got answers.</p>
+          <p style={{ fontSize: 15, color: "#6B6B6B" }}>Got questions about BookLoom? We&apos;ve got answers.</p>
         </div>
       </section>
 

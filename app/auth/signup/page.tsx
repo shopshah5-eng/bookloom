@@ -122,7 +122,7 @@ export default function SignupPage() {
           <div style={{ width: "100%", maxWidth: 420 }}>
             <form onSubmit={handleEmailSignup} style={{ background: "#FFFFFF", borderRadius: 16, border: "1px solid #E8E4DF", padding: 36, boxShadow: "0 8px 32px rgba(0,0,0,0.06)" }}>
               <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 700, color: "#1A1A1A", marginBottom: 4, textAlign: "center" }}>Create your account</h2>
-              <p style={{ fontSize: 12, color: "#9A9A9A", marginBottom: 28, textAlign: "center" }}>It's free and only takes a minute.</p>
+              <p style={{ fontSize: 12, color: "#9A9A9A", marginBottom: 28, textAlign: "center" }}>It&apos;s free and only takes a minute.</p>
 
               {errorMessage && (
                 <div style={{ marginBottom: 16, padding: "10px 14px", background: "#FEF2F2", border: "1px solid #FCA5A5", borderRadius: 8, color: "#991B1B", fontSize: 12, display: "flex", alignItems: "center", gap: 8 }}>

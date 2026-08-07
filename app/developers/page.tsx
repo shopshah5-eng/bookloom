@@ -260,7 +260,7 @@ export default function DeveloperPortalPage() {
                   </pre>
                 ) : (
                   <div style={{ color: "#6B6B6B", fontSize: 12, textAlign: "center", marginTop: 100 }}>
-                    Click "Run Test Request" to execute API call
+                    Click &quot;Run Test Request&quot; to execute API call
                   </div>
                 )}
               </div>

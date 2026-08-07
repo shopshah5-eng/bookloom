@@ -128,7 +128,7 @@ export function BookPreviewModal({ book, onClose }: BookPreviewModalProps) {
                 Sample Chapter Excerpt
               </h3>
               <div style={{ padding: 16, background: "#FFFDF9", borderLeft: "3px solid #C49A3C", border: "1px solid #E8E4DF", borderRadius: "0 8px 8px 0", fontSize: 13, color: "#4A4A4A", fontStyle: "italic", lineHeight: 1.7 }}>
-                "{defaultExcerpt}"
+                &quot;{defaultExcerpt}&quot;
               </div>
             </div>
 

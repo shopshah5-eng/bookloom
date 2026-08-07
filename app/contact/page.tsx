@@ -46,7 +46,7 @@ export default function ContactPage() {
       <section style={{ padding: "72px 24px 80px", maxWidth: 800, margin: "0 auto" }}>
         <div style={{ textAlign: "center", marginBottom: 40 }}>
           <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 40, fontWeight: 800, color: "#1A1A1A", marginBottom: 12 }}>Contact Support</h1>
-          <p style={{ fontSize: 15, color: "#6B6B6B" }}>We're here to help you build, design, and publish your next best-selling ebook.</p>
+          <p style={{ fontSize: 15, color: "#6B6B6B" }}>We&apos;re here to help you build, design, and publish your next best-selling ebook.</p>
         </div>
 
         <div style={{ background: "#FFFFFF", borderRadius: 16, border: "1px solid #E8E4DF", padding: 36, boxShadow: "0 8px 32px rgba(0,0,0,0.04)" }}>

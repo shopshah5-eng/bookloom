@@ -96,7 +96,7 @@ export function AICopilotPanel({ onInsertText }: AICopilotPanelProps) {
             <span>AI Output Result</span>
             <CheckCircle2 className="h-3.5 w-3.5" />
           </div>
-          <p className="text-xs text-[#FDFBF7] font-serif leading-relaxed italic">"{generatedResult}"</p>
+          <p className="text-xs text-[#FDFBF7] font-serif leading-relaxed italic">&quot;{generatedResult}&quot;</p>
           <Button
             variant="gold"
             size="sm"

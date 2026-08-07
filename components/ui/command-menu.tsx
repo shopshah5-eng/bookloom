@@ -74,7 +74,7 @@ export function CommandMenu() {
 
         <div className="max-h-80 overflow-y-auto pt-2 space-y-1">
           {filtered.length === 0 ? (
-            <div className="p-6 text-center text-xs text-[#71717A]">No commands found matching "{query}"</div>
+            <div className="p-6 text-center text-xs text-[#71717A]">No commands found matching &quot;{query}&quot;</div>
           ) : (
             filtered.map((item, idx) => {
               const Icon = item.icon;
