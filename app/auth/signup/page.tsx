@@ -18,6 +18,7 @@ export default function SignupPage() {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const passwordChecks = [
     { label: "At least 8 characters", ok: password.length >= 8 },
@@ -28,24 +29,14 @@ export default function SignupPage() {
   const handleEmailSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMessage("");
+    setSuccessMessage("");
+
     if (!name || !email || !password) {
       setErrorMessage("Please complete all required fields.");
       return;
     }
     if (password.length < 8) {
       setErrorMessage("Password must be at least 8 characters.");
-      return;
-    }
-
-  const [successMessage, setSuccessMessage] = useState("");
-
-  const handleEmailSignup = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setErrorMessage("");
-    setSuccessMessage("");
-
-    if (password.length < 8) {
-      setErrorMessage("Password must be at least 8 characters");
       return;
     }
 
