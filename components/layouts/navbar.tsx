@@ -32,7 +32,7 @@ export function Navbar() {
   const pathname = usePathname();
 
   React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 15);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
@@ -54,9 +54,10 @@ export function Navbar() {
   return (
     <header style={{
       background: scrolled ? "rgba(255, 255, 255, 0.92)" : "#FFFFFF",
-      backdropFilter: scrolled ? "blur(8px)" : "none",
+      backdropFilter: scrolled ? "blur(12px)" : "none",
+      WebkitBackdropFilter: scrolled ? "blur(12px)" : "none",
       borderBottom: "1px solid #E8E4DF",
-      boxShadow: scrolled ? "0 4px 20px rgba(0,0,0,0.06)" : "none",
+      boxShadow: scrolled ? "0 4px 24px rgba(0,0,0,0.08)" : "none",
       position: "sticky", top: 0, zIndex: 50,
       transition: "all 0.2s ease"
     }}>

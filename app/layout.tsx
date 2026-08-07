@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     apple: "/icon.svg",
   },
   alternates: {
-    canonical: siteUrl,
+    canonical: "./",
   },
   openGraph: {
     type: "website",

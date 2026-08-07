@@ -199,13 +199,23 @@ export default function HomePage() {
                 />
                 <div aria-live="polite" style={{ fontSize: 11, color: "#6B6B6B", marginTop: 4 }}>{promptInput.length}/4000</div>
                 <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
-                  {["Wealth Mindset", "Startup Playbook", "Deep Focus", "Minimalist Living"].map(ex => (
-                    <button key={ex} onClick={() => setPromptInput(ex)}
-                      className="chip-hover"
-                      style={{ fontSize: 12, padding: "8px 16px", minHeight: 36, borderRadius: 999, border: "1px solid #E8E4DF", background: "#F8F5F0", cursor: "pointer", color: "#4A4A4A", display: "inline-flex", alignItems: "center" }}>
-                      ✦ {ex}
-                    </button>
-                  ))}
+                  {["Wealth Mindset", "Startup Playbook", "Deep Focus", "Minimalist Living"].map(ex => {
+                    const isSelected = promptInput === ex;
+                    return (
+                      <button key={ex} onClick={() => setPromptInput(ex)}
+                        className="chip-hover"
+                        style={{
+                          fontSize: 12, padding: "8px 16px", minHeight: 36, borderRadius: 999,
+                          border: `1px solid ${isSelected ? "#EFD98A" : "#E8E4DF"}`,
+                          background: isSelected ? "#FBF3E0" : "#F8F5F0",
+                          cursor: "pointer", color: isSelected ? "#855B0B" : "#4A4A4A",
+                          fontWeight: isSelected ? 600 : 400,
+                          display: "inline-flex", alignItems: "center"
+                        }}>
+                        ✦ {ex}
+                      </button>
+                    );
+                  })}
                   <Link href="/examples">
                     <button className="chip-hover" style={{ fontSize: 12, padding: "8px 16px", minHeight: 36, borderRadius: 999, border: "1px solid #E8E4DF", background: "#F8F5F0", cursor: "pointer", color: "#855B0B", fontWeight: 600, display: "inline-flex", alignItems: "center" }}>More Examples →</button>
                   </Link>
@@ -231,33 +241,42 @@ export default function HomePage() {
                 </select>
               </div>
 
-              <Link
-                href={`/dashboard/create?prompt=${encodeURIComponent(promptInput)}&provider=${encodeURIComponent(aiProvider)}&theme=${encodeURIComponent(theme)}`}
-                onClick={(e) => {
-                  if (!promptInput.trim()) {
-                    e.preventDefault();
-                    return;
-                  }
-                  try {
-                    localStorage.setItem("bookloom_pending_prompt", JSON.stringify({ prompt: promptInput, provider: aiProvider, theme }));
-                  } catch (err) {}
-                }}
-              >
-                <button
-                  disabled={!promptInput.trim()}
-                  className="btn-shimmer btn-gold-glow"
-                  style={{
-                    width: "100%", background: !promptInput.trim() ? "#9A9A9A" : "#1A1A1A",
-                    color: "#FFFFFF", border: "none", borderRadius: 10,
-                    padding: "14px 24px", fontSize: 14, fontWeight: 600,
-                    cursor: !promptInput.trim() ? "not-allowed" : "pointer",
-                    display: "flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap",
-                    fontFamily: "Inter, sans-serif", opacity: !promptInput.trim() ? 0.7 : 1
+              <div>
+                <Link
+                  href={`/dashboard/create?prompt=${encodeURIComponent(promptInput)}&provider=${encodeURIComponent(aiProvider)}&theme=${encodeURIComponent(theme)}`}
+                  onClick={(e) => {
+                    if (!promptInput.trim()) {
+                      e.preventDefault();
+                      return;
+                    }
+                    try {
+                      localStorage.getItem("bookloom_pending_prompt");
+                      localStorage.setItem("bookloom_pending_prompt", JSON.stringify({ prompt: promptInput, provider: aiProvider, theme }));
+                    } catch (err) {}
                   }}
                 >
-                  Generate Outline <Sparkles size={14} />
-                </button>
-              </Link>
+                  <button
+                    disabled={!promptInput.trim()}
+                    className="btn-shimmer btn-gold-glow"
+                    title={!promptInput.trim() ? "Type your prompt above to enable generator" : "Click to generate outline"}
+                    style={{
+                      width: "100%", background: !promptInput.trim() ? "#9A9A9A" : "#1A1A1A",
+                      color: "#FFFFFF", border: "none", borderRadius: 10,
+                      padding: "14px 24px", fontSize: 14, fontWeight: 600,
+                      cursor: !promptInput.trim() ? "not-allowed" : "pointer",
+                      display: "flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap",
+                      fontFamily: "Inter, sans-serif", opacity: !promptInput.trim() ? 0.7 : 1
+                    }}
+                  >
+                    Generate Outline <Sparkles size={14} />
+                  </button>
+                </Link>
+                {!promptInput.trim() && (
+                  <div style={{ fontSize: 11, color: "#855B0B", marginTop: 6, textAlign: "center" }}>
+                    💡 Type a prompt or pick an example to enable
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>
@@ -343,7 +362,7 @@ export default function HomePage() {
                   <img src={b.img} alt={b.title} loading="lazy" style={{ width: "100%", height: 200, objectFit: "cover" }} />
                   <div style={{ padding: 14 }}>
                     <span style={{ fontSize: 10, fontWeight: 600, color: "#855B0B", textTransform: "uppercase" }}>{b.category}</span>
-                    <h4 style={{ fontSize: 14, fontWeight: 600, color: "#1A1A1A", margin: "4px 0 8px" }}>{b.title}</h4>
+                    <h3 style={{ fontSize: 14, fontWeight: 600, color: "#1A1A1A", margin: "4px 0 8px" }}>{b.title}</h3>
                     <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#6B6B6B" }}>
                       <span>👁 {b.views} readers</span>
                       <span>📄 {b.pages} pages</span>

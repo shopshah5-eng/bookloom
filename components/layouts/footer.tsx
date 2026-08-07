@@ -89,9 +89,9 @@ export function Footer() {
                 <ul style={{ listStyle: "none", margin: 0, padding: 0, display: "flex", flexDirection: "column", gap: 8 }}>
                   {col.links?.map((link) => (
                     <li key={link.name}>
-                      <Link href={link.href} style={{ fontSize: 13, color: "#6B6B6B", textDecoration: "none", transition: "color 0.15s" }}
+                      <Link href={link.href} style={{ fontSize: 13, color: "#9A9A9A", textDecoration: "none", transition: "color 0.15s" }}
                         onMouseEnter={e => (e.currentTarget.style.color = "#FFFFFF")}
-                        onMouseLeave={e => (e.currentTarget.style.color = "#6B6B6B")}
+                        onMouseLeave={e => (e.currentTarget.style.color = "#9A9A9A")}
                       >
                         {link.name}
                       </Link>
@@ -104,10 +104,10 @@ export function Footer() {
         </div>
 
         <div style={{ borderTop: "1px solid #2D2D2D", paddingTop: 24, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <span style={{ fontSize: 12, color: "#4A4A4A" }}>© {new Date().getFullYear()} BookLoom. All rights reserved.</span>
+          <span style={{ fontSize: 12, color: "#9A9A9A" }}>© {new Date().getFullYear()} BookLoom. All rights reserved.</span>
           <div style={{ display: "flex", gap: 24 }}>
-            <Link href="/privacy" style={{ fontSize: 12, color: "#4A4A4A", textDecoration: "none" }}>Privacy Policy</Link>
-            <Link href="/terms" style={{ fontSize: 12, color: "#4A4A4A", textDecoration: "none" }}>Terms of Service</Link>
+            <Link href="/privacy" style={{ fontSize: 12, color: "#9A9A9A", textDecoration: "none" }}>Privacy Policy</Link>
+            <Link href="/terms" style={{ fontSize: 12, color: "#9A9A9A", textDecoration: "none" }}>Terms of Service</Link>
           </div>
         </div>
       </div>

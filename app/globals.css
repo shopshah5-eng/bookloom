@@ -198,6 +198,26 @@ button:active, a.btn-active:active {
   box-shadow: 0 6px 20px rgba(196, 154, 60, 0.35);
 }
 
+/* === Card Hover & Image Zoom === */
+.card-hover {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease !important;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08) !important;
+  border-color: #C49A3C !important;
+}
+
+.img-hover {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.card-hover:hover .img-hover,
+.img-hover:hover {
+  transform: scale(1.04) !important;
+}
+
 /* === Chip & Tag Hover === */
 .chip-hover {
   transition: all 0.15s ease;
