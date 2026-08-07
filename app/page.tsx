@@ -41,7 +41,59 @@ const TESTIMONIALS = [
     quote: "As a self-publisher, design and export formatting used to take weeks. BookLoom handles covers, TOC, and PDF styling seamlessly.",
     name: "Priya Sharma", role: "Independent Publisher & Educator", rating: 5,
   },
+  {
+    quote: "The vector SVG illustration engine and typography presets turned my raw notes into a bestseller on Amazon KDP within a weekend.",
+    name: "David Vance", role: "Non-Fiction Author & Consultant", rating: 5,
+  },
+  {
+    quote: "Creating course workbooks and lead magnet EPUBs used to cost thousands in design fees. BookLoom paid for itself on day one.",
+    name: "Elena Rostova", role: "Digital Product Creator", rating: 5,
+  },
+  {
+    quote: "From chapter outlines to cover art generation, BookLoom is the most intuitive publishing platform I've ever tested.",
+    name: "Marcus Chen", role: "Growth Lead & Tech Writer", rating: 5,
+  },
 ];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "SoftwareApplication",
+      "name": "BookLoom",
+      "applicationCategory": "DesignApplication",
+      "operatingSystem": "All",
+      "url": "https://bookloom-phi.vercel.app",
+      "description": "AI-Powered Ebook Creator & Publishing Studio",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    },
+    {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "How does BookLoom generate ebooks with AI?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "BookLoom uses advanced AI models like GPT-4o, Claude 3.5, and Gemini to generate structured chapter outlines, manuscript content, cover designs, and print-ready PDF and EPUB files from a single topic prompt."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I export my ebook to PDF and EPUB formats?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes, BookLoom supports high-resolution PDF exports, reflowable EPUB 3.0 ebooks, and ZIP packages containing all raw Markdown and vector SVG assets."
+          }
+        }
+      ]
+    }
+  ]
+};
 
 export default function HomePage() {
   const [promptInput, setPromptInput] = useState("");
@@ -69,7 +121,8 @@ export default function HomePage() {
     <div style={{ background: "#F8F5F0", minHeight: "100vh", fontFamily: "Inter, sans-serif" }}>
       <Navbar />
 
-      {/* ===== HERO ===== */}
+      <main id="main-content">
+        {/* ===== HERO ===== */}
       <section style={{ background: "#F8F5F0", padding: "48px 16px 0" }} className="md:px-6 md:pt-16">
         <div style={{ maxWidth: 1280, margin: "0 auto" }} className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Left */}
@@ -111,7 +164,8 @@ export default function HomePage() {
             <img
               src="/images/hero_books_display.png"
               alt="BookLoom example ebooks"
-              loading="lazy"
+              loading="eager"
+              fetchPriority="high"
               style={{ width: "100%", maxWidth: 500, objectFit: "contain", borderRadius: 12 }}
             />
           </div>
@@ -125,7 +179,7 @@ export default function HomePage() {
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
               <Sparkles size={16} color="#C49A3C" />
-              <span style={{ fontWeight: 600, fontSize: 16, color: "#1A1A1A" }}>Start Creating Your Ebook</span>
+              <span className="heading-hover" style={{ fontWeight: 600, fontSize: 16, color: "#1A1A1A" }}>Start Creating Your Ebook</span>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
@@ -143,7 +197,7 @@ export default function HomePage() {
                     fontFamily: "Inter, sans-serif", outline: "none"
                   }}
                 />
-                <div style={{ fontSize: 11, color: "#9A9A9A", marginTop: 4 }}>{promptInput.length}/4000</div>
+                <div aria-live="polite" style={{ fontSize: 11, color: "#6B6B6B", marginTop: 4 }}>{promptInput.length}/4000</div>
                 <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
                   {["Wealth Mindset", "Startup Playbook", "Deep Focus", "Minimalist Living"].map(ex => (
                     <button key={ex} onClick={() => setPromptInput(ex)}
@@ -179,18 +233,28 @@ export default function HomePage() {
 
               <Link
                 href={`/dashboard/create?prompt=${encodeURIComponent(promptInput)}&provider=${encodeURIComponent(aiProvider)}&theme=${encodeURIComponent(theme)}`}
-                onClick={() => {
+                onClick={(e) => {
+                  if (!promptInput.trim()) {
+                    e.preventDefault();
+                    return;
+                  }
                   try {
                     localStorage.setItem("bookloom_pending_prompt", JSON.stringify({ prompt: promptInput, provider: aiProvider, theme }));
-                  } catch (e) {}
+                  } catch (err) {}
                 }}
               >
-                <button className="btn-shimmer btn-gold-glow" style={{
-                  width: "100%", background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 10,
-                  padding: "14px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer",
-                  display: "flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap",
-                  fontFamily: "Inter, sans-serif"
-                }}>
+                <button
+                  disabled={!promptInput.trim()}
+                  className="btn-shimmer btn-gold-glow"
+                  style={{
+                    width: "100%", background: !promptInput.trim() ? "#9A9A9A" : "#1A1A1A",
+                    color: "#FFFFFF", border: "none", borderRadius: 10,
+                    padding: "14px 24px", fontSize: 14, fontWeight: 600,
+                    cursor: !promptInput.trim() ? "not-allowed" : "pointer",
+                    display: "flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap",
+                    fontFamily: "Inter, sans-serif", opacity: !promptInput.trim() ? 0.7 : 1
+                  }}
+                >
                   Generate Outline <Sparkles size={14} />
                 </button>
               </Link>
@@ -203,7 +267,7 @@ export default function HomePage() {
       <section style={{ padding: "80px 24px" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 36, fontWeight: 700, color: "#1A1A1A", margin: "0 0 8px" }}>
+            <h2 className="heading-hover" style={{ fontFamily: "'Playfair Display', serif", fontSize: 36, fontWeight: 700, color: "#1A1A1A", margin: "0 0 8px" }}>
               Powerful Features for Beautiful Ebooks
             </h2>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: "#C49A3C", fontSize: 18, marginBottom: 8 }}>✦</div>
@@ -211,7 +275,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {features.map((f) => (
-              <div key={f.title} style={{
+              <div key={f.title} className="card-hover" style={{
                 background: "#FFFFFF", border: "1px solid #E8E4DF", borderRadius: 12,
                 padding: 24, textAlign: "center"
               }}>
@@ -230,7 +294,7 @@ export default function HomePage() {
       <section style={{ padding: "80px 24px", background: "#FFFFFF", borderTop: "1px solid #E8E4DF", borderBottom: "1px solid #E8E4DF" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 56 }}>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 36, fontWeight: 700, color: "#1A1A1A", margin: "0 0 8px" }}>
+            <h2 className="heading-hover" style={{ fontFamily: "'Playfair Display', serif", fontSize: 36, fontWeight: 700, color: "#1A1A1A", margin: "0 0 8px" }}>
               How BookLoom Works
             </h2>
             <p style={{ fontSize: 15, color: "#6B6B6B", margin: 0 }}>From idea to published ebook in four simple steps</p>
@@ -238,7 +302,7 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {howItWorks.map((s) => (
-              <div key={s.step} style={{
+              <div key={s.step} className="card-hover" style={{
                 background: "#F8F5F0", border: "1px solid #E8E4DF", borderRadius: 16,
                 padding: 28, position: "relative"
               }}>
@@ -263,7 +327,7 @@ export default function HomePage() {
       <section style={{ padding: "80px 24px" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 32, fontWeight: 700, color: "#1A1A1A", margin: "0 0 8px" }}>
+            <h2 className="heading-hover" style={{ fontFamily: "'Playfair Display', serif", fontSize: 32, fontWeight: 700, color: "#1A1A1A", margin: "0 0 8px" }}>
               Created with BookLoom
             </h2>
             <p style={{ fontSize: 14, color: "#6B6B6B", margin: 0 }}>Real ebooks authored and styled by creators using AI</p>
@@ -271,20 +335,22 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
             {BOOKS.map((b) => (
-              <div key={b.title} className="card-hover img-zoom-container" style={{
-                background: "#FFFFFF", border: "1px solid #E8E4DF", borderRadius: 12,
-                overflow: "hidden", boxShadow: "0 2px 12px rgba(0,0,0,0.04)", cursor: "pointer"
-              }}>
-                <img src={b.img} alt={b.title} loading="lazy" style={{ width: "100%", height: 200, objectFit: "cover" }} />
-                <div style={{ padding: 14 }}>
-                  <span style={{ fontSize: 10, fontWeight: 600, color: "#855B0B", textTransform: "uppercase" }}>{b.category}</span>
-                  <h4 style={{ fontSize: 14, fontWeight: 600, color: "#1A1A1A", margin: "4px 0 8px" }}>{b.title}</h4>
-                  <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#9A9A9A" }}>
-                    <span>👁 {b.views} readers</span>
-                    <span>📄 {b.pages} pages</span>
+              <Link key={b.title} href="/examples" style={{ textDecoration: "none", color: "inherit" }}>
+                <div className="card-hover img-zoom-container" style={{
+                  background: "#FFFFFF", border: "1px solid #E8E4DF", borderRadius: 12,
+                  overflow: "hidden", boxShadow: "0 2px 12px rgba(0,0,0,0.04)"
+                }}>
+                  <img src={b.img} alt={b.title} loading="lazy" style={{ width: "100%", height: 200, objectFit: "cover" }} />
+                  <div style={{ padding: 14 }}>
+                    <span style={{ fontSize: 10, fontWeight: 600, color: "#855B0B", textTransform: "uppercase" }}>{b.category}</span>
+                    <h4 style={{ fontSize: 14, fontWeight: 600, color: "#1A1A1A", margin: "4px 0 8px" }}>{b.title}</h4>
+                    <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#6B6B6B" }}>
+                      <span>👁 {b.views} readers</span>
+                      <span>📄 {b.pages} pages</span>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -294,7 +360,7 @@ export default function HomePage() {
       <section style={{ padding: "80px 24px", background: "#FFFFFF", borderTop: "1px solid #E8E4DF", borderBottom: "1px solid #E8E4DF" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: 48 }}>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 32, fontWeight: 700, color: "#1A1A1A", margin: "0 0 8px" }}>
+            <h2 className="heading-hover" style={{ fontFamily: "'Playfair Display', serif", fontSize: 32, fontWeight: 700, color: "#1A1A1A", margin: "0 0 8px" }}>
               7 Signature Visual Themes
             </h2>
             <p style={{ fontSize: 14, color: "#6B6B6B", margin: 0 }}>Tailored typography, colors, and layout presets for every genre</p>
@@ -330,13 +396,17 @@ export default function HomePage() {
       {/* ===== TESTIMONIALS ===== */}
       <section style={{ padding: "80px 24px", background: "#F8F5F0" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 32, fontWeight: 700, color: "#1A1A1A", textAlign: "center", marginBottom: 48 }}>
+          <h2 className="heading-hover" style={{ fontFamily: "'Playfair Display', serif", fontSize: 32, fontWeight: 700, color: "#1A1A1A", textAlign: "center", marginBottom: 48 }}>
             Loved by Creators Worldwide
           </h2>
 
           <div style={{ position: "relative" }}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {TESTIMONIALS.slice((testimonialIdx % Math.ceil(TESTIMONIALS.length / 3)) * 3, ((testimonialIdx % Math.ceil(TESTIMONIALS.length / 3)) + 1) * 3).map((t) => (
+              {[
+                TESTIMONIALS[testimonialIdx % TESTIMONIALS.length],
+                TESTIMONIALS[(testimonialIdx + 1) % TESTIMONIALS.length],
+                TESTIMONIALS[(testimonialIdx + 2) % TESTIMONIALS.length],
+              ].map((t) => (
                 <div
                   key={t.name}
                   className="card-hover animate-fade-in-up"
@@ -351,22 +421,22 @@ export default function HomePage() {
                     {[...Array(t.rating)].map((_, j) => <Star key={j} size={14} color="#C49A3C" fill="#C49A3C" />)}
                   </div>
                   <div style={{ fontWeight: 600, fontSize: 14, color: "#1A1A1A" }}>{t.name}</div>
-                  <div style={{ fontSize: 12, color: "#9A9A9A" }}>{t.role}</div>
+                  <div style={{ fontSize: 12, color: "#6B6B6B" }}>{t.role}</div>
                 </div>
               ))}
             </div>
 
             <div style={{ display: "flex", justifyContent: "center", gap: 12, marginTop: 24 }}>
               <button
-                onClick={() => setTestimonialIdx((testimonialIdx - 1 + Math.ceil(TESTIMONIALS.length / 3)) % Math.ceil(TESTIMONIALS.length / 3))}
-                aria-label="Previous Testimonial Page"
+                onClick={() => setTestimonialIdx((testimonialIdx - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)}
+                aria-label="Previous Testimonials"
                 style={{ background: "#FFFFFF", border: "1px solid #E8E4DF", borderRadius: "50%", width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
               >
                 <ChevronLeft size={16} />
               </button>
               <button
-                onClick={() => setTestimonialIdx((testimonialIdx + 1) % Math.ceil(TESTIMONIALS.length / 3))}
-                aria-label="Next Testimonial Page"
+                onClick={() => setTestimonialIdx((testimonialIdx + 1) % TESTIMONIALS.length)}
+                aria-label="Next Testimonials"
                 style={{ background: "#FFFFFF", border: "1px solid #E8E4DF", borderRadius: "50%", width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
               >
                 <ChevronRight size={16} />
@@ -375,6 +445,12 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
 
       {/* ===== CTA FOOTER BANNER ===== */}
       <section style={{ padding: "64px 24px", background: "#F8F5F0" }}>
@@ -410,6 +486,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+      </main>
 
       <Footer />
     </div>

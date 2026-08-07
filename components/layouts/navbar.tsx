@@ -26,11 +26,40 @@ const navLinks = [
 export function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const navRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
+  React.useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  React.useEffect(() => {
+    const handleClickOutside = (e: MouseEvent | TouchEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setResourcesOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    document.addEventListener("touchstart", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("touchstart", handleClickOutside);
+    };
+  }, []);
+
   return (
-    <header style={{ background: "#FFFFFF", borderBottom: "1px solid #E8E4DF", position: "sticky", top: 0, zIndex: 50 }}>
+    <header style={{
+      background: scrolled ? "rgba(255, 255, 255, 0.92)" : "#FFFFFF",
+      backdropFilter: scrolled ? "blur(8px)" : "none",
+      borderBottom: "1px solid #E8E4DF",
+      boxShadow: scrolled ? "0 4px 20px rgba(0,0,0,0.06)" : "none",
+      position: "sticky", top: 0, zIndex: 50,
+      transition: "all 0.2s ease"
+    }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
 
         {/* Logo */}
@@ -47,14 +76,14 @@ export function Navbar() {
             <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontWeight: 700, fontSize: 18, color: "#1A1A1A", lineHeight: 1.2 }}>
               BookLoom
             </div>
-            <div style={{ fontSize: 9, color: "#9A9A9A", letterSpacing: "0.12em", textTransform: "uppercase", fontFamily: "Inter, sans-serif" }}>
+            <div style={{ fontSize: 9, color: "#6B6B6B", letterSpacing: "0.12em", textTransform: "uppercase", fontFamily: "Inter, sans-serif" }}>
               AI EBOOK GENERATOR
             </div>
           </div>
         </Link>
 
         {/* Desktop Nav */}
-        <nav style={{ display: "flex", alignItems: "center", gap: 32 }} className="hidden-mobile">
+        <nav ref={navRef} style={{ display: "flex", alignItems: "center", gap: 32 }} className="hidden-mobile">
           {navLinks.map((link) =>
             link.children ? (
               <div
@@ -71,12 +100,12 @@ export function Navbar() {
                 <button
                   aria-label="Toggle Resources Menu"
                   aria-expanded={resourcesOpen}
-                  aria-haspopup="true"
+                  aria-haspopup="menu"
                   onClick={() => setResourcesOpen(!resourcesOpen)}
                   onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
+                    if (e.key === "Enter" || e.key === " " || e.key === "ArrowDown") {
                       e.preventDefault();
-                      setResourcesOpen(!resourcesOpen);
+                      setResourcesOpen(true);
                     } else if (e.key === "Escape") {
                       setResourcesOpen(false);
                     }
@@ -99,6 +128,7 @@ export function Navbar() {
                 </button>
                 {resourcesOpen && (
                   <div
+                    role="menu"
                     className="animate-dropdown-slide"
                     style={{
                       position: "absolute", top: "100%", left: "50%", transform: "translateX(-50%)",
@@ -115,7 +145,7 @@ export function Navbar() {
                     }}
                   >
                     {link.children.map((child) => (
-                      <Link key={child.name} href={child.href} style={{
+                      <Link key={child.name} href={child.href} role="menuitem" style={{
                         display: "block", padding: "10px 18px",
                         fontSize: 13, fontWeight: 500, color: "#4A4A4A", textDecoration: "none",
                         fontFamily: "Inter, sans-serif",
@@ -137,15 +167,17 @@ export function Navbar() {
                 )}
               </div>
             ) : (
-              <Link key={link.name} href={link.href} style={{
-                fontSize: 14, fontWeight: pathname === link.href ? 600 : 500,
-                color: pathname === link.href ? "#1A1A1A" : "#4A4A4A",
-                textDecoration: "none",
-                position: "relative",
-                fontFamily: "Inter, sans-serif",
-                padding: "4px 0",
-                transition: "color 0.15s ease",
-              }}
+              <Link key={link.name} href={link.href}
+                aria-current={pathname === link.href ? "page" : undefined}
+                style={{
+                  fontSize: 14, fontWeight: pathname === link.href ? 600 : 500,
+                  color: pathname === link.href ? "#1A1A1A" : "#4A4A4A",
+                  textDecoration: "none",
+                  position: "relative",
+                  fontFamily: "Inter, sans-serif",
+                  padding: "4px 0",
+                  transition: "color 0.15s ease",
+                }}
                 onMouseEnter={e => (e.currentTarget.style.color = "#C49A3C")}
                 onMouseLeave={e => (e.currentTarget.style.color = pathname === link.href ? "#1A1A1A" : "#4A4A4A")}
               >
@@ -193,6 +225,9 @@ export function Navbar() {
         {/* Mobile toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-menu-panel"
           style={{ display: "none", background: "none", border: "none", cursor: "pointer", padding: 8, color: "#1A1A1A" }}
           className="mobile-menu-btn"
         >
@@ -200,48 +235,48 @@ export function Navbar() {
         </button>
       </div>
 
-        {/* Mobile drawer */}
-        {mobileOpen && (
-          <div style={{ borderTop: "1px solid #E8E4DF", background: "#FFFFFF", padding: "16px 24px", display: "flex", flexDirection: "column", gap: 8 }}>
-            {navLinks.map((link) => (
-              <React.Fragment key={link.name}>
-                {link.children ? (
-                  <div style={{ padding: "8px 12px", fontSize: 13, fontWeight: 700, color: "#9A9A9A", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: 4 }}>
-                    {link.name}
-                  </div>
-                ) : (
-                  <Link
-                    href={link.href}
-                    onClick={() => setMobileOpen(false)}
-                    style={{ padding: "10px 12px", fontSize: 15, fontWeight: 500, color: "#1A1A1A", textDecoration: "none", borderRadius: 8, fontFamily: "Inter, sans-serif" }}
-                  >
-                    {link.name}
-                  </Link>
-                )}
-                {link.children && link.children.map((child) => (
-                  <Link
-                    key={child.name}
-                    href={child.href}
-                    onClick={() => setMobileOpen(false)}
-                    style={{ padding: "8px 12px 8px 24px", fontSize: 14, color: "#4A4A4A", textDecoration: "none", borderRadius: 8, fontFamily: "Inter, sans-serif" }}
-                  >
-                    • {child.name}
-                  </Link>
-                ))}
-              </React.Fragment>
-            ))}
-            <div style={{ borderTop: "1px solid #E8E4DF", paddingTop: 12, marginTop: 4, display: "flex", flexDirection: "column", gap: 8 }}>
-              <Link href="/auth/login" onClick={() => setMobileOpen(false)} style={{
-                padding: "10px 16px", textAlign: "center", borderRadius: 8, border: "1px solid #E8E4DF",
-                fontSize: 14, fontWeight: 500, color: "#1A1A1A", textDecoration: "none"
-              }}>Log in</Link>
-              <Link href="/auth/signup" onClick={() => setMobileOpen(false)} style={{
-                padding: "10px 16px", textAlign: "center", borderRadius: 8, background: "#1A1A1A",
-                fontSize: 14, fontWeight: 600, color: "#FFFFFF", textDecoration: "none"
-              }}>Get Started Free</Link>
-            </div>
+      {/* Mobile drawer */}
+      {mobileOpen && (
+        <div id="mobile-menu-panel" className="animate-dropdown-slide" style={{ borderTop: "1px solid #E8E4DF", background: "#FFFFFF", padding: "16px 24px", display: "flex", flexDirection: "column", gap: 8 }}>
+          {navLinks.map((link) => (
+            <React.Fragment key={link.name}>
+              {link.children ? (
+                <div style={{ padding: "8px 12px", fontSize: 13, fontWeight: 700, color: "#6B6B6B", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: 4 }}>
+                  {link.name}
+                </div>
+              ) : (
+                <Link
+                  href={link.href}
+                  onClick={() => setMobileOpen(false)}
+                  style={{ padding: "10px 12px", fontSize: 15, fontWeight: 500, color: "#1A1A1A", textDecoration: "none", borderRadius: 8, fontFamily: "Inter, sans-serif" }}
+                >
+                  {link.name}
+                </Link>
+              )}
+              {link.children && link.children.map((child) => (
+                <Link
+                  key={child.name}
+                  href={child.href}
+                  onClick={() => setMobileOpen(false)}
+                  style={{ padding: "8px 12px 8px 24px", fontSize: 14, color: "#4A4A4A", textDecoration: "none", borderRadius: 8, fontFamily: "Inter, sans-serif" }}
+                >
+                  • {child.name}
+                </Link>
+              ))}
+            </React.Fragment>
+          ))}
+          <div style={{ borderTop: "1px solid #E8E4DF", paddingTop: 12, marginTop: 4, display: "flex", flexDirection: "column", gap: 8 }}>
+            <Link href="/auth/login" onClick={() => setMobileOpen(false)} style={{
+              padding: "10px 16px", textAlign: "center", borderRadius: 8, border: "1px solid #E8E4DF",
+              fontSize: 14, fontWeight: 500, color: "#1A1A1A", textDecoration: "none"
+            }}>Log in</Link>
+            <Link href="/auth/signup" onClick={() => setMobileOpen(false)} style={{
+              padding: "10px 16px", textAlign: "center", borderRadius: 8, background: "#1A1A1A",
+              fontSize: 14, fontWeight: 600, color: "#FFFFFF", textDecoration: "none"
+            }}>Get Started Free</Link>
           </div>
-        )}
+        </div>
+      )}
 
       <style>{`
         @media (max-width: 768px) {

@@ -86,10 +86,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${playfair.variable} ${inter.variable}`} suppressHydrationWarning>
+      <head>
+        <link rel="preload" href="/images/hero_books_display.png" as="image" />
+        <link rel="manifest" href="/manifest.json" />
+      </head>
       <body style={{ background: "#F8F5F0", color: "#1A1A1A" }} className="antialiased" suppressHydrationWarning>
+        <a href="#main-content" className="skip-link">Skip to main content</a>
         <AuthProvider>
           <ToastProvider>
-            <main id="main-content">{children}</main>
+            {children}
             <CookieBanner />
           </ToastProvider>
         </AuthProvider>

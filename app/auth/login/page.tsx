@@ -127,29 +127,31 @@ export default function LoginPage() {
               <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 24, fontWeight: 700, color: "#1A1A1A", marginBottom: 8, textAlign: "center" }}>Login to your account</h2>
               <p style={{ fontSize: 13, color: "#6B6B6B", marginBottom: 28, textAlign: "center" }}>Enter your details below to access your BookLoom dashboard.</p>
 
-              {errorMessage && (
-                <div style={{ marginBottom: 16, padding: "10px 14px", background: "#FEF2F2", border: "1px solid #FCA5A5", borderRadius: 8, color: "#991B1B", fontSize: 12, display: "flex", alignItems: "center", gap: 8 }}>
-                  <AlertCircle size={14} />
-                  <span>{errorMessage}</span>
-                </div>
-              )}
+              <div aria-live="polite">
+                {errorMessage && (
+                  <div style={{ marginBottom: 16, padding: "10px 14px", background: "#FEF2F2", border: "1px solid #FCA5A5", borderRadius: 8, color: "#991B1B", fontSize: 12, display: "flex", alignItems: "center", gap: 8 }}>
+                    <AlertCircle size={14} />
+                    <span>{errorMessage}</span>
+                  </div>
+                )}
+              </div>
 
               <div style={{ marginBottom: 16 }}>
-                <label style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A", display: "block", marginBottom: 6 }}>Email address</label>
+                <label htmlFor="login-email" style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A", display: "block", marginBottom: 6 }}>Email address</label>
                 <div style={{ position: "relative" }}>
-                  <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", fontSize: 14, color: "#9A9A9A" }}>✉</span>
-                  <input value={email} onChange={e => setEmail(e.target.value)} type="email" required placeholder="you@example.com"
+                  <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", fontSize: 14, color: "#6B6B6B" }}>✉</span>
+                  <input id="login-email" value={email} onChange={e => setEmail(e.target.value)} type="email" required placeholder="you@example.com"
                     style={{ width: "100%", padding: "10px 12px 10px 36px", border: "1px solid #E8E4DF", borderRadius: 8, fontSize: 13, color: "#1A1A1A", background: "#FAFAFA", outline: "none", fontFamily: "Inter, sans-serif", boxSizing: "border-box" }} />
                 </div>
               </div>
 
               <div style={{ marginBottom: 8 }}>
-                <label style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A", display: "block", marginBottom: 6 }}>Password</label>
+                <label htmlFor="login-password" style={{ fontSize: 13, fontWeight: 600, color: "#1A1A1A", display: "block", marginBottom: 6 }}>Password</label>
                 <div style={{ position: "relative" }}>
-                  <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", fontSize: 14, color: "#9A9A9A" }}>🔒</span>
-                  <input value={password} onChange={e => setPassword(e.target.value)} type={showPassword ? "text" : "password"} required placeholder="Enter your password"
+                  <span style={{ position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)", fontSize: 14, color: "#6B6B6B" }}>🔒</span>
+                  <input id="login-password" value={password} onChange={e => setPassword(e.target.value)} type={showPassword ? "text" : "password"} required placeholder="Enter your password"
                     style={{ width: "100%", padding: "10px 40px 10px 36px", border: "1px solid #E8E4DF", borderRadius: 8, fontSize: 13, color: "#1A1A1A", background: "#FAFAFA", outline: "none", fontFamily: "Inter, sans-serif", boxSizing: "border-box" }} />
-                  <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#9A9A9A" }}>
+                  <button type="button" onClick={() => setShowPassword(!showPassword)} aria-label={showPassword ? "Hide password" : "Show password"} style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", background: "none", border: "none", cursor: "pointer", color: "#6B6B6B" }}>
                     {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                   </button>
                 </div>
