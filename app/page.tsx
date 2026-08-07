@@ -177,7 +177,14 @@ export default function HomePage() {
                 </select>
               </div>
 
-              <Link href={`/dashboard/create?prompt=${encodeURIComponent(promptInput)}&provider=${encodeURIComponent(aiProvider)}&theme=${encodeURIComponent(theme)}`}>
+              <Link
+                href={`/dashboard/create?prompt=${encodeURIComponent(promptInput)}&provider=${encodeURIComponent(aiProvider)}&theme=${encodeURIComponent(theme)}`}
+                onClick={() => {
+                  try {
+                    localStorage.setItem("bookloom_pending_prompt", JSON.stringify({ prompt: promptInput, provider: aiProvider, theme }));
+                  } catch (e) {}
+                }}
+              >
                 <button className="btn-shimmer btn-gold-glow" style={{
                   width: "100%", background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 10,
                   padding: "14px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer",
@@ -329,14 +336,13 @@ export default function HomePage() {
 
           <div style={{ position: "relative" }}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {TESTIMONIALS.map((t, i) => (
+              {TESTIMONIALS.slice((testimonialIdx % Math.ceil(TESTIMONIALS.length / 3)) * 3, ((testimonialIdx % Math.ceil(TESTIMONIALS.length / 3)) + 1) * 3).map((t) => (
                 <div
-                  key={i}
+                  key={t.name}
+                  className="card-hover animate-fade-in-up"
                   style={{
                     background: "#FFFFFF", borderRadius: 12, border: "1px solid #E8E4DF", padding: 32,
-                    opacity: i === testimonialIdx ? 1 : 0.85,
-                    transform: i === testimonialIdx ? "scale(1.02)" : "scale(1)",
-                    transition: "all 0.2s ease"
+                    boxShadow: "0 4px 20px rgba(0,0,0,0.04)"
                   }}
                 >
                   <div style={{ fontSize: 48, color: "#C49A3C", lineHeight: 1, marginBottom: 8, fontFamily: "Georgia" }}>&quot;</div>
@@ -352,15 +358,15 @@ export default function HomePage() {
 
             <div style={{ display: "flex", justifyContent: "center", gap: 12, marginTop: 24 }}>
               <button
-                onClick={() => setTestimonialIdx((testimonialIdx - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)}
-                aria-label="Previous Testimonial"
+                onClick={() => setTestimonialIdx((testimonialIdx - 1 + Math.ceil(TESTIMONIALS.length / 3)) % Math.ceil(TESTIMONIALS.length / 3))}
+                aria-label="Previous Testimonial Page"
                 style={{ background: "#FFFFFF", border: "1px solid #E8E4DF", borderRadius: "50%", width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
               >
                 <ChevronLeft size={16} />
               </button>
               <button
-                onClick={() => setTestimonialIdx((testimonialIdx + 1) % TESTIMONIALS.length)}
-                aria-label="Next Testimonial"
+                onClick={() => setTestimonialIdx((testimonialIdx + 1) % Math.ceil(TESTIMONIALS.length / 3))}
+                aria-label="Next Testimonial Page"
                 style={{ background: "#FFFFFF", border: "1px solid #E8E4DF", borderRadius: "50%", width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
               >
                 <ChevronRight size={16} />

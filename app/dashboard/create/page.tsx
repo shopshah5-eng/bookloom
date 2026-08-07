@@ -47,6 +47,18 @@ export default function CreatePage() {
   const [loading, setLoading] = useState(false);
   const [apiOutline, setApiOutline] = useState<any[]>([]);
 
+  React.useEffect(() => {
+    try {
+      const stored = localStorage.getItem("bookloom_pending_prompt");
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (parsed.prompt) setPrompt(parsed.prompt);
+        if (parsed.provider) setAiProvider(parsed.provider);
+        localStorage.removeItem("bookloom_pending_prompt");
+      }
+    } catch (e) {}
+  }, []);
+
   // Calculate estimated chapters based on page count (avg 8-10 pages / chapter)
   const calculatedChapters = Math.max(3, Math.ceil(targetPages / 8));
 
