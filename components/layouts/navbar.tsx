@@ -34,8 +34,8 @@ export function Navbar() {
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 24px", height: 64, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
 
         {/* Logo */}
-        <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
-          <div style={{
+        <Link href="/" className="header-logo-link" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
+          <div className="header-logo-icon" style={{
             width: 36, height: 36, borderRadius: 8,
             background: "#1A1A1A",
             display: "flex", alignItems: "center", justifyContent: "center",
@@ -178,7 +178,7 @@ export function Navbar() {
           >
             Log in
           </Link>
-          <Link href="/auth/signup" className="btn-primary-glow" style={{
+          <Link href="/auth/signup" className="btn-shimmer btn-primary-glow" style={{
             fontSize: 14, fontWeight: 600, color: "#FFFFFF",
             textDecoration: "none", fontFamily: "Inter, sans-serif",
             padding: "8px 16px", borderRadius: 8,

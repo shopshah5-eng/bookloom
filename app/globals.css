@@ -98,7 +98,7 @@ a, button {
 }
 
 button:active, a.btn-active:active {
-  transform: scale(0.98);
+  transform: scale(0.96) !important;
 }
 
 .card-base {
@@ -115,9 +115,52 @@ button:active, a.btn-active:active {
 }
 
 .card-hover:hover {
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.09);
   transform: translateY(-4px);
   border-color: #D4C4A8;
+}
+
+/* === Header Logo Hover === */
+.header-logo-icon {
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
+}
+
+.header-logo-link:hover .header-logo-icon {
+  transform: rotate(6deg) scale(1.08);
+  box-shadow: 0 4px 16px rgba(196, 154, 60, 0.35);
+}
+
+/* === Button Shimmer Beam Effect === */
+.btn-shimmer {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-shimmer::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.25) 50%,
+    transparent 70%
+  );
+  transform: rotate(30deg) translateX(-100%);
+  transition: transform 0.6s ease;
+}
+
+.btn-shimmer:hover::after {
+  transform: rotate(30deg) translateX(100%);
+}
+
+.btn-shimmer:hover {
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: 0 8px 24px rgba(196, 154, 60, 0.35);
 }
 
 /* === Image Hover Zoom === */
@@ -131,7 +174,7 @@ button:active, a.btn-active:active {
 }
 
 .img-zoom-container:hover img {
-  transform: scale(1.05);
+  transform: scale(1.06);
 }
 
 /* === Primary CTA Glow Hover === */
@@ -167,13 +210,23 @@ button:active, a.btn-active:active {
   transform: translateY(-1px);
 }
 
+/* === Heading Hover Shift === */
+.heading-hover {
+  transition: color 0.2s ease, text-shadow 0.2s ease;
+}
+
+.heading-hover:hover {
+  color: #855B0B !important;
+  text-shadow: 0 2px 10px rgba(196, 154, 60, 0.15);
+}
+
 /* === Accessible Focus Rings === */
 :focus-visible {
   outline: 2px solid var(--gold) !important;
   outline-offset: 2px !important;
 }
 
-/* === Entrance Animations === */
+/* === Entrance & Modal Keyframe Animations === */
 @keyframes fadeInUp {
   from {
     opacity: 0;
@@ -196,12 +249,31 @@ button:active, a.btn-active:active {
   }
 }
 
+@keyframes modalPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.92) translateY(10px);
+  }
+  70% {
+    opacity: 1;
+    transform: scale(1.01) translateY(-2px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
 .animate-fade-in-up {
   animation: fadeInUp 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 .animate-dropdown-slide {
   animation: dropdownSlide 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.animate-modal-pop-in {
+  animation: modalPopIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
 
 /* === Scrollbar === */

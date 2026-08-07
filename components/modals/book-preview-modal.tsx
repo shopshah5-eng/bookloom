@@ -43,7 +43,7 @@ export function BookPreviewModal({ book, onClose }: BookPreviewModalProps) {
       background: "rgba(10, 10, 12, 0.75)", backdropFilter: "blur(6px)",
       zIndex: 9999, display: "flex", alignItems: "center", justifyContent: "center", padding: 24
     }}>
-      <div style={{
+      <div className="animate-modal-pop-in" style={{
         background: "#FFFFFF", borderRadius: 20, maxWidth: 840, width: "100%",
         maxHeight: "90vh", overflowY: "auto", border: "1px solid #E8E4DF",
         boxShadow: "0 20px 60px rgba(0,0,0,0.25)", position: "relative",
@@ -135,7 +135,7 @@ export function BookPreviewModal({ book, onClose }: BookPreviewModalProps) {
             {/* Action Bar */}
             <div style={{ marginTop: 12, paddingTop: 16, borderTop: "1px solid #E8E4DF", display: "flex", gap: 12 }}>
               <Link href={`/dashboard/create?topic=${encodeURIComponent(book.title)}&type=${encodeURIComponent(book.category.toLowerCase())}`} style={{ flex: 1, textDecoration: "none" }}>
-                <button style={{ width: "100%", background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 10, padding: "12px 20px", fontSize: 14, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontFamily: "Inter, sans-serif" }}>
+                <button className="btn-shimmer btn-gold-glow" style={{ width: "100%", background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 10, padding: "12px 20px", fontSize: 14, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", justifyContent: "center", gap: 8, fontFamily: "Inter, sans-serif" }}>
                   Create Ebook Like This <ArrowRight size={15} />
                 </button>
               </Link>

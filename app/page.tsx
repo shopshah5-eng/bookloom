@@ -178,7 +178,7 @@ export default function HomePage() {
               </div>
 
               <Link href={`/dashboard/create?prompt=${encodeURIComponent(promptInput)}&provider=${encodeURIComponent(aiProvider)}&theme=${encodeURIComponent(theme)}`}>
-                <button className="btn-gold-glow" style={{
+                <button className="btn-shimmer btn-gold-glow" style={{
                   width: "100%", background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 10,
                   padding: "14px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer",
                   display: "flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap",
