@@ -37,6 +37,18 @@ export default function SignupPage() {
       return;
     }
 
+  const [successMessage, setSuccessMessage] = useState("");
+
+  const handleEmailSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorMessage("");
+    setSuccessMessage("");
+
+    if (password.length < 8) {
+      setErrorMessage("Password must be at least 8 characters");
+      return;
+    }
+
     setLoading(true);
     try {
       const supabase = createClient();
@@ -51,15 +63,15 @@ export default function SignupPage() {
       });
 
       if (error) {
-        signInDemo();
-        router.push("/dashboard");
+        setErrorMessage(error.message);
+      } else if (data?.user && !data?.session) {
+        setSuccessMessage("Account created successfully! We have sent a confirmation email to " + email + ". Please check your inbox to activate your account.");
       } else {
         router.push("/dashboard");
       }
     } catch (err: any) {
       console.error(err);
-      signInDemo();
-      router.push("/dashboard");
+      setErrorMessage(err.message || "Signup failed");
     } finally {
       setLoading(false);
     }
@@ -92,7 +104,7 @@ export default function SignupPage() {
             <div style={{ fontSize: 8, color: "#9A9A9A", letterSpacing: "0.12em", textTransform: "uppercase" }}>AI EBOOK GENERATOR</div>
           </div>
         </Link>
-        <nav style={{ display: "flex", gap: 24, fontSize: 13 }}>
+        <nav style={{ display: "flex", gap: 24, fontSize: 13 }} className="hidden-mobile">
           {["Features", "Examples", "Templates", "Pricing"].map(n => (
             <Link key={n} href={`/${n.toLowerCase()}`} style={{ color: "#4A4A4A", textDecoration: "none" }}>{n}</Link>
           ))}
@@ -102,27 +114,34 @@ export default function SignupPage() {
         </Link>
       </header>
 
-      <div style={{ flex: 1, display: "grid", gridTemplateColumns: "1fr 1fr", maxWidth: 1100, margin: "0 auto", width: "100%" }}>
+      <div style={{ flex: 1, maxWidth: 1100, margin: "0 auto", width: "100%" }} className="grid grid-cols-1 md:grid-cols-2">
         {/* Left panel */}
-        <div style={{ padding: "60px 48px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
-          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#FBF3E0", border: "1px solid #EFD98A", borderRadius: 999, padding: "4px 12px", marginBottom: 24, width: "fit-content" }}>
-            <span style={{ fontSize: 11, fontWeight: 600, color: "#9A6F1A" }}>CREATE YOUR ACCOUNT</span>
+        <div style={{ padding: "40px 32px", display: "flex", flexDirection: "column", justifyContent: "center" }}>
+          <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#FBF3E0", border: "1px solid #EFD98A", borderRadius: 999, padding: "4px 12px", marginBottom: 20, width: "fit-content" }}>
+            <span style={{ fontSize: 11, fontWeight: 600, color: "#855B0B" }}>CREATE YOUR ACCOUNT</span>
           </div>
-          <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: 40, fontWeight: 800, color: "#1A1A1A", lineHeight: 1.2, marginBottom: 16 }}>
+          <h1 style={{ fontFamily: "'Playfair Display', serif", fontSize: "clamp(28px, 4vw, 40px)", fontWeight: 800, color: "#1A1A1A", lineHeight: 1.2, marginBottom: 16 }}>
             Start your ebook<br />journey <span style={{ color: "#C49A3C" }}>today</span>
           </h1>
-          <p style={{ fontSize: 14, color: "#6B6B6B", lineHeight: 1.7, maxWidth: 340, marginBottom: 40 }}>
+          <p style={{ fontSize: 14, color: "#6B6B6B", lineHeight: 1.7, maxWidth: 340, marginBottom: 32 }}>
             Join thousands of creators who trust BookLoom to create and publish best-selling ebooks.
           </p>
-          <img src="/images/books_stack_with_plant.png" alt="Books" style={{ width: "100%", maxWidth: 320, borderRadius: 12, objectFit: "cover" }} />
+          <img src="/images/books_stack_with_plant.png" alt="Books" loading="lazy" style={{ width: "100%", maxWidth: 320, borderRadius: 12, objectFit: "cover" }} />
         </div>
 
         {/* Right panel - Form */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "40px 48px" }}>
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "center", padding: "32px 24px" }}>
           <div style={{ width: "100%", maxWidth: 420 }}>
-            <form onSubmit={handleEmailSignup} style={{ background: "#FFFFFF", borderRadius: 16, border: "1px solid #E8E4DF", padding: 36, boxShadow: "0 8px 32px rgba(0,0,0,0.06)" }}>
+            <form onSubmit={handleEmailSignup} style={{ background: "#FFFFFF", borderRadius: 16, border: "1px solid #E8E4DF", padding: 32, boxShadow: "0 8px 32px rgba(0,0,0,0.06)" }}>
               <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 22, fontWeight: 700, color: "#1A1A1A", marginBottom: 4, textAlign: "center" }}>Create your account</h2>
-              <p style={{ fontSize: 12, color: "#9A9A9A", marginBottom: 28, textAlign: "center" }}>It&apos;s free and only takes a minute.</p>
+              <p style={{ fontSize: 12, color: "#9A9A9A", marginBottom: 24, textAlign: "center" }}>It&apos;s free and only takes a minute.</p>
+
+              {successMessage && (
+                <div style={{ marginBottom: 16, padding: "12px 14px", background: "#ECFDF5", border: "1px solid #A7F3D0", borderRadius: 8, color: "#065F46", fontSize: 13, lineHeight: 1.5, display: "flex", alignItems: "flex-start", gap: 8 }}>
+                  <CheckCircle size={16} color="#059669" style={{ flexShrink: 0, marginTop: 2 }} />
+                  <span>{successMessage}</span>
+                </div>
+              )}
 
               {errorMessage && (
                 <div style={{ marginBottom: 16, padding: "10px 14px", background: "#FEF2F2", border: "1px solid #FCA5A5", borderRadius: 8, color: "#991B1B", fontSize: 12, display: "flex", alignItems: "center", gap: 8 }}>

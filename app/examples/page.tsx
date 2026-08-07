@@ -60,7 +60,7 @@ export default function ExamplesPage() {
 
       {/* Realistic Stats */}
       <section style={{ padding: "0 24px 48px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 16 }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto" }} className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
             { label: "Ebooks Created", value: "12.5K+" },
             { label: "Words Generated", value: "45M+" },
@@ -93,13 +93,13 @@ export default function ExamplesPage() {
             ))}
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
             {filtered.map((book, i) => (
               <div key={i} style={{ background: "#FFFFFF", borderRadius: 16, border: "1px solid #E8E4DF", overflow: "hidden", position: "relative" }}>
-                <img src={book.img} alt={book.title} style={{ width: "100%", height: 220, objectFit: "cover" }} />
+                <img src={book.img} alt={book.title} loading="lazy" style={{ width: "100%", height: 220, objectFit: "cover" }} />
                 <div style={{ padding: 20 }}>
                   <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 8 }}>
-                    <span style={{ fontSize: 11, fontWeight: 600, color: "#C49A3C", background: "#FBF3E0", padding: "3px 8px", borderRadius: 999 }}>{book.category}</span>
+                    <span style={{ fontSize: 11, fontWeight: 600, color: "#855B0B", background: "#FBF3E0", padding: "3px 8px", borderRadius: 999 }}>{book.category}</span>
                     <span style={{ fontSize: 11, color: "#9A9A9A" }}>{book.pages} pages</span>
                   </div>
                   <div style={{ fontWeight: 700, fontSize: 15, color: "#1A1A1A", marginBottom: 4 }}>{book.title}</div>

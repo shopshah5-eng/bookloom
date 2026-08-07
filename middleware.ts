@@ -39,9 +39,10 @@ export async function middleware(request: NextRequest) {
 
     const { data: { user } } = await supabase.auth.getUser();
 
-    // Protect dashboard and settings routes
+    // Protect dashboard, settings, and editor routes
     const isProtectedRoute = request.nextUrl.pathname.startsWith("/dashboard") || 
-                           request.nextUrl.pathname.startsWith("/settings");
+                           request.nextUrl.pathname.startsWith("/settings") ||
+                           request.nextUrl.pathname.startsWith("/editor");
 
     if (isProtectedRoute && !user) {
       const url = request.nextUrl.clone();

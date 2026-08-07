@@ -40,7 +40,7 @@ export function Footer() {
   return (
     <footer style={{ background: "#1A1A1A", color: "#9A9A9A" }}>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "60px 24px 32px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "2fr 1fr 1fr 1fr 1fr", gap: 40, marginBottom: 48 }}>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mb-12">
           {/* Brand */}
           <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
             <Link href="/" style={{ display: "flex", alignItems: "center", gap: 10, textDecoration: "none" }}>
@@ -68,12 +68,12 @@ export function Footer() {
               {col.social ? (
                 <div style={{ display: "flex", gap: 12, marginTop: 4 }}>
                   {[
-                    { icon: <Twitter size={16} />, href: "#" },
-                    { icon: <Linkedin size={16} />, href: "#" },
-                    { icon: <Youtube size={16} />, href: "#" },
-                    { icon: <Github size={16} />, href: "#" },
+                    { icon: <Twitter size={16} />, href: "https://x.com/bookloom_ai", label: "BookLoom X Twitter Profile" },
+                    { icon: <Linkedin size={16} />, href: "https://linkedin.com/company/bookloom", label: "BookLoom LinkedIn Profile" },
+                    { icon: <Youtube size={16} />, href: "https://youtube.com/@bookloom", label: "BookLoom YouTube Channel" },
+                    { icon: <Github size={16} />, href: "https://github.com/shopshah5-eng/bookloom", label: "BookLoom GitHub Repository" },
                   ].map((s, i) => (
-                    <a key={i} href={s.href} style={{
+                    <a key={i} href={s.href} target="_blank" rel="noopener noreferrer" aria-label={s.label} style={{
                       width: 32, height: 32, borderRadius: 6, background: "#2D2D2D",
                       display: "flex", alignItems: "center", justifyContent: "center",
                       color: "#9A9A9A", transition: "background 0.15s", textDecoration: "none"

@@ -142,29 +142,48 @@ export function Navbar() {
         </button>
       </div>
 
-      {/* Mobile drawer */}
-      {mobileOpen && (
-        <div style={{ borderTop: "1px solid #E8E4DF", background: "#FFFFFF", padding: "16px 24px", display: "flex", flexDirection: "column", gap: 8 }}>
-          {navLinks.map((link) => (
-            <Link key={link.name} href={link.children ? "#" : link.href}
-              onClick={() => setMobileOpen(false)}
-              style={{ padding: "10px 12px", fontSize: 15, color: "#1A1A1A", textDecoration: "none", borderRadius: 8, fontFamily: "Inter, sans-serif" }}
-            >
-              {link.name}
-            </Link>
-          ))}
-          <div style={{ borderTop: "1px solid #E8E4DF", paddingTop: 12, marginTop: 4, display: "flex", flexDirection: "column", gap: 8 }}>
-            <Link href="/auth/login" onClick={() => setMobileOpen(false)} style={{
-              padding: "10px 16px", textAlign: "center", borderRadius: 8, border: "1px solid #E8E4DF",
-              fontSize: 14, fontWeight: 500, color: "#1A1A1A", textDecoration: "none"
-            }}>Log in</Link>
-            <Link href="/auth/signup" onClick={() => setMobileOpen(false)} style={{
-              padding: "10px 16px", textAlign: "center", borderRadius: 8, background: "#1A1A1A",
-              fontSize: 14, fontWeight: 600, color: "#FFFFFF", textDecoration: "none"
-            }}>Get Started Free</Link>
+        {/* Mobile drawer */}
+        {mobileOpen && (
+          <div style={{ borderTop: "1px solid #E8E4DF", background: "#FFFFFF", padding: "16px 24px", display: "flex", flexDirection: "column", gap: 8 }}>
+            {navLinks.map((link) => (
+              <React.Fragment key={link.name}>
+                {link.children ? (
+                  <div style={{ padding: "8px 12px", fontSize: 13, fontWeight: 700, color: "#9A9A9A", textTransform: "uppercase", letterSpacing: "0.05em", marginTop: 4 }}>
+                    {link.name}
+                  </div>
+                ) : (
+                  <Link
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    style={{ padding: "10px 12px", fontSize: 15, fontWeight: 500, color: "#1A1A1A", textDecoration: "none", borderRadius: 8, fontFamily: "Inter, sans-serif" }}
+                  >
+                    {link.name}
+                  </Link>
+                )}
+                {link.children && link.children.map((child) => (
+                  <Link
+                    key={child.name}
+                    href={child.href}
+                    onClick={() => setMobileOpen(false)}
+                    style={{ padding: "8px 12px 8px 24px", fontSize: 14, color: "#4A4A4A", textDecoration: "none", borderRadius: 8, fontFamily: "Inter, sans-serif" }}
+                  >
+                    • {child.name}
+                  </Link>
+                ))}
+              </React.Fragment>
+            ))}
+            <div style={{ borderTop: "1px solid #E8E4DF", paddingTop: 12, marginTop: 4, display: "flex", flexDirection: "column", gap: 8 }}>
+              <Link href="/auth/login" onClick={() => setMobileOpen(false)} style={{
+                padding: "10px 16px", textAlign: "center", borderRadius: 8, border: "1px solid #E8E4DF",
+                fontSize: 14, fontWeight: 500, color: "#1A1A1A", textDecoration: "none"
+              }}>Log in</Link>
+              <Link href="/auth/signup" onClick={() => setMobileOpen(false)} style={{
+                padding: "10px 16px", textAlign: "center", borderRadius: 8, background: "#1A1A1A",
+                fontSize: 14, fontWeight: 600, color: "#FFFFFF", textDecoration: "none"
+              }}>Get Started Free</Link>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
       <style>{`
         @media (max-width: 768px) {

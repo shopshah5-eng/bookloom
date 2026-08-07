@@ -47,7 +47,6 @@ export default function HomePage() {
   const [promptInput, setPromptInput] = useState("");
   const [aiProvider, setAiProvider] = useState("OpenAI (GPT-4o)");
   const [theme, setTheme] = useState("Elegant Literary");
-  const [activeTheme, setActiveTheme] = useState(0);
   const [testimonialIdx, setTestimonialIdx] = useState(0);
 
   const features = [
@@ -71,16 +70,16 @@ export default function HomePage() {
       <Navbar />
 
       {/* ===== HERO ===== */}
-      <section style={{ background: "#F8F5F0", padding: "72px 24px 0" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+      <section style={{ background: "#F8F5F0", padding: "48px 16px 0" }} className="md:px-6 md:pt-16">
+        <div style={{ maxWidth: 1280, margin: "0 auto" }} className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           {/* Left */}
           <div>
             <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#FBF3E0", border: "1px solid #EFD98A", borderRadius: 999, padding: "4px 12px", marginBottom: 24 }}>
               <Sparkles size={12} color="#C49A3C" />
-              <span style={{ fontSize: 12, fontWeight: 600, color: "#9A6F1A" }}>AI POWERED EBOOK CREATOR</span>
+              <span style={{ fontSize: 12, fontWeight: 600, color: "#855B0B" }}>AI POWERED EBOOK CREATOR</span>
             </div>
 
-            <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 52, fontWeight: 800, color: "#1A1A1A", lineHeight: 1.1, margin: "0 0 16px" }}>
+            <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 800, color: "#1A1A1A", lineHeight: 1.1, margin: "0 0 16px" }}>
               Turn Any Idea Into<br />
               a <span style={{ color: "#C49A3C", fontStyle: "italic" }}>Beautiful</span> Ebook
             </h1>
@@ -89,7 +88,7 @@ export default function HomePage() {
               From a simple prompt to a professionally written ebook with stunning covers, illustrations, and premium exports in minutes.
             </p>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 16, maxWidth: 420 }}>
+            <div style={{ maxWidth: 420 }} className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-4">
               {[
                 { icon: <Globe size={14} />, title: "Multi-AI Support", sub: "GPT-4o, Claude 3.5, Gemini & DeepSeek" },
                 { icon: <ImageIcon size={14} />, title: "Stunning Visuals", sub: "Covers, Images & SVGs" },
@@ -112,6 +111,7 @@ export default function HomePage() {
             <img
               src="/images/hero_books_display.png"
               alt="BookLoom example ebooks"
+              loading="lazy"
               style={{ width: "100%", maxWidth: 500, objectFit: "contain", borderRadius: 12 }}
             />
           </div>
@@ -128,12 +128,13 @@ export default function HomePage() {
               <span style={{ fontWeight: 600, fontSize: 16, color: "#1A1A1A" }}>Start Creating Your Ebook</span>
             </div>
 
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 220px 220px auto", gap: 12, alignItems: "flex-end" }}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
               <div>
                 <textarea
                   value={promptInput}
                   onChange={e => setPromptInput(e.target.value)}
                   placeholder="Describe your ebook idea in detail..."
+                  aria-label="Describe your ebook topic prompt"
                   style={{
                     width: "100%", minHeight: 80, resize: "none",
                     background: "#F8F5F0", border: "1px solid #E8E4DF", borderRadius: 8,
@@ -141,7 +142,7 @@ export default function HomePage() {
                     fontFamily: "Inter, sans-serif", outline: "none"
                   }}
                 />
-                <div style={{ fontSize: 11, color: "#9A9A9A", marginTop: 4 }}>0/4000</div>
+                <div style={{ fontSize: 11, color: "#9A9A9A", marginTop: 4 }}>{promptInput.length}/4000</div>
                 <div style={{ display: "flex", gap: 8, marginTop: 8, flexWrap: "wrap" }}>
                   {["Wealth Mindset", "Startup Playbook", "Deep Focus", "Minimalist Living"].map(ex => (
                     <button key={ex} onClick={() => setPromptInput(ex)}
@@ -149,13 +150,15 @@ export default function HomePage() {
                       ✦ {ex}
                     </button>
                   ))}
-                  <button style={{ fontSize: 11, padding: "3px 10px", borderRadius: 999, border: "1px solid #E8E4DF", background: "#F8F5F0", cursor: "pointer", color: "#C49A3C" }}>More Examples →</button>
+                  <Link href="/examples">
+                    <button style={{ fontSize: 11, padding: "3px 10px", borderRadius: 999, border: "1px solid #E8E4DF", background: "#F8F5F0", cursor: "pointer", color: "#C49A3C" }}>More Examples →</button>
+                  </Link>
                 </div>
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#4A4A4A", display: "block", marginBottom: 6 }}>AI Provider</label>
-                <select value={aiProvider} onChange={e => setAiProvider(e.target.value)}
+                <label htmlFor="ai-provider-select" style={{ fontSize: 12, fontWeight: 600, color: "#4A4A4A", display: "block", marginBottom: 6 }}>AI Provider</label>
+                <select id="ai-provider-select" aria-label="Select AI Model Provider" value={aiProvider} onChange={e => setAiProvider(e.target.value)}
                   style={{ width: "100%", padding: "10px 12px", border: "1px solid #E8E4DF", borderRadius: 8, background: "#F8F5F0", fontSize: 13, color: "#1A1A1A", fontFamily: "Inter, sans-serif", outline: "none" }}>
                   <option>OpenAI (GPT-4o)</option>
                   <option>Anthropic Claude</option>
@@ -165,18 +168,18 @@ export default function HomePage() {
               </div>
 
               <div>
-                <label style={{ fontSize: 12, fontWeight: 600, color: "#4A4A4A", display: "block", marginBottom: 6 }}>Visual Theme</label>
-                <select value={theme} onChange={e => setTheme(e.target.value)}
+                <label htmlFor="theme-select" style={{ fontSize: 12, fontWeight: 600, color: "#4A4A4A", display: "block", marginBottom: 6 }}>Visual Theme</label>
+                <select id="theme-select" aria-label="Select Visual Theme" value={theme} onChange={e => setTheme(e.target.value)}
                   style={{ width: "100%", padding: "10px 12px", border: "1px solid #E8E4DF", borderRadius: 8, background: "#F8F5F0", fontSize: 13, color: "#1A1A1A", fontFamily: "Inter, sans-serif", outline: "none" }}>
                   {THEMES.map(t => <option key={t.name}>{t.name}</option>)}
                 </select>
               </div>
 
-              <Link href="/dashboard/create">
+              <Link href={`/dashboard/create?prompt=${encodeURIComponent(promptInput)}&provider=${encodeURIComponent(aiProvider)}&theme=${encodeURIComponent(theme)}`}>
                 <button style={{
-                  background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 10,
+                  width: "100%", background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 10,
                   padding: "14px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer",
-                  display: "flex", alignItems: "center", gap: 8, whiteSpace: "nowrap",
+                  display: "flex", alignItems: "center", justifyContent: "center", gap: 8, whiteSpace: "nowrap",
                   fontFamily: "Inter, sans-serif"
                 }}>
                   Generate Outline <Sparkles size={14} />
@@ -197,12 +200,17 @@ export default function HomePage() {
             <div style={{ display: "flex", alignItems: "center", justifyContent: "center", gap: 8, color: "#C49A3C", fontSize: 18, marginBottom: 8 }}>✦</div>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(6, 1fr)", gap: 24 }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {features.map((f) => (
-              <div key={f.title} style={{ textAlign: "center", padding: "32px 16px", background: "#FFFFFF", borderRadius: 12, border: "1px solid #E8E4DF" }}>
-                <div style={{ color: "#1A1A1A", marginBottom: 16, display: "flex", justifyContent: "center" }}>{f.icon}</div>
-                <div style={{ fontWeight: 700, fontSize: 14, color: "#1A1A1A", marginBottom: 8 }}>{f.title}</div>
-                <div style={{ fontSize: 12, color: "#6B6B6B", lineHeight: 1.6 }}>{f.desc}</div>
+              <div key={f.title} style={{
+                background: "#FFFFFF", border: "1px solid #E8E4DF", borderRadius: 12,
+                padding: 24, textAlign: "center"
+              }}>
+                <div style={{ color: "#C49A3C", display: "flex", justifyContent: "center", marginBottom: 16 }}>
+                  {f.icon}
+                </div>
+                <h3 style={{ fontSize: 15, fontWeight: 600, color: "#1A1A1A", margin: "0 0 8px" }}>{f.title}</h3>
+                <p style={{ fontSize: 12, color: "#6B6B6B", lineHeight: 1.6, margin: 0 }}>{f.desc}</p>
               </div>
             ))}
           </div>
@@ -210,61 +218,61 @@ export default function HomePage() {
       </section>
 
       {/* ===== HOW IT WORKS ===== */}
-      <section style={{ padding: "48px 24px 80px", background: "#FFFFFF" }}>
+      <section style={{ padding: "80px 24px", background: "#FFFFFF", borderTop: "1px solid #E8E4DF", borderBottom: "1px solid #E8E4DF" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 36, fontWeight: 700, color: "#1A1A1A", textAlign: "center", marginBottom: 48 }}>
-            How It Works
-          </h2>
-
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 0, alignItems: "flex-start", position: "relative" }}>
-            {howItWorks.map((step, i) => (
-              <div key={step.step} style={{ textAlign: "center", padding: "0 24px", position: "relative" }}>
-                {i < howItWorks.length - 1 && (
-                  <div style={{
-                    position: "absolute", top: 28, left: "50%", right: "-50%",
-                    height: 1, background: "repeating-linear-gradient(90deg, #E8E4DF 0, #E8E4DF 4px, transparent 4px, transparent 8px)"
-                  }} />
-                )}
-                <div style={{
-                  width: 56, height: 56, borderRadius: 999, border: "2px solid #E8E4DF",
-                  background: "#FFFFFF", display: "flex", alignItems: "center", justifyContent: "center",
-                  margin: "0 auto 16px", fontFamily: "'Playfair Display', serif",
-                  fontSize: 20, fontWeight: 700, color: "#1A1A1A", position: "relative", zIndex: 1
-                }}>
-                  {step.step}
-                </div>
-                <div style={{ fontWeight: 700, fontSize: 15, color: "#1A1A1A", marginBottom: 8 }}>{step.title}</div>
-                <div style={{ fontSize: 13, color: "#6B6B6B", lineHeight: 1.6 }}>{step.desc}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ===== EXAMPLE EBOOKS ===== */}
-      <section style={{ padding: "80px 24px", background: "#F8F5F0" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 32 }}>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 32, fontWeight: 700, color: "#1A1A1A", margin: 0 }}>
-              Example Ebooks Created with BookLoom
+          <div style={{ textAlign: "center", marginBottom: 56 }}>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 36, fontWeight: 700, color: "#1A1A1A", margin: "0 0 8px" }}>
+              How BookLoom Works
             </h2>
-            <Link href="/examples" style={{ fontSize: 14, color: "#C49A3C", textDecoration: "none", fontWeight: 500 }}>
-              View All Examples →
-            </Link>
+            <p style={{ fontSize: 15, color: "#6B6B6B", margin: 0 }}>From idea to published ebook in four simple steps</p>
           </div>
 
-          <div style={{ display: "flex", gap: 16, overflowX: "auto", paddingBottom: 8 }}>
-            {BOOKS.map((book) => (
-              <div key={book.title} style={{
-                minWidth: 160, background: "#FFFFFF", borderRadius: 12, overflow: "hidden",
-                border: "1px solid #E8E4DF", flexShrink: 0
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {howItWorks.map((s) => (
+              <div key={s.step} style={{
+                background: "#F8F5F0", border: "1px solid #E8E4DF", borderRadius: 16,
+                padding: 28, position: "relative"
               }}>
-                <img src={book.img} alt={book.title} loading="lazy" decoding="async" style={{ width: "100%", height: 200, objectFit: "cover" }} />
-                <div style={{ padding: "12px" }}>
-                  <div style={{ fontSize: 12, fontWeight: 600, color: "#1A1A1A", marginBottom: 4 }}>{book.title}</div>
+                <div style={{
+                  position: "absolute", top: 16, right: 16, width: 32, height: 32,
+                  borderRadius: 999, background: "#C49A3C", color: "#FFFFFF",
+                  display: "flex", alignItems: "center", justifyContent: "center",
+                  fontSize: 13, fontWeight: 700
+                }}>
+                  {s.step}
+                </div>
+                <div style={{ color: "#C49A3C", marginBottom: 16 }}>{s.icon}</div>
+                <h3 style={{ fontSize: 16, fontWeight: 600, color: "#1A1A1A", margin: "0 0 8px" }}>{s.title}</h3>
+                <p style={{ fontSize: 13, color: "#6B6B6B", lineHeight: 1.6, margin: 0 }}>{s.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ===== BESTSELLING SHOWCASE ===== */}
+      <section style={{ padding: "80px 24px" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto" }}>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 32, fontWeight: 700, color: "#1A1A1A", margin: "0 0 8px" }}>
+              Created with BookLoom
+            </h2>
+            <p style={{ fontSize: 14, color: "#6B6B6B", margin: 0 }}>Real ebooks authored and styled by creators using AI</p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+            {BOOKS.map((b) => (
+              <div key={b.title} style={{
+                background: "#FFFFFF", border: "1px solid #E8E4DF", borderRadius: 12,
+                overflow: "hidden", boxShadow: "0 2px 12px rgba(0,0,0,0.04)"
+              }}>
+                <img src={b.img} alt={b.title} loading="lazy" style={{ width: "100%", height: 200, objectFit: "cover" }} />
+                <div style={{ padding: 14 }}>
+                  <span style={{ fontSize: 10, fontWeight: 600, color: "#C49A3C", textTransform: "uppercase" }}>{b.category}</span>
+                  <h4 style={{ fontSize: 14, fontWeight: 600, color: "#1A1A1A", margin: "4px 0 8px" }}>{b.title}</h4>
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: 11, color: "#9A9A9A" }}>
-                    <span>👁 {book.views}</span>
-                    <span>📄 {book.pages}</span>
+                    <span>👁 {b.views} readers</span>
+                    <span>📄 {b.pages} pages</span>
                   </div>
                 </div>
               </div>
@@ -273,31 +281,24 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ===== THEMES ===== */}
-      <section style={{ padding: "80px 24px", background: "#FFFFFF" }}>
+      {/* ===== THEMES SHOWCASE ===== */}
+      <section style={{ padding: "80px 24px", background: "#FFFFFF", borderTop: "1px solid #E8E4DF", borderBottom: "1px solid #E8E4DF" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 32, fontWeight: 700, color: "#1A1A1A", textAlign: "center", marginBottom: 40 }}>
-            Choose a Theme That Matches Your Vision
-          </h2>
+          <div style={{ textAlign: "center", marginBottom: 48 }}>
+            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 32, fontWeight: 700, color: "#1A1A1A", margin: "0 0 8px" }}>
+              7 Signature Visual Themes
+            </h2>
+            <p style={{ fontSize: 14, color: "#6B6B6B", margin: 0 }}>Tailored typography, colors, and layout presets for every genre</p>
+          </div>
 
-          <div style={{ display: "flex", gap: 16, justifyContent: "center", flexWrap: "wrap" }}>
-            {THEMES.map((t, i) => (
-              <div key={t.name} onClick={() => setActiveTheme(i)}
-                style={{
-                  padding: "16px", borderRadius: 12, border: `2px solid ${activeTheme === i ? "#C49A3C" : "#E8E4DF"}`,
-                  cursor: "pointer", minWidth: 100, transition: "border-color 0.15s", background: "#FAFAFA",
-                  position: "relative"
-                }}>
-                {activeTheme === i && (
-                  <div style={{
-                    position: "absolute", top: -8, right: -8, width: 20, height: 20,
-                    borderRadius: "50%", background: "#C49A3C", display: "flex", alignItems: "center", justifyContent: "center"
-                  }}>
-                    <CheckCircle size={12} color="#FFFFFF" />
-                  </div>
-                )}
-                <div style={{ width: 64, height: 80, borderRadius: 6, background: t.bg, border: `1px solid ${t.border}`, marginBottom: 8, display: "flex", alignItems: "center", justifyContent: "center" }}>
-                  <span style={{ fontSize: 8, color: t.textColor, fontFamily: "'Playfair Display', serif", textAlign: "center", padding: 4, lineHeight: 1.3 }}>Aa</span>
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4">
+            {THEMES.map((t) => (
+              <div key={t.name} style={{
+                background: t.bg, border: `1px solid ${t.border}`, borderRadius: 12,
+                padding: 16, display: "flex", flexDirection: "column", alignItems: "center", gap: 12
+              }}>
+                <div style={{ width: "100%", height: 60, borderRadius: 6, background: t.bg, border: `1px solid ${t.border}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
+                  <span style={{ fontSize: 12, color: t.textColor, fontFamily: "'Playfair Display', serif", textAlign: "center", padding: 4, lineHeight: 1.3 }}>Aa</span>
                 </div>
                 <div style={{ fontSize: 11, fontWeight: 600, color: "#1A1A1A", textAlign: "center" }}>{t.name}</div>
               </div>
@@ -313,26 +314,45 @@ export default function HomePage() {
             Loved by Creators Worldwide
           </h2>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24, position: "relative" }}>
-            <button onClick={() => setTestimonialIdx(Math.max(0, testimonialIdx - 1))}
-              style={{ position: "absolute", left: -40, top: "50%", transform: "translateY(-50%)", background: "#FFFFFF", border: "1px solid #E8E4DF", borderRadius: "50%", width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
-              <ChevronLeft size={16} />
-            </button>
-            {TESTIMONIALS.map((t, i) => (
-              <div key={i} style={{ background: "#FFFFFF", borderRadius: 12, border: "1px solid #E8E4DF", padding: 32 }}>
-                <div style={{ fontSize: 48, color: "#C49A3C", lineHeight: 1, marginBottom: 8, fontFamily: "Georgia" }}>&quot;</div>
-                <p style={{ fontSize: 14, color: "#4A4A4A", lineHeight: 1.7, marginBottom: 24, fontStyle: "italic" }}>{t.quote}</p>
-                <div style={{ display: "flex", gap: 4, marginBottom: 12 }}>
-                  {[...Array(t.rating)].map((_, j) => <Star key={j} size={14} color="#C49A3C" fill="#C49A3C" />)}
+          <div style={{ position: "relative" }}>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {TESTIMONIALS.map((t, i) => (
+                <div
+                  key={i}
+                  style={{
+                    background: "#FFFFFF", borderRadius: 12, border: "1px solid #E8E4DF", padding: 32,
+                    opacity: i === testimonialIdx ? 1 : 0.85,
+                    transform: i === testimonialIdx ? "scale(1.02)" : "scale(1)",
+                    transition: "all 0.2s ease"
+                  }}
+                >
+                  <div style={{ fontSize: 48, color: "#C49A3C", lineHeight: 1, marginBottom: 8, fontFamily: "Georgia" }}>&quot;</div>
+                  <p style={{ fontSize: 14, color: "#4A4A4A", lineHeight: 1.7, marginBottom: 24, fontStyle: "italic" }}>{t.quote}</p>
+                  <div style={{ display: "flex", gap: 4, marginBottom: 12 }}>
+                    {[...Array(t.rating)].map((_, j) => <Star key={j} size={14} color="#C49A3C" fill="#C49A3C" />)}
+                  </div>
+                  <div style={{ fontWeight: 600, fontSize: 14, color: "#1A1A1A" }}>{t.name}</div>
+                  <div style={{ fontSize: 12, color: "#9A9A9A" }}>{t.role}</div>
                 </div>
-                <div style={{ fontWeight: 600, fontSize: 14, color: "#1A1A1A" }}>{t.name}</div>
-                <div style={{ fontSize: 12, color: "#9A9A9A" }}>{t.role}</div>
-              </div>
-            ))}
-            <button onClick={() => setTestimonialIdx(Math.min(TESTIMONIALS.length - 1, testimonialIdx + 1))}
-              style={{ position: "absolute", right: -40, top: "50%", transform: "translateY(-50%)", background: "#FFFFFF", border: "1px solid #E8E4DF", borderRadius: "50%", width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}>
-              <ChevronRight size={16} />
-            </button>
+              ))}
+            </div>
+
+            <div style={{ display: "flex", justifyContent: "center", gap: 12, marginTop: 24 }}>
+              <button
+                onClick={() => setTestimonialIdx((testimonialIdx - 1 + TESTIMONIALS.length) % TESTIMONIALS.length)}
+                aria-label="Previous Testimonial"
+                style={{ background: "#FFFFFF", border: "1px solid #E8E4DF", borderRadius: "50%", width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button
+                onClick={() => setTestimonialIdx((testimonialIdx + 1) % TESTIMONIALS.length)}
+                aria-label="Next Testimonial"
+                style={{ background: "#FFFFFF", border: "1px solid #E8E4DF", borderRadius: "50%", width: 36, height: 36, display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer" }}
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
         </div>
       </section>
@@ -340,67 +360,38 @@ export default function HomePage() {
       {/* ===== CTA FOOTER BANNER ===== */}
       <section style={{ padding: "64px 24px", background: "#F8F5F0" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ background: "#FFFFFF", borderRadius: 20, border: "1px solid #E8E4DF", padding: "48px 64px", display: "grid", gridTemplateColumns: "1fr auto", alignItems: "center", gap: 40 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 40 }}>
-              <img src="/images/books_stack_with_plant.png" alt="BookLoom" style={{ width: 120, height: 120, objectFit: "cover", borderRadius: 12 }} />
+          <div style={{ background: "#FFFFFF", borderRadius: 20, border: "1px solid #E8E4DF", padding: "40px" }} className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+              <img src="/images/books_stack_with_plant.png" alt="BookLoom" loading="lazy" style={{ width: 100, height: 100, objectFit: "cover", borderRadius: 12 }} />
               <div>
-                <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 28, fontWeight: 700, color: "#1A1A1A", margin: "0 0 8px" }}>
+                <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 26, fontWeight: 700, color: "#1A1A1A", margin: "0 0 8px" }}>
                   Ready to Create Something Amazing?
                 </h2>
                 <p style={{ fontSize: 14, color: "#6B6B6B", margin: 0 }}>
                   Join thousands of creators who trust BookLoom to produce professional ebooks that inspire and sell.
                 </p>
-                <div style={{ display: "flex", gap: 24, marginTop: 16, fontSize: 12, color: "#6B6B6B" }}>
-                  {["No credit card required", "Free forever plan available", "Upgrade anytime"].map(f => (
-                    <div key={f} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <CheckCircle size={13} color="#C49A3C" />
-                      {f}
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
-            <div style={{ textAlign: "right" }}>
-              <div style={{ marginBottom: 8 }}>
-                <span style={{ fontFamily: "'Playfair Display', serif", fontSize: 28, fontWeight: 800, color: "#1A1A1A" }}>Start for Free</span>
-              </div>
-              <div style={{ fontSize: 13, color: "#9A9A9A", marginBottom: 16 }}>
-                $<span style={{ fontSize: 32, fontWeight: 800, color: "#1A1A1A" }}>0</span>
-                <span>/forever</span>
-              </div>
+
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16 }} className="lg:items-end">
               <Link href="/auth/signup">
-                <button style={{
-                  background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 10,
-                  padding: "14px 28px", fontSize: 15, fontWeight: 600, cursor: "pointer",
-                  display: "flex", alignItems: "center", gap: 8, fontFamily: "Inter, sans-serif"
-                }}>
-                  <Sparkles size={15} /> Get Started Free
+                <button style={{ background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 10, padding: "14px 28px", fontSize: 14, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 8 }}>
+                  Start Creating Free <ArrowRight size={16} />
                 </button>
               </Link>
-              <div style={{ fontSize: 11, color: "#9A9A9A", marginTop: 8 }}>No credit card required</div>
+              <div style={{ display: "flex", gap: 16, fontSize: 11, color: "#6B6B6B", flexWrap: "wrap" }}>
+                {["No credit card required", "Free forever plan", "Upgrade anytime"].map(f => (
+                  <div key={f} style={{ display: "flex", alignItems: "center", gap: 4 }}>
+                    <CheckCircle size={12} color="#C49A3C" />
+                    {f}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            "name": "BookLoom",
-            "operatingSystem": "Web",
-            "applicationCategory": "DesignApplication",
-            "description": "AI-Powered Ebook Creator & Publishing Studio for writing, illustrating, and exporting print-ready PDFs and EPUBs.",
-            "offers": {
-              "@type": "Offer",
-              "price": "0.00",
-              "priceCurrency": "USD",
-            },
-          }),
-        }}
-      />
       <Footer />
     </div>
   );

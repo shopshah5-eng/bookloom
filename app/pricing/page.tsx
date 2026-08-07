@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Navbar } from "@/components/layouts/navbar";
 import { Footer } from "@/components/layouts/footer";
 import { Check, Minus, Sparkles, Star } from "lucide-react";
+import { CheckoutModal, CheckoutPlan } from "@/components/modals/checkout-modal";
 
 const PLANS = [
   {
@@ -122,8 +123,6 @@ const COMPARE_ROWS = [
   { feature: "API Access", values: [null, null, null, null, "✓"] },
 ];
 
-import { CheckoutModal, CheckoutPlan } from "@/components/modals/checkout-modal";
-
 export default function PricingPage() {
   const [billing, setBilling] = useState<"monthly" | "yearly">("monthly");
   const [selectedCheckoutPlan, setSelectedCheckoutPlan] = useState<CheckoutPlan | null>(null);
@@ -135,25 +134,25 @@ export default function PricingPage() {
       <CheckoutModal plan={selectedCheckoutPlan} onClose={() => setSelectedCheckoutPlan(null)} />
 
       {/* Hero */}
-      <section style={{ padding: "72px 24px 56px", textAlign: "center", position: "relative" }}>
+      <section style={{ padding: "72px 24px 48px", textAlign: "center", position: "relative" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#FBF3E0", border: "1px solid #EFD98A", borderRadius: 999, padding: "4px 12px", marginBottom: 20 }}>
-            <span style={{ fontSize: 11, fontWeight: 600, color: "#9A6F1A" }}>SIMPLE, TRANSPARENT PRICING</span>
+            <span style={{ fontSize: 11, fontWeight: 600, color: "#855B0B" }}>SIMPLE, TRANSPARENT PRICING</span>
           </div>
 
-          <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 52, fontWeight: 800, color: "#1A1A1A", lineHeight: 1.15, margin: "0 0 16px" }}>
+          <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(32px, 5vw, 52px)", fontWeight: 800, color: "#1A1A1A", lineHeight: 1.15, margin: "0 0 16px" }}>
             Choose the Perfect Plan<br />
             for Your <span style={{ color: "#C49A3C", fontStyle: "italic" }}>Creative Journey</span>
           </h1>
           <p style={{ fontSize: 15, color: "#6B6B6B", margin: "0 0 32px" }}>
-            Start for free and upgrade anytime. All plans include<br />
-            powerful AI tools to create beautiful, professional ebooks.
+            Start for free and upgrade anytime. All plans include powerful AI tools to create beautiful, professional ebooks.
           </p>
 
           {/* Billing Toggle */}
           <div style={{ display: "inline-flex", alignItems: "center", gap: 0, background: "#F0EDE8", borderRadius: 999, padding: 4, border: "1px solid #E8E4DF" }}>
             <button
               onClick={() => setBilling("monthly")}
+              aria-label="Switch to Monthly Billing"
               style={{
                 padding: "8px 24px", borderRadius: 999, fontSize: 13, fontWeight: 600, cursor: "pointer", border: "none",
                 background: billing === "monthly" ? "#FFFFFF" : "transparent",
@@ -165,6 +164,7 @@ export default function PricingPage() {
             </button>
             <button
               onClick={() => setBilling("yearly")}
+              aria-label="Switch to Yearly Billing with 20% Discount"
               style={{
                 padding: "8px 24px", borderRadius: 999, fontSize: 13, fontWeight: 600, cursor: "pointer", border: "none",
                 background: billing === "yearly" ? "#FFFFFF" : "transparent",
@@ -180,7 +180,7 @@ export default function PricingPage() {
 
       {/* Plans Grid */}
       <section style={{ padding: "0 24px 80px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "repeat(5, 1fr)", gap: 16, alignItems: "flex-start" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto" }} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 items-start">
           {PLANS.map((plan) => (
             <div key={plan.name} style={{
               background: "#FFFFFF", borderRadius: 16,
@@ -220,7 +220,9 @@ export default function PricingPage() {
                 )}
               </div>
 
-              <button onClick={() => setSelectedCheckoutPlan(plan)}
+              <button
+                onClick={() => setSelectedCheckoutPlan(plan)}
+                aria-label={`Select ${plan.name} plan`}
                 style={{
                   width: "100%", padding: "10px", borderRadius: 8, fontSize: 13, fontWeight: 600,
                   cursor: "pointer", fontFamily: "Inter, sans-serif", marginBottom: 20,
@@ -249,35 +251,37 @@ export default function PricingPage() {
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
           <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 28, fontWeight: 700, color: "#1A1A1A", marginBottom: 32 }}>Compare Plans</h2>
 
-          <div style={{ background: "#FFFFFF", borderRadius: 16, border: "1px solid #E8E4DF", overflow: "hidden" }}>
-            {/* Header */}
-            <div style={{ display: "grid", gridTemplateColumns: "2fr repeat(5, 1fr)", borderBottom: "1px solid #E8E4DF" }}>
-              <div style={{ padding: "16px 24px", fontWeight: 600, color: "#1A1A1A", fontSize: 15 }}>Compare Plans</div>
-              {PLANS.map((plan) => (
-                <div key={plan.name} style={{ padding: "16px", textAlign: "center", borderLeft: "1px solid #E8E4DF", background: plan.popular ? "#FFFBF0" : "transparent" }}>
-                  <div style={{ fontWeight: 700, fontSize: 14, color: "#1A1A1A" }}>{plan.name}</div>
-                  <div style={{ fontSize: 11, color: "#9A9A9A" }}>
-                    {plan.monthlyPrice === null ? "Custom" : plan.monthlyPrice === 0 ? "$0 / forever" : `$${plan.monthlyPrice} / month`}
-                  </div>
-                  {plan.popular && <div style={{ marginTop: 4, background: "#FBF3E0", color: "#9A6F1A", fontSize: 10, borderRadius: 999, padding: "2px 8px", display: "inline-block" }}>Most Popular</div>}
-                </div>
-              ))}
-            </div>
-
-            {/* Rows */}
-            {COMPARE_ROWS.map((row, i) => (
-              <div key={row.feature} style={{ display: "grid", gridTemplateColumns: "2fr repeat(5, 1fr)", borderBottom: i < COMPARE_ROWS.length - 1 ? "1px solid #E8E4DF" : "none" }}>
-                <div style={{ padding: "14px 24px", fontSize: 13, color: "#4A4A4A", display: "flex", alignItems: "center", gap: 8 }}>
-                  <span style={{ fontSize: 14 }}>📋</span>
-                  {row.feature}
-                </div>
-                {row.values.map((v, vi) => (
-                  <div key={vi} style={{ padding: "14px", textAlign: "center", borderLeft: "1px solid #E8E4DF", fontSize: 12, color: "#4A4A4A", display: "flex", alignItems: "center", justifyContent: "center", background: PLANS[vi].popular ? "#FFFBF0" : "transparent" }}>
-                    {v === null ? <Minus size={14} color="#D0D0D0" /> : v === "✓" ? <Check size={14} color="#22C55E" /> : v}
+          <div style={{ background: "#FFFFFF", borderRadius: 16, border: "1px solid #E8E4DF", overflowX: "auto" }}>
+            <div style={{ minWidth: 800 }}>
+              {/* Header */}
+              <div style={{ display: "grid", gridTemplateColumns: "2fr repeat(5, 1fr)", borderBottom: "1px solid #E8E4DF" }}>
+                <div style={{ padding: "16px 24px", fontWeight: 600, color: "#1A1A1A", fontSize: 15 }}>Compare Features</div>
+                {PLANS.map((plan) => (
+                  <div key={plan.name} style={{ padding: "16px", textAlign: "center", borderLeft: "1px solid #E8E4DF", background: plan.popular ? "#FFFBF0" : "transparent" }}>
+                    <div style={{ fontWeight: 700, fontSize: 14, color: "#1A1A1A" }}>{plan.name}</div>
+                    <div style={{ fontSize: 11, color: "#9A9A9A" }}>
+                      {plan.monthlyPrice === null ? "Custom" : plan.monthlyPrice === 0 ? "$0 / forever" : `$${plan.monthlyPrice} / month`}
+                    </div>
+                    {plan.popular && <div style={{ marginTop: 4, background: "#FBF3E0", color: "#855B0B", fontSize: 10, borderRadius: 999, padding: "2px 8px", display: "inline-block" }}>Most Popular</div>}
                   </div>
                 ))}
               </div>
-            ))}
+
+              {/* Rows */}
+              {COMPARE_ROWS.map((row, i) => (
+                <div key={row.feature} style={{ display: "grid", gridTemplateColumns: "2fr repeat(5, 1fr)", borderBottom: i < COMPARE_ROWS.length - 1 ? "1px solid #E8E4DF" : "none" }}>
+                  <div style={{ padding: "14px 24px", fontSize: 13, color: "#4A4A4A", display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ fontSize: 14 }}>📋</span>
+                    {row.feature}
+                  </div>
+                  {row.values.map((v, vi) => (
+                    <div key={vi} style={{ padding: "14px", textAlign: "center", borderLeft: "1px solid #E8E4DF", fontSize: 12, color: "#4A4A4A", display: "flex", alignItems: "center", justifyContent: "center", background: PLANS[vi].popular ? "#FFFBF0" : "transparent" }}>
+                      {v === null ? <Minus size={14} color="#D0D0D0" /> : v === "✓" ? <Check size={14} color="#22C55E" /> : v}
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -285,30 +289,32 @@ export default function PricingPage() {
       {/* Bottom CTA */}
       <section style={{ padding: "0 24px 80px" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ background: "#F0EDE8", borderRadius: 16, border: "1px solid #E8E4DF", padding: "48px 64px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 40 }}>
-              <img src="/images/books_stack_with_plant.png" alt="" style={{ width: 100, height: 100, objectFit: "cover", borderRadius: 12 }} />
+          <div style={{ background: "#F0EDE8", borderRadius: 16, border: "1px solid #E8E4DF", padding: "40px" }} className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+              <img src="/images/books_stack_with_plant.png" alt="BookLoom" loading="lazy" style={{ width: 100, height: 100, objectFit: "cover", borderRadius: 12 }} />
               <div>
                 <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 26, fontWeight: 700, color: "#1A1A1A", margin: "0 0 8px" }}>
                   Ready to Create Something Amazing?
                 </h3>
-                <p style={{ fontSize: 13, color: "#6B6B6B", margin: "0 0 12px" }}>
+                <p style={{ fontSize: 13, color: "#6B6B6B", margin: 0 }}>
                   Join thousands of creators who trust BookLoom to bring their ideas to life.
                 </p>
-                <div style={{ display: "flex", gap: 24, fontSize: 12, color: "#6B6B6B" }}>
-                  {["No credit card required", "Cancel anytime", "Free plan available"].map(f => (
-                    <div key={f} style={{ display: "flex", alignItems: "center", gap: 6 }}>
-                      <Check size={12} color="#C49A3C" /> {f}
-                    </div>
-                  ))}
-                </div>
               </div>
             </div>
-            <Link href="/auth/signup">
-              <button style={{ background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 10, padding: "16px 32px", fontSize: 15, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: "Inter, sans-serif", whiteSpace: "nowrap" }}>
-                <Sparkles size={15} /> Get Started for Free
-              </button>
-            </Link>
+            <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-start", gap: 16 }} className="lg:items-end">
+              <Link href="/auth/signup">
+                <button style={{ background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 10, padding: "16px 32px", fontSize: 15, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: "Inter, sans-serif", whiteSpace: "nowrap" }}>
+                  <Sparkles size={15} /> Get Started for Free
+                </button>
+              </Link>
+              <div style={{ display: "flex", gap: 16, fontSize: 12, color: "#6B6B6B", flexWrap: "wrap" }}>
+                {["No credit card required", "Cancel anytime", "Free plan available"].map(f => (
+                  <div key={f} style={{ display: "flex", alignItems: "center", gap: 6 }}>
+                    <Check size={12} color="#C49A3C" /> {f}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>

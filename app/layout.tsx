@@ -3,6 +3,7 @@ import { Playfair_Display, Inter } from "next/font/google";
 import "./globals.css";
 import { ToastProvider } from "@/components/ui/toast";
 import { AuthProvider } from "@/components/providers/auth-provider";
+import { CookieBanner } from "@/components/ui/cookie-banner";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -39,6 +40,11 @@ export const metadata: Metadata = {
   authors: [{ name: "BookLoom Team" }],
   creator: "BookLoom",
   publisher: "BookLoom Studio",
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
   alternates: {
     canonical: siteUrl,
   },
@@ -82,7 +88,10 @@ export default function RootLayout({
     <html lang="en" className={`${playfair.variable} ${inter.variable}`} suppressHydrationWarning>
       <body style={{ background: "#F8F5F0", color: "#1A1A1A" }} className="antialiased" suppressHydrationWarning>
         <AuthProvider>
-          <ToastProvider>{children}</ToastProvider>
+          <ToastProvider>
+            <main id="main-content">{children}</main>
+            <CookieBanner />
+          </ToastProvider>
         </AuthProvider>
       </body>
     </html>

@@ -113,7 +113,7 @@ export default function DeveloperPortalPage() {
           </p>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 32, marginBottom: 48 }}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
           {/* Section 1: API Keys */}
           <div style={{ background: "#FFFFFF", borderRadius: 16, border: "1px solid #E8E4DF", padding: 28, boxShadow: "0 4px 16px rgba(0,0,0,0.03)" }}>
             <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>

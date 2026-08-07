@@ -122,28 +122,34 @@ export default function FeaturesPage() {
       <Navbar />
 
       {/* Hero */}
-      <section style={{ padding: "72px 24px 48px" }}>
-        <div style={{ maxWidth: 1280, margin: "0 auto", display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
+      <section style={{ padding: "72px 24px 64px" }}>
+        <div style={{ maxWidth: 1280, margin: "0 auto" }} className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+          {/* Left */}
           <div>
-            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#FBF3E0", border: "1px solid #EFD98A", borderRadius: 999, padding: "4px 12px", marginBottom: 20 }}>
-              <span style={{ fontSize: 11, fontWeight: 600, color: "#9A6F1A" }}>POWERFUL FEATURES</span>
+            <div style={{ display: "inline-flex", alignItems: "center", gap: 6, background: "#FBF3E0", border: "1px solid #EFD98A", borderRadius: 999, padding: "4px 12px", marginBottom: 24 }}>
+              <span style={{ fontSize: 11, fontWeight: 600, color: "#855B0B" }}>EVERYTHING YOU NEED TO PUBLISH</span>
             </div>
-            <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 52, fontWeight: 800, color: "#1A1A1A", lineHeight: 1.1, margin: "0 0 16px" }}>
-              Everything You Need<br />to Create<br />
-              <span style={{ color: "#C49A3C", fontStyle: "italic" }}>Stunning Ebooks</span>
+
+            <h1 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: "clamp(32px, 5vw, 48px)", fontWeight: 800, color: "#1A1A1A", lineHeight: 1.15, margin: "0 0 16px" }}>
+              Powerful Features for<br />
+              <span style={{ color: "#C49A3C", fontStyle: "italic" }}>Modern Authors</span>
             </h1>
-            <p style={{ fontSize: 15, color: "#6B6B6B", lineHeight: 1.7, marginBottom: 32, maxWidth: 440 }}>
-              BookLoom combines advanced AI with beautiful design tools to help you create professional ebooks that stand out.
+
+            <p style={{ fontSize: 15, color: "#6B6B6B", lineHeight: 1.7, maxWidth: 480, marginBottom: 32 }}>
+              BookLoom combines multi-model AI writing, automatic book cover generation, vector illustrations, and print-ready exports into one seamless workflow.
             </p>
-            <div style={{ display: "flex", gap: 12 }}>
+
+            <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
               <Link href="/auth/signup">
                 <button style={{ background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 10, padding: "14px 24px", fontSize: 14, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: "Inter, sans-serif" }}>
                   <Sparkles size={14} /> Get Started for Free
                 </button>
               </Link>
-              <button style={{ background: "transparent", color: "#1A1A1A", border: "1px solid #E8E4DF", borderRadius: 10, padding: "14px 20px", fontSize: 14, fontWeight: 500, cursor: "pointer", display: "flex", alignItems: "center", gap: 6, fontFamily: "Inter, sans-serif" }}>
-                <Play size={14} fill="#1A1A1A" /> See It In Action
-              </button>
+              <Link href="/examples">
+                <button style={{ background: "transparent", color: "#1A1A1A", border: "1px solid #E8E4DF", borderRadius: 10, padding: "14px 20px", fontSize: 14, fontWeight: 500, cursor: "pointer", display: "flex", alignItems: "center", gap: 6, fontFamily: "Inter, sans-serif" }}>
+                  <Play size={14} fill="#1A1A1A" /> See Examples
+                </button>
+              </Link>
             </div>
           </div>
 
@@ -155,7 +161,7 @@ export default function FeaturesPage() {
               <div style={{ width: 10, height: 10, borderRadius: "50%", background: "#22C55E" }} />
               <span style={{ marginLeft: 8, fontSize: 11, color: "#9A9A9A" }}>BookLoom › My Ebook › Chapter 1</span>
             </div>
-            <div style={{ display: "grid", gridTemplateColumns: "120px 1fr 60px", height: 280 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "100px 1fr 50px", height: 280 }}>
               <div style={{ borderRight: "1px solid #E8E4DF", padding: 12 }}>
                 {["Create", "Content", "Visuals", "Editor", "Export", "Settings"].map(item => (
                   <div key={item} style={{ padding: "6px 8px", fontSize: 11, color: "#4A4A4A", borderRadius: 6, marginBottom: 2 }}>{item}</div>
@@ -169,11 +175,11 @@ export default function FeaturesPage() {
                 <div style={{ height: 2, background: "#E8E4DF", borderRadius: 2, marginBottom: 8 }} />
                 <div style={{ height: 2, background: "#E8E4DF", borderRadius: 2, marginBottom: 8, width: "80%" }} />
                 <div style={{ height: 2, background: "#E8E4DF", borderRadius: 2, marginBottom: 8, width: "90%" }} />
-                <img src="/images/book_wealth_mindset.png" alt="" style={{ width: 80, height: 100, borderRadius: 6, objectFit: "cover", marginTop: 8 }} />
+                <img src="/images/book_wealth_mindset.png" alt="Book Preview" loading="lazy" style={{ width: 80, height: 100, borderRadius: 6, objectFit: "cover", marginTop: 8 }} />
               </div>
               <div style={{ borderLeft: "1px solid #E8E4DF", padding: 8, display: "flex", flexDirection: "column", gap: 8, alignItems: "center", paddingTop: 16 }}>
                 {["⊞", "🖼", "T", "↓"].map((icon, i) => (
-                  <div key={i} style={{ width: 32, height: 32, borderRadius: 6, border: "1px solid #E8E4DF", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 14, cursor: "pointer" }}>{icon}</div>
+                  <div key={i} style={{ width: 28, height: 28, borderRadius: 6, border: "1px solid #E8E4DF", display: "flex", alignItems: "center", justifyContent: "center", fontSize: 12, cursor: "pointer" }}>{icon}</div>
                 ))}
               </div>
             </div>
@@ -194,7 +200,7 @@ export default function FeaturesPage() {
             </p>
           </div>
 
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 20 }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {FEATURES.map((f) => (
               <div key={f.title} style={{ background: "#FFFFFF", borderRadius: 12, border: "1px solid #E8E4DF", overflow: "hidden" }}>
                 <div style={{ padding: "24px 24px 16px" }}>
@@ -212,9 +218,9 @@ export default function FeaturesPage() {
       {/* Bottom CTA */}
       <section style={{ padding: "0 24px 80px" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto" }}>
-          <div style={{ background: "#F0EDE8", borderRadius: 16, border: "1px solid #E8E4DF", padding: "48px 64px", display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 40 }}>
-              <img src="/images/books_stack_with_plant.png" alt="" style={{ width: 100, height: 100, objectFit: "cover", borderRadius: 12 }} />
+          <div style={{ background: "#F0EDE8", borderRadius: 16, border: "1px solid #E8E4DF", padding: "40px" }} className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div style={{ display: "flex", alignItems: "center", gap: 24 }}>
+              <img src="/images/books_stack_with_plant.png" alt="BookLoom Stack" loading="lazy" style={{ width: 100, height: 100, objectFit: "cover", borderRadius: 12 }} />
               <div>
                 <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 26, fontWeight: 700, color: "#1A1A1A", margin: "0 0 8px" }}>
                   All the Tools. One Beautiful Platform.
@@ -223,7 +229,7 @@ export default function FeaturesPage() {
                 <p style={{ fontSize: 13, color: "#6B6B6B", margin: "0 0 12px" }}>
                   Create, design, and export professional ebooks faster than ever before.
                 </p>
-                <div style={{ display: "flex", gap: 20, fontSize: 12, color: "#6B6B6B" }}>
+                <div style={{ display: "flex", gap: 20, fontSize: 12, color: "#6B6B6B", flexWrap: "wrap" }}>
                   {["No credit card required", "Free forever plan available"].map(f => (
                     <div key={f} style={{ display: "flex", alignItems: "center", gap: 6 }}>
                       <CheckCircle size={12} color="#C49A3C" /> {f}
@@ -232,11 +238,13 @@ export default function FeaturesPage() {
                 </div>
               </div>
             </div>
-            <Link href="/auth/signup">
-              <button style={{ background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 10, padding: "16px 32px", fontSize: 15, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: "Inter, sans-serif", whiteSpace: "nowrap" }}>
-                <Sparkles size={15} /> Get Started for Free
-              </button>
-            </Link>
+            <div style={{ display: "flex", justifyContent: "flex-start" }} className="lg:justify-end">
+              <Link href="/auth/signup">
+                <button style={{ background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 10, padding: "16px 32px", fontSize: 15, fontWeight: 600, cursor: "pointer", display: "flex", alignItems: "center", gap: 8, fontFamily: "Inter, sans-serif", whiteSpace: "nowrap" }}>
+                  <Sparkles size={15} /> Get Started for Free
+                </button>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
