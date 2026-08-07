@@ -35,16 +35,13 @@ export default function LoginPage() {
       });
 
       if (error) {
-        // Fallback demo sign in if Supabase instance is unconfigured/demo
-        signInDemo();
-        router.push("/dashboard");
+        setErrorMessage(error.message || "Invalid email or password.");
       } else {
         router.push("/dashboard");
       }
     } catch (err: any) {
       console.error(err);
-      signInDemo();
-      router.push("/dashboard");
+      setErrorMessage(err.message || "Login failed. Please check your credentials.");
     } finally {
       setLoading(false);
     }

@@ -71,6 +71,16 @@ export function Navbar() {
                 <button
                   aria-label="Toggle Resources Menu"
                   aria-expanded={resourcesOpen}
+                  aria-haspopup="true"
+                  onClick={() => setResourcesOpen(!resourcesOpen)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      setResourcesOpen(!resourcesOpen);
+                    } else if (e.key === "Escape") {
+                      setResourcesOpen(false);
+                    }
+                  }}
                   style={{
                     display: "flex", alignItems: "center", gap: 4,
                     background: "none", border: "none", cursor: "pointer",

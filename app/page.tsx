@@ -118,7 +118,7 @@ export default function HomePage() {
         </div>
 
         {/* Create Ebook Form Box */}
-        <div style={{ maxWidth: 1280, margin: "40px auto 0" }}>
+        <div style={{ maxWidth: 1280, margin: "40px auto 0" }} className="w-full max-w-full overflow-hidden">
           <div style={{
             background: "#FFFFFF", border: "1px solid #E8E4DF", borderRadius: 16,
             padding: 24, boxShadow: "0 4px 24px rgba(0,0,0,0.06)"
@@ -128,11 +128,12 @@ export default function HomePage() {
               <span style={{ fontWeight: 600, fontSize: 16, color: "#1A1A1A" }}>Start Creating Your Ebook</span>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
               <div>
                 <textarea
                   value={promptInput}
                   onChange={e => setPromptInput(e.target.value)}
+                  maxLength={4000}
                   placeholder="Describe your ebook idea in detail..."
                   aria-label="Describe your ebook topic prompt"
                   style={{
@@ -294,15 +295,26 @@ export default function HomePage() {
 
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-4">
             {THEMES.map((t) => (
-              <div key={t.name} className="card-hover" style={{
-                background: t.bg, border: `1px solid ${t.border}`, borderRadius: 12,
-                padding: 16, display: "flex", flexDirection: "column", alignItems: "center", gap: 12, cursor: "pointer"
-              }}>
+              <button
+                key={t.name}
+                type="button"
+                onClick={() => setTheme(t.name)}
+                aria-pressed={theme === t.name}
+                className="card-hover"
+                style={{
+                  background: t.bg,
+                  border: theme === t.name ? "2px solid #C49A3C" : `1px solid ${t.border}`,
+                  borderRadius: 12,
+                  padding: 16, display: "flex", flexDirection: "column", alignItems: "center", gap: 12, cursor: "pointer",
+                  boxShadow: theme === t.name ? "0 4px 16px rgba(196,154,60,0.25)" : "none",
+                  outline: "none"
+                }}
+              >
                 <div style={{ width: "100%", height: 60, borderRadius: 6, background: t.bg, border: `1px solid ${t.border}`, display: "flex", alignItems: "center", justifyContent: "center" }}>
                   <span style={{ fontSize: 12, color: t.textColor, fontFamily: "'Playfair Display', serif", textAlign: "center", padding: 4, lineHeight: 1.3 }}>Aa</span>
                 </div>
-                <div style={{ fontSize: 11, fontWeight: 600, color: "#1A1A1A", textAlign: "center" }}>{t.name}</div>
-              </div>
+                <div style={{ fontSize: 11, fontWeight: theme === t.name ? 700 : 600, color: theme === t.name ? "#855B0B" : "#1A1A1A", textAlign: "center" }}>{t.name}</div>
+              </button>
             ))}
           </div>
         </div>
