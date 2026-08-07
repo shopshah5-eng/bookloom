@@ -47,7 +47,7 @@ export async function middleware(request: NextRequest) {
     if (isProtectedRoute && !user) {
       const url = request.nextUrl.clone();
       url.pathname = "/auth/login";
-      url.searchParams.set("redirectedFrom", request.nextUrl.pathname);
+      url.searchParams.set("redirectedFrom", request.nextUrl.pathname + request.nextUrl.search);
       return NextResponse.redirect(url);
     }
   } catch (error) {

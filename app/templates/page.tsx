@@ -71,7 +71,7 @@ export default function TemplatesPage() {
 
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 24 }}>
             {filtered.map(t => (
-              <div key={t.id} style={{ background: "#FFFFFF", borderRadius: 16, border: "1px solid #E8E4DF", overflow: "hidden", boxShadow: "0 4px 16px rgba(0,0,0,0.03)" }}>
+              <div key={t.id} className="card-hover" style={{ background: "#FFFFFF", borderRadius: 16, border: "1px solid #E8E4DF", overflow: "hidden", boxShadow: "0 4px 16px rgba(0,0,0,0.03)" }}>
                 <div style={{ height: 240, background: "#F0EDE8", overflow: "hidden", position: "relative", display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
                   {t.popular && (
                     <span style={{ position: "absolute", top: 12, left: 12, background: "#C49A3C", color: "#FFFFFF", fontSize: 10, fontWeight: 700, padding: "4px 10px", borderRadius: 999 }}>
@@ -81,13 +81,13 @@ export default function TemplatesPage() {
                   <img src={t.img} alt={t.title} style={{ height: 200, width: 140, objectFit: "cover", borderRadius: 8, boxShadow: "0 8px 24px rgba(0,0,0,0.15)" }} />
                 </div>
                 <div style={{ padding: 24 }}>
-                  <div style={{ fontSize: 11, fontWeight: 600, color: "#C49A3C", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 6 }}>{t.category}</div>
+                  <div style={{ fontSize: 11, fontWeight: 600, color: "#855B0B", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: 6 }}>{t.category}</div>
                   <h3 style={{ fontFamily: "'Playfair Display', serif", fontSize: 18, fontWeight: 700, color: "#1A1A1A", marginBottom: 8 }}>{t.title}</h3>
                   <div style={{ display: "flex", justifyContent: "space-between", fontSize: 12, color: "#6B6B6B", marginBottom: 20 }}>
                     <span>Theme: {t.theme}</span>
                     <span>{t.pages} Pages</span>
                   </div>
-                  <Link href="/dashboard/create">
+                  <Link href={`/dashboard/create?template=${encodeURIComponent(t.title)}&theme=${encodeURIComponent(t.theme)}`}>
                     <button style={{ width: "100%", background: "#1A1A1A", color: "#FFFFFF", border: "none", borderRadius: 8, padding: "11px", fontSize: 13, fontWeight: 600, cursor: "pointer", fontFamily: "Inter, sans-serif", display: "flex", alignItems: "center", justifyContent: "center", gap: 6 }}>
                       <Sparkles size={14} /> Use This Template
                     </button>
