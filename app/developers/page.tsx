@@ -255,7 +255,7 @@ export default function DeveloperPortalPage() {
               <label style={{ fontSize: 12, color: "#A1A1AA", display: "block", marginBottom: 6 }}>Live Server Response</label>
               <div style={{ background: "#0A0A0C", border: "1px solid #2D2D2D", borderRadius: 8, padding: 16, height: 260, overflowY: "auto" }}>
                 {apiResponse ? (
-                  <pre style={{ margin: 0, fontSize: 11, color: "#4ADE80", fontFamily: "monospace", whitespace: "pre-wrap" }}>
+                  <pre style={{ margin: 0, fontSize: 11, color: "#4ADE80", fontFamily: "monospace", whiteSpace: "pre-wrap" }}>
                     {JSON.stringify(apiResponse, null, 2)}
                   </pre>
                 ) : (

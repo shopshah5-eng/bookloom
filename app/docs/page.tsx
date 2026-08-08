@@ -57,7 +57,7 @@ export default function DocsPage() {
       {/* Code & Guides Workspace */}
       <section style={{ padding: "0 24px 80px" }}>
         <div style={{ maxWidth: 1280, margin: "0 auto", background: "#FFFFFF", borderRadius: 16, border: "1px solid #E8E4DF", padding: "36px", boxShadow: "0 4px 20px rgba(0,0,0,0.04)" }}>
-          <div style={{ display: "flex", gap: 12, borderBottom: "1px solid #E8E4DF", pb: 16, marginBottom: 24 }}>
+          <div style={{ display: "flex", gap: 12, borderBottom: "1px solid #E8E4DF", paddingBottom: 16, marginBottom: 24 }}>
             {[
               { id: "quickstart", label: "🚀 Quickstart" },
               { id: "api", label: "💻 API Reference" },

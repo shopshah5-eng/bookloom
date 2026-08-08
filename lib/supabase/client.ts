@@ -7,13 +7,19 @@ export function createClient() {
   return createBrowserClient(supabaseUrl, supabaseAnonKey);
 }
 
-export async function signInWithGoogle() {
+export async function signInWithGoogle(redirectToTarget?: string) {
   const supabase = createClient();
   const origin = typeof window !== "undefined" ? window.location.origin : "";
+  const redirectTo = redirectToTarget || `${origin}/auth/callback`;
+
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "google",
     options: {
-      redirectTo: `${origin}/auth/callback`,
+      redirectTo,
+      queryParams: {
+        access_type: "offline",
+        prompt: "consent",
+      },
     },
   });
   if (error) {

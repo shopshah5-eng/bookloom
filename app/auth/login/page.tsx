@@ -2,12 +2,11 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { BookOpen, Eye, EyeOff, ArrowLeft } from "lucide-react";
+import { BookOpen, Eye, EyeOff, ArrowLeft, Sparkles, Loader2, AlertCircle } from "lucide-react";
 import { signInWithGoogle } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/components/providers/auth-provider";
-import { Loader2, AlertCircle } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -48,7 +47,9 @@ export default function LoginPage() {
       if (error) {
         setErrorMessage(error.message || "Invalid email or password.");
       } else {
-        router.push("/dashboard");
+        const searchParams = new URLSearchParams(window.location.search);
+        const redirectUrl = searchParams.get("redirectedFrom") || "/dashboard";
+        router.push(redirectUrl);
       }
     } catch (err: any) {
       console.error(err);
@@ -62,11 +63,19 @@ export default function LoginPage() {
     setLoading(true);
     setErrorMessage("");
     try {
-      await signInWithGoogle();
+      const searchParams = new URLSearchParams(window.location.search);
+      const targetParam = searchParams.get("redirectedFrom");
+      const redirectUrl = targetParam 
+        ? `${window.location.origin}/auth/callback?next=${encodeURIComponent(targetParam)}`
+        : undefined;
+      await signInWithGoogle(redirectUrl);
     } catch (err: any) {
       console.error("Google login error:", err);
-      signInDemo();
-      router.push("/dashboard");
+      setErrorMessage(err.message || "Google login encounter error. Accessing studio demo...");
+      setTimeout(() => {
+        signInDemo();
+        router.push("/dashboard");
+      }, 1200);
     } finally {
       setLoading(false);
     }

@@ -2,12 +2,11 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { BookOpen, Eye, EyeOff, ArrowLeft, Check } from "lucide-react";
+import { BookOpen, Eye, EyeOff, ArrowLeft, Check, CheckCircle2 as CheckCircle, Loader2, AlertCircle } from "lucide-react";
 import { signInWithGoogle } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useAuth } from "@/components/providers/auth-provider";
-import { Loader2, AlertCircle } from "lucide-react";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -55,10 +54,20 @@ export default function SignupPage() {
 
       if (error) {
         setErrorMessage(error.message);
-      } else if (data?.user && !data?.session) {
-        setSuccessMessage("Account created successfully! We have sent a confirmation email to " + email + ". Please check your inbox to activate your account.");
-      } else {
-        router.push("/dashboard");
+      } else if (data?.user) {
+        // Try creating profile record
+        if (data.session) {
+          await supabase.from("profiles").upsert({
+            id: data.user.id,
+            email: data.user.email || email,
+            full_name: name,
+            role: "author",
+            plan: "free",
+          });
+          router.push("/dashboard");
+        } else {
+          setSuccessMessage("Account created successfully! We have sent a confirmation email to " + email + ". Please check your inbox to activate your account.");
+        }
       }
     } catch (err: any) {
       console.error(err);
@@ -75,8 +84,11 @@ export default function SignupPage() {
       await signInWithGoogle();
     } catch (err: any) {
       console.error("Google signup error:", err);
-      signInDemo();
-      router.push("/dashboard");
+      setErrorMessage(err.message || "Google signup error. Redirecting to studio demo...");
+      setTimeout(() => {
+        signInDemo();
+        router.push("/dashboard");
+      }, 1200);
     } finally {
       setLoading(false);
     }

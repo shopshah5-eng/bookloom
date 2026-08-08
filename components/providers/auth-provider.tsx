@@ -83,19 +83,40 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     getUserSession();
 
-    const { data: authListener } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (_event, session) => {
       if (session?.user) {
         setUser(session.user);
-        setProfile({
-          id: session.user.id,
-          email: session.user.email || "",
-          fullName: session.user.user_metadata?.full_name || session.user.email?.split("@")[0] || "Author",
-          avatarUrl: session.user.user_metadata?.avatar_url,
-          role: "author",
-          plan: "pro",
-        });
+        try {
+          const { data } = await supabase
+            .from("profiles")
+            .select("*")
+            .eq("id", session.user.id)
+            .single();
+
+          const userRole = (data?.role || "author") as UserRole;
+          const userPlan = data?.plan || "free";
+          setProfile({
+            id: session.user.id,
+            email: session.user.email || "",
+            fullName: data?.full_name || session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email?.split("@")[0] || "Author",
+            avatarUrl: data?.avatar_url || session.user.user_metadata?.avatar_url || session.user.user_metadata?.picture,
+            role: userRole,
+            plan: userPlan,
+          });
+          setRole(userRole);
+        } catch {
+          setProfile({
+            id: session.user.id,
+            email: session.user.email || "",
+            fullName: session.user.user_metadata?.full_name || session.user.user_metadata?.name || session.user.email?.split("@")[0] || "Author",
+            avatarUrl: session.user.user_metadata?.avatar_url || session.user.user_metadata?.picture,
+            role: "author",
+            plan: "free",
+          });
+        }
       } else {
         setUser(null);
+        setProfile(null);
       }
     });
 

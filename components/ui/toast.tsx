@@ -15,6 +15,7 @@ export interface ToastMessage {
 
 interface ToastContextType {
   toast: (msg: Omit<ToastMessage, "id">) => void;
+  addToast: (msg: Omit<ToastMessage, "id">) => void;
 }
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined);
@@ -36,7 +37,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <ToastContext.Provider value={{ toast }}>
+    <ToastContext.Provider value={{ toast, addToast: toast }}>
       {children}
       <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2.5 max-w-sm w-full pointer-events-none">
         {toasts.map((t) => (
