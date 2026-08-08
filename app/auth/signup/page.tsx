@@ -42,10 +42,12 @@ export default function SignupPage() {
     setLoading(true);
     try {
       const supabase = createClient();
+      const origin = typeof window !== "undefined" ? window.location.origin : "";
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
+          emailRedirectTo: `${origin}/auth/callback`,
           data: {
             full_name: name,
           },
@@ -66,7 +68,7 @@ export default function SignupPage() {
           });
           router.push("/dashboard");
         } else {
-          setSuccessMessage("Account created successfully! We have sent a confirmation email to " + email + ". Please check your inbox to activate your account.");
+          setSuccessMessage(`Account created for ${email}! A confirmation link was sent. You can check your email or click below to enter your workspace immediately.`);
         }
       }
     } catch (err: any) {
@@ -141,9 +143,21 @@ export default function SignupPage() {
 
               <div aria-live="polite">
                 {successMessage && (
-                  <div style={{ marginBottom: 16, padding: "12px 14px", background: "#ECFDF5", border: "1px solid #A7F3D0", borderRadius: 8, color: "#065F46", fontSize: 13, lineHeight: 1.5, display: "flex", alignItems: "flex-start", gap: 8 }}>
-                    <CheckCircle size={16} color="#059669" style={{ flexShrink: 0, marginTop: 2 }} />
-                    <span>{successMessage}</span>
+                  <div style={{ marginBottom: 16, padding: "14px", background: "#ECFDF5", border: "1px solid #A7F3D0", borderRadius: 10, color: "#065F46", fontSize: 13, lineHeight: 1.5, display: "flex", flexDirection: "column", gap: 10 }}>
+                    <div style={{ display: "flex", alignItems: "flex-start", gap: 8 }}>
+                      <CheckCircle size={16} color="#059669" style={{ flexShrink: 0, marginTop: 2 }} />
+                      <span>{successMessage}</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        signInDemo();
+                        router.push("/dashboard");
+                      }}
+                      style={{ background: "#059669", color: "#FFFFFF", border: "none", borderRadius: 6, padding: "8px 14px", fontSize: 12, fontWeight: 600, cursor: "pointer" }}
+                    >
+                      Enter Studio Workspace →
+                    </button>
                   </div>
                 )}
 
