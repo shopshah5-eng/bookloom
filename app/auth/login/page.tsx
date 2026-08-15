@@ -45,15 +45,7 @@ export default function LoginPage() {
       });
 
       if (error) {
-        if (error.message?.toLowerCase().includes("email not confirmed")) {
-          setErrorMessage("Email registered! Unconfirmed email bypass — loading studio workspace...");
-          setTimeout(() => {
-            signInDemo();
-            router.push("/dashboard");
-          }, 1000);
-        } else {
-          setErrorMessage(error.message || "Invalid email or password.");
-        }
+        setErrorMessage(error.message || "Invalid email or password.");
       } else {
         const searchParams = new URLSearchParams(window.location.search);
         const redirectUrl = searchParams.get("redirectedFrom") || "/dashboard";
@@ -79,11 +71,7 @@ export default function LoginPage() {
       await signInWithGoogle(redirectUrl);
     } catch (err: any) {
       console.error("Google login error:", err);
-      setErrorMessage(err.message || "Google login encounter error. Accessing studio demo...");
-      setTimeout(() => {
-        signInDemo();
-        router.push("/dashboard");
-      }, 1200);
+      setErrorMessage(err.message || "Google login error. Please try again.");
     } finally {
       setLoading(false);
     }

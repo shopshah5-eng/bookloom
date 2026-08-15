@@ -45,14 +45,11 @@ export async function middleware(request: NextRequest) {
       // Allow fallback if Supabase host is unreachable
     }
 
-    const isDemoCookie = request.cookies.get("bookloom_demo_user")?.value === "true";
-
-    // Protect dashboard, settings, and editor routes
     const isProtectedRoute = request.nextUrl.pathname.startsWith("/dashboard") || 
                            request.nextUrl.pathname.startsWith("/settings") ||
                            request.nextUrl.pathname.startsWith("/editor");
 
-    if (isProtectedRoute && !user && !isDemoCookie) {
+    if (isProtectedRoute && !user) {
       const url = request.nextUrl.clone();
       url.pathname = "/auth/login";
       url.searchParams.set("redirectedFrom", request.nextUrl.pathname + request.nextUrl.search);

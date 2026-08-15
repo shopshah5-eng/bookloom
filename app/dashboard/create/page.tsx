@@ -223,6 +223,25 @@ export default function CreatePage() {
     };
 
     try {
+      const supabase = createClient();
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        await supabase.from("ebooks").upsert({
+          id: bookId,
+          user_id: user.id,
+          title: bookTitle || prompt,
+          subtitle: bookSubtitle || `A Masterpiece Guide on ${prompt}`,
+          genre: ebookType,
+          word_count: totalWords,
+          page_count: targetPages,
+          cover_image: coverImageUrl,
+          status: "published",
+          updated_at: new Date().toISOString(),
+        });
+      }
+    } catch (e) {}
+
+    try {
       localStorage.setItem("bookloom_current_book", JSON.stringify(fullBook));
 
       const existingStr = localStorage.getItem("bookloom_books");

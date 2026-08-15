@@ -5,41 +5,68 @@ import Link from "next/link";
 import { DashboardSidebar } from "@/components/layouts/dashboard-sidebar";
 import { Bell, ChevronDown, Plus, Search, MoreHorizontal, Download, Edit3, Eye, Trash2, Grid3x3, List, ArrowUpRight } from "lucide-react";
 
+import { createClient } from "@/lib/supabase/client";
+
 export default function LibraryPage() {
   const [view, setView] = useState<"grid" | "list">("list");
   const [search, setSearch] = useState("");
   const [books, setBooks] = useState<any[]>([]);
 
   useEffect(() => {
-    try {
-      const stored = localStorage.getItem("bookloom_books");
-      if (stored) {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed) && parsed.length > 0) {
-          const formatted = parsed.map((b: any) => ({
-            id: b.id,
-            title: b.title || "Untitled Ebook",
-            format: "PDF",
-            category: b.ebookType || "Non-Fiction",
-            words: b.totalWords ? b.totalWords.toLocaleString() : "5,400",
-            pages: String(b.targetPages || 25),
-            updated: "Just now",
-            status: "Complete",
-            img: "/images/book_wealth_mindset.png",
-          }));
-          setBooks(formatted);
-          return;
-        }
-      }
-    } catch (e) {}
+    async function loadBooks() {
+      try {
+        const supabase = createClient();
+        const { data: { user } } = await supabase.auth.getUser();
+        if (user) {
+          const { data: userEbooks } = await supabase
+            .from("ebooks")
+            .select("*")
+            .eq("user_id", user.id)
+            .order("updated_at", { ascending: false });
 
-    // Fallback default sample books if local storage is empty
-    setBooks([
-      { id: "eb_1", title: "The Wealth Mindset", format: "PDF", category: "Finance & Business", words: "28,450", pages: "196", updated: "2 hours ago", status: "Complete", img: "/images/book_wealth_mindset.png" },
-      { id: "eb_2", title: "Minimalist Living", format: "EPUB", category: "Self Help", words: "15,230", pages: "98", updated: "1 day ago", status: "Complete", img: "/images/book_minimalist_living.png" },
-      { id: "eb_3", title: "Startup Playbook 2026", format: "PDF", category: "Business", words: "30,120", pages: "215", updated: "2 days ago", status: "Complete", img: "/images/book_startup_playbook.png" },
-      { id: "eb_4", title: "Deep Focus Mastery", format: "PDF", category: "Productivity", words: "22,105", pages: "145", updated: "3 days ago", status: "Complete", img: "/images/book_deep_focus_mastery.png" },
-    ]);
+          if (userEbooks && userEbooks.length > 0) {
+            setBooks(userEbooks.map((b: any) => ({
+              id: b.id,
+              title: b.title || "Untitled Ebook",
+              format: "PDF / EPUB",
+              category: b.genre || b.ebook_type || "Non-Fiction",
+              words: b.word_count ? b.word_count.toLocaleString() : "5,400",
+              pages: String(b.page_count || b.target_pages || 25),
+              updated: new Date(b.updated_at).toLocaleDateString(),
+              status: b.status || "Complete",
+              img: b.cover_image || "/images/book_wealth_mindset.png",
+            })));
+            return;
+          }
+        }
+      } catch (e) {}
+
+      try {
+        const stored = localStorage.getItem("bookloom_books");
+        if (stored) {
+          const parsed = JSON.parse(stored);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            const formatted = parsed.map((b: any) => ({
+              id: b.id,
+              title: b.title || "Untitled Ebook",
+              format: "PDF",
+              category: b.ebookType || "Non-Fiction",
+              words: b.totalWords ? b.totalWords.toLocaleString() : "5,400",
+              pages: String(b.targetPages || 25),
+              updated: "Just now",
+              status: "Complete",
+              img: b.coverImage || "/images/book_wealth_mindset.png",
+            }));
+            setBooks(formatted);
+            return;
+          }
+        }
+      } catch (e) {}
+
+      setBooks([]);
+    }
+
+    loadBooks();
   }, []);
 
   const filtered = books.filter(b =>

@@ -55,28 +55,21 @@ export default function SignupPage() {
       });
 
       if (error) {
-        if (error.message?.toLowerCase().includes("rate limit") || error.message?.toLowerCase().includes("exceeded")) {
-          setSuccessMessage("Email provider rate limit active — loading your studio workspace directly...");
-          setTimeout(() => {
-            signInDemo();
-            router.push("/dashboard");
-          }, 1000);
-        } else {
-          setErrorMessage(error.message);
-        }
+        setErrorMessage(error.message);
       } else if (data?.user) {
-        // Try creating profile record
+        // Create profile record in Supabase database
+        await supabase.from("profiles").upsert({
+          id: data.user.id,
+          email: data.user.email || email,
+          full_name: name,
+          role: "author",
+          plan: "free",
+        });
         if (data.session) {
-          await supabase.from("profiles").upsert({
-            id: data.user.id,
-            email: data.user.email || email,
-            full_name: name,
-            role: "author",
-            plan: "free",
-          });
           router.push("/dashboard");
         } else {
-          setSuccessMessage(`Account created for ${email}! A confirmation link was sent. You can check your email or click below to enter your workspace immediately.`);
+          setSuccessMessage(`Account created for ${email}! Check your inbox for confirmation link or log in now.`);
+          setTimeout(() => router.push("/auth/login"), 2000);
         }
       }
     } catch (err: any) {
@@ -94,11 +87,7 @@ export default function SignupPage() {
       await signInWithGoogle();
     } catch (err: any) {
       console.error("Google signup error:", err);
-      setErrorMessage(err.message || "Google signup error. Redirecting to studio demo...");
-      setTimeout(() => {
-        signInDemo();
-        router.push("/dashboard");
-      }, 1200);
+      setErrorMessage(err.message || "Google signup error. Please try again.");
     } finally {
       setLoading(false);
     }

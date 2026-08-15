@@ -63,16 +63,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           });
           setRole((data?.role || "author") as UserRole);
         } else {
-          // Check local storage for demo user state if present
-          const demoUser = typeof window !== "undefined" ? localStorage.getItem("bookloom_demo_user") : null;
-          if (demoUser) {
-            try {
-              const parsed = JSON.parse(demoUser);
-              setProfile(parsed);
-            } catch {
-              setProfile(null);
-            }
-          }
+          setUser(null);
+          setProfile(null);
         }
       } catch (err) {
         console.error("Auth session fetch error:", err);
