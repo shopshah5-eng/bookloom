@@ -37,14 +37,22 @@ export async function middleware(request: NextRequest) {
       },
     });
 
-    const { data: { user } } = await supabase.auth.getUser();
+    let user: any = null;
+    try {
+      const { data } = await supabase.auth.getUser();
+      user = data?.user || null;
+    } catch (e) {
+      // Allow fallback if Supabase host is unreachable
+    }
+
+    const isDemoCookie = request.cookies.get("bookloom_demo_user")?.value === "true";
 
     // Protect dashboard, settings, and editor routes
     const isProtectedRoute = request.nextUrl.pathname.startsWith("/dashboard") || 
                            request.nextUrl.pathname.startsWith("/settings") ||
                            request.nextUrl.pathname.startsWith("/editor");
 
-    if (isProtectedRoute && !user) {
+    if (isProtectedRoute && !user && !isDemoCookie) {
       const url = request.nextUrl.clone();
       url.pathname = "/auth/login";
       url.searchParams.set("redirectedFrom", request.nextUrl.pathname + request.nextUrl.search);

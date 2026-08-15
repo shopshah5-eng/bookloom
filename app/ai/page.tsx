@@ -20,29 +20,29 @@ export default function AIPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <Card>
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-zinc-400">Primary Model</span>
-              <Badge variant="info">Active</Badge>
+              <span className="text-xs font-medium text-zinc-400">OpenRouter Multi-LLM Engine</span>
+              <Badge variant="success">Active (Verified)</Badge>
             </div>
-            <p className="text-lg font-bold text-zinc-100 mt-2">OpenAI GPT-4o</p>
-            <p className="text-[10px] text-zinc-500 mt-1">128k Context Window</p>
+            <p className="text-lg font-bold text-zinc-100 mt-2">OpenRouter API</p>
+            <p className="text-[10px] text-emerald-400 mt-1 font-mono">DeepSeek R1 • GPT-4o-mini • Llama 3.3 70B</p>
           </Card>
 
           <Card>
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-zinc-400">Secondary Model</span>
-              <Badge variant="success">Standby</Badge>
+              <span className="text-xs font-medium text-zinc-400">High-Context Text Engine</span>
+              <Badge variant="success">Active (Verified)</Badge>
             </div>
-            <p className="text-lg font-bold text-zinc-100 mt-2">Claude 3.5 Sonnet</p>
-            <p className="text-[10px] text-zinc-500 mt-1">200k Context Window</p>
+            <p className="text-lg font-bold text-zinc-100 mt-2">NVIDIA NIM (GLM 5.2)</p>
+            <p className="text-[10px] text-emerald-400 mt-1 font-mono">16,384 Max Tokens • Ultra High Speed</p>
           </Card>
 
           <Card>
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-zinc-400">RAG Index Status</span>
-              <Badge variant="success">Synchronized</Badge>
+              <span className="text-xs font-medium text-zinc-400">Primary Image Engine</span>
+              <Badge variant="info">Active (Free)</Badge>
             </div>
-            <p className="text-lg font-bold text-zinc-100 mt-2">1,420 Vectors</p>
-            <p className="text-[10px] text-zinc-500 mt-1">3 Manuscripts indexed</p>
+            <p className="text-lg font-bold text-zinc-100 mt-2">NanoBanana AI</p>
+            <p className="text-[10px] text-zinc-400 mt-1">1024x1024 High-Res Generative Cover Art</p>
           </Card>
         </div>
 

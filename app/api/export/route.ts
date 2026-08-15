@@ -141,7 +141,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json().catch(() => ({}));
-    const { ebookId = "book_101", title = "The Masterpiece Manuscript", format = "PDF", content, chapters } = body;
+    const { ebookId = "book_101", title = "The Masterpiece Manuscript", format = "PDF", content, chapters, coverImage } = body;
 
     const requestedFormat = (format || "PDF").toUpperCase();
     const timestamp = Date.now();
@@ -161,12 +161,21 @@ export async function POST(req: Request) {
     let exportBuffer: Buffer;
     let mimeType = "application/pdf";
 
+    // Format markdown images to HTML
+    const renderHtmlBody = (text: string) => {
+      let html = text.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_m, alt, url) => {
+        return `<figure style="margin:28px 0;text-align:center;"><img src="${url}" alt="${alt}" style="max-width:100%;height:auto;border-radius:12px;box-shadow:0 8px 24px rgba(0,0,0,0.12);"/><figcaption style="font-size:12px;color:#6b6b6b;margin-top:8px;font-style:italic;">${alt}</figcaption></figure>`;
+      });
+      return html.replace(/\n/g, "<br/>");
+    };
+
     if (requestedFormat === "TXT") {
       mimeType = "text/plain";
       exportBuffer = Buffer.from(manuscriptBody, "utf8");
     } else if (requestedFormat === "HTML") {
       mimeType = "text/html";
-      const htmlString = `<!DOCTYPE html><html><head><title>${title}</title><style>body{font-family:Georgia,serif;max-width:800px;margin:40px auto;padding:24px;line-height:1.8;color:#1a1a1a;}</style></head><body><h1>${title}</h1><div>${manuscriptBody.replace(/\n/g, "<br/>")}</div></body></html>`;
+      const coverHtml = coverImage ? `<div style="text-align:center;margin-bottom:40px;"><img src="${coverImage}" alt="Cover Art" style="max-width:100%;max-height:600px;border-radius:16px;box-shadow:0 12px 36px rgba(0,0,0,0.2);"/></div>` : "";
+      const htmlString = `<!DOCTYPE html><html><head><title>${title}</title><style>body{font-family:Georgia,serif;max-width:800px;margin:40px auto;padding:32px;line-height:1.8;color:#1a1a1a;background:#F8F5F0;}h1{font-family:'Playfair Display',serif;font-size:32px;text-align:center;margin-bottom:24px;color:#1a1a1a;}div.content{background:#ffffff;padding:40px;border-radius:16px;box-shadow:0 4px 20px rgba(0,0,0,0.06);}</style></head><body>${coverHtml}<h1>${title}</h1><div class="content">${renderHtmlBody(manuscriptBody)}</div></body></html>`;
       exportBuffer = Buffer.from(htmlString, "utf8");
     } else if (requestedFormat === "EPUB") {
       mimeType = "application/epub+zip";

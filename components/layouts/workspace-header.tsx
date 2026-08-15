@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { Search, Bell, Command, ChevronDown } from 'lucide-react';
 import { Button } from '@bookloom/ui';
 
@@ -40,9 +41,11 @@ export const WorkspaceHeader: React.FC<WorkspaceHeaderProps> = ({
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-indigo-500 rounded-full" />
         </button>
 
-        <Button variant="primary" size="sm">
-          + New Book
-        </Button>
+        <Link href="/dashboard/create">
+          <Button variant="primary" size="sm">
+            + New Book
+          </Button>
+        </Link>
       </div>
     </header>
   );

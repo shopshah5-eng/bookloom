@@ -12,9 +12,16 @@ export type AITaskType =
   | "embeddings";
 
 export class AITaskRouter {
-  static async routeTextTask(taskType: AITaskType, request: TextGenerationRequest): Promise<TextGenerationResponse> {
+  static async routeTextTask(taskType: AITaskType, request: TextGenerationRequest, preferredProviderId?: string): Promise<TextGenerationResponse> {
     const startTime = Date.now();
-    const providers = ProviderRegistry.getFallbackProviders("text");
+    let providers = ProviderRegistry.getFallbackProviders("text");
+
+    if (preferredProviderId) {
+      const preferred = ProviderRegistry.getProvider(preferredProviderId);
+      if (preferred && preferred.isConfigured()) {
+        providers = [preferred, ...providers.filter((p) => p.id !== preferred.id)];
+      }
+    }
 
     let lastError: Error | null = null;
     for (const provider of providers) {

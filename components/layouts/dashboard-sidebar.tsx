@@ -21,9 +21,9 @@ const NAV_ITEMS = [
 ];
 
 const BOTTOM_ITEMS = [
-  { name: "Credits & Billing", href: "/settings/billing", icon: CreditCard },
-  { name: "Settings", href: "/settings", icon: Settings },
-  { name: "Integrations", href: "/settings/integrations", icon: Plug },
+  { name: "Credits & Billing", href: "/dashboard/billing", icon: CreditCard },
+  { name: "Settings", href: "/dashboard/settings", icon: Settings },
+  { name: "Integrations", href: "/dashboard/integrations", icon: Plug },
 ];
 
 export function DashboardSidebar() {

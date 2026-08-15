@@ -27,14 +27,14 @@ export const WorkspaceShell: React.FC<WorkspaceShellProps> = ({ children }) => {
                 Dashboard
               </Link>
               <Link
-                href="/projects"
+                href="/dashboard/projects"
                 className="flex items-center gap-3 px-3 py-2 text-xs font-medium text-zinc-300 hover:text-white hover:bg-zinc-900 rounded-lg transition-colors"
               >
                 <FolderKanban className="w-4 h-4 text-zinc-400" />
                 Projects
               </Link>
               <Link
-                href="/books"
+                href="/dashboard/library"
                 className="flex items-center gap-3 px-3 py-2 text-xs font-medium text-zinc-300 hover:text-white hover:bg-zinc-900 rounded-lg transition-colors"
               >
                 <BookOpen className="w-4 h-4 text-zinc-400" />
